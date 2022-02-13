@@ -1,0 +1,47 @@
+<%= form_with(model: disturbance) do |form| %>
+  <% if disturbance.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(disturbance.errors.count, "error") %> prohibited this disturbance from being saved:</h2>
+
+      <ul>
+        <% disturbance.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :date, style: "display: block" %>
+    <%= form.text_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :train, style: "display: block" %>
+    <%= form.text_field :train %>
+  </div>
+
+  <div>
+    <%= form.label :départ, style: "display: block" %>
+    <%= form.text_field :départ %>
+  </div>
+
+  <div>
+    <%= form.label :destination, style: "display: block" %>
+    <%= form.text_field :destination %>
+  </div>
+
+  <div>
+    <%= form.label :voie, style: "display: block" %>
+    <%= form.text_field :voie %>
+  </div>
+
+  <div>
+    <%= form.label :raison, style: "display: block" %>
+    <%= form.text_field :raison %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

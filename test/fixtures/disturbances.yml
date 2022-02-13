@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: MyString
+  train: MyString
+  départ: MyString
+  destination: MyString
+  voie: MyString
+  raison: MyString
+
+two:
+  date: MyString
+  train: MyString
+  départ: MyString
+  destination: MyString
+  voie: MyString
+  raison: MyString

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @disturbance %>
+
+<div>
+  <%= link_to "Edit this disturbance", edit_disturbance_path(@disturbance) %> |
+  <%= link_to "Back to disturbances", disturbances_path %>
+
+  <%= button_to "Destroy this disturbance", @disturbance, method: :delete %>
+</div>

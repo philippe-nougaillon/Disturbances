@@ -1,0 +1,70 @@
+class DisturbancesController < ApplicationController
+  before_action :set_disturbance, only: %i[ show edit update destroy ]
+
+  # GET /disturbances or /disturbances.json
+  def index
+    @disturbances = Disturbance.all
+  end
+
+  # GET /disturbances/1 or /disturbances/1.json
+  def show
+  end
+
+  # GET /disturbances/new
+  def new
+    @disturbance = Disturbance.new
+  end
+
+  # GET /disturbances/1/edit
+  def edit
+  end
+
+  # POST /disturbances or /disturbances.json
+  def create
+    @disturbance = Disturbance.new(disturbance_params)
+
+    respond_to do |format|
+      if @disturbance.save
+        format.html { redirect_to disturbance_url(@disturbance), notice: "Disturbance was successfully created." }
+        format.json { render :show, status: :created, location: @disturbance }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @disturbance.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /disturbances/1 or /disturbances/1.json
+  def update
+    respond_to do |format|
+      if @disturbance.update(disturbance_params)
+        format.html { redirect_to disturbance_url(@disturbance), notice: "Disturbance was successfully updated." }
+        format.json { render :show, status: :ok, location: @disturbance }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @disturbance.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /disturbances/1 or /disturbances/1.json
+  def destroy
+    @disturbance.destroy
+
+    respond_to do |format|
+      format.html { redirect_to disturbances_url, notice: "Disturbance was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_disturbance
+      @disturbance = Disturbance.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def disturbance_params
+      params.require(:disturbance).permit(:date, :train, :départ, :destination, :voie, :raison)
+    end
+end
