@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_02_14_124308) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "disturbances", force: :cascade do |t|
     t.string "date"
     t.string "train"
@@ -22,13 +25,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_14_124308) do
     t.datetime "updated_at", null: false
     t.string "origine"
     t.index ["date", "train", "départ"], name: "index_disturbances_on_date_and_train_and_départ", unique: true
-  end
-
-  create_table "scrapings", force: :cascade do |t|
-    t.string "line"
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end
