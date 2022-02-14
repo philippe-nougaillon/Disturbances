@@ -1,11 +1,14 @@
 namespace :scraper do
   desc "TODO"
   task go: :environment do
+    origine = 'Molsheim'
     url = "https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/molsheim-87214577"
+
     unparsed_html = HTTParty.get(url)
     page = Nokogiri::HTML(unparsed_html)
     disturbances = page.css('p.disturbanceName')
     puts '- ' * 50
+    
     disturbances.each_with_index do | disturbance, index |
       content = disturbance.parent.parent.parent.parent.text
       if content.include?('Train TER ')
@@ -21,7 +24,7 @@ namespace :scraper do
         puts 'Raison: ' + raison
 
         begin
-          Disturbance.create!(date: Date.today, train: train, départ: départ, destination: destination, voie: voie, raison: raison)
+          Disturbance.create!(date: Date.today, train: train, départ: départ, origine: origine, destination: destination, voie: voie, raison: raison)
           puts '|--> Enregistré dans la BDD !'
         rescue
           puts '|--> Doublon! Pas enregistré.'  

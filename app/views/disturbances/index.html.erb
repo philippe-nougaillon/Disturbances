@@ -1,14 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Disturbances</h1>
+<h1>Perturbations</h1>
 
 <div id="disturbances">
   <% @disturbances.each do |disturbance| %>
     <%= render disturbance %>
-    <p>
-      <%= link_to "Show this disturbance", disturbance %>
-    </p>
   <% end %>
 </div>
-
-<%= link_to "New disturbance", new_disturbance_path %>

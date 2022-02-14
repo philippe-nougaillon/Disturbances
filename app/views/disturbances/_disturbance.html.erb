@@ -1,7 +1,7 @@
 <div id="<%= dom_id disturbance %>">
   <p>
     <strong>Date:</strong>
-    <%= disturbance.date %>
+    <%= l disturbance.date.to_date %>
   </p>
 
   <p>
@@ -12,6 +12,11 @@
   <p>
     <strong>Départ:</strong>
     <%= disturbance.départ %>
+  </p>
+
+  <p>
+    <strong>Origine:</strong>
+    <%= disturbance.origine %>
   </p>
 
   <p>
@@ -28,5 +33,12 @@
     <strong>Raison:</strong>
     <%= disturbance.raison %>
   </p>
+
+  <p>
+    <strong>Enregistré le:</strong>
+    <%= l disturbance.created_at %>
+    (<%= time_ago_in_words(disturbance.created_at) %>)
+  </p>
+  <hr>
 
 </div>
