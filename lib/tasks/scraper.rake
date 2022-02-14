@@ -1,8 +1,8 @@
 namespace :scraper do
   desc "TODO"
   task go: :environment do
-    origine = 'Molsheim'
-    url = "https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/molsheim-87214577"
+    origine = 'Gare Strasbourg Roethig'
+    url = 'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-roethig-87212191'
 
     unparsed_html = HTTParty.get(url)
     page ||= Nokogiri::HTML(unparsed_html.body)
