@@ -24,7 +24,7 @@ namespace :scraper do
         puts 'Raison: ' + raison
 
         begin
-          Disturbance.create!(date: Date.today, train: train, départ: départ, origine: origine, destination: destination, voie: voie, raison: raison)
+          Disturbance.create!(train: train, départ: départ, origine: origine, destination: destination, voie: voie, raison: raison)
           puts '|--> Enregistré dans la BDD !'
         rescue
           puts '|--> Doublon! Pas enregistré.'  
