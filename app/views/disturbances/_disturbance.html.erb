@@ -37,7 +37,7 @@
   <p>
     <strong>Enregistré le:</strong>
     <%= l disturbance.created_at %>
-    (<%= time_ago_in_words(disturbance.created_at) %>)
+    (<%= time_tag disturbance.created_at, "data-local": "time-ago" %>)
   </p>
   <hr>
 
