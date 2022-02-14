@@ -5,7 +5,7 @@ namespace :scraper do
     url = "https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/molsheim-87214577"
 
     unparsed_html = HTTParty.get(url)
-    page = Nokogiri::HTML(unparsed_html)
+    page ||= Nokogiri::HTML(unparsed_html.body)
     disturbances = page.css('p.disturbanceName')
     puts '- ' * 50
     
