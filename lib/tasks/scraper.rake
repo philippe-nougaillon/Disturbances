@@ -30,10 +30,12 @@ namespace :scraper do
         puts 'Destination: ' + destination
 
         voie = content.split('Voie').last.split('-').first
+        voie = voie.split('Retard').first if voie.include?('Retard')
         puts 'Voie: ' + voie
 
         raison = content.split('-').last
         raison = raison.gsub('Information','')
+        raison = raison.split('Voie').last if raison.include?('Voie')
         puts 'Raison: ' + raison
 
         begin
