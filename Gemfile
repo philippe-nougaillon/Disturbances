@@ -73,3 +73,4 @@ end
 
 gem 'net-http'
 gem 'httparty'
+gem 'kaminari'

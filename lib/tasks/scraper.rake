@@ -35,7 +35,10 @@ namespace :scraper do
 
         raison = content.split('-').last
         raison = raison.gsub('Information','')
-        raison = raison.split('Voie').last if raison.include?('Voie')
+        if raison.include?('Voie')
+          raison = raison.split('Voie').last
+          raison = raison.gsub(voie, '') 
+        end
         puts 'Raison: ' + raison
 
         begin

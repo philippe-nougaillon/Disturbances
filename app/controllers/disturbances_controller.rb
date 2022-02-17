@@ -3,7 +3,7 @@ class DisturbancesController < ApplicationController
 
   # GET /disturbances or /disturbances.json
   def index
-    @disturbances = Disturbance.all
+    @disturbances = Disturbance.all.page(params[:page])
   end
 
   # GET /disturbances/1 or /disturbances/1.json
