@@ -7,12 +7,15 @@ namespace :scraper do
     unparsed_html = HTTParty.get(url)
     page ||= Nokogiri::HTML(unparsed_html.body)
     disturbances = page.css('div.disturbanceNameRoot')
-    puts '- ' * 50
+    puts '- ' * 70
     
     disturbances.each_with_index do | disturbance, index |
       #puts "disturbance = " + disturbance.inspect
       content = disturbance.parent.parent.parent.text
       if content.include?('Train TER ')
+        # supprimer le css superflu
+        content = content.split('}').last if content.include?('}')
+
         train = content.split('Train TER ').last[0..5]
         puts 'TER N° ' + train
 
@@ -26,7 +29,7 @@ namespace :scraper do
         destination = content.split('Destination').last.split('Mode').first
         puts 'Destination: ' + destination
 
-        voie = content.split('Voie ').last.split('-').first
+        voie = content.split('Voie').last.split('-').first
         puts 'Voie: ' + voie
 
         raison = content.split('-').last
@@ -41,7 +44,7 @@ namespace :scraper do
         end  
 
         puts "content = " + content.inspect
-        puts '- ' * 50     
+        puts '- ' * 70     
       end
       #puts content
     end
