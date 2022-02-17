@@ -34,10 +34,11 @@ namespace :scraper do
         puts 'Voie: ' + voie
 
         raison = content.split('-').last
-        raison = raison.gsub('Information','')
+        if raison.include?('Information')
+          raison = raison.gsub('Information','')
+        end
         if raison.include?('Voie')
           raison = raison.split('Voie').last
-          raison = raison.gsub(voie, '') 
         end
         puts 'Raison: ' + raison
 
