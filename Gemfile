@@ -74,3 +74,8 @@ end
 gem 'net-http'
 gem 'httparty'
 gem 'kaminari'
+
+# XLSX sheet
+gem 'spreadsheet'
+gem 'yaml_db'
+

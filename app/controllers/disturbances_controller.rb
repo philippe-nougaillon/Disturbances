@@ -3,7 +3,22 @@ class DisturbancesController < ApplicationController
 
   # GET /disturbances or /disturbances.json
   def index
-    @disturbances = Disturbance.all.page(params[:page])
+    @disturbances = Disturbance.all
+    
+    respond_to do |format|
+      format.html do 
+        @disturbances = @disturbances.page(params[:page])
+      end
+
+      format.xls do
+        book = Disturbance.to_xls(@disturbances)
+        file_contents = StringIO.new
+        book.write file_contents 
+        filename = 'perturbations.xls'
+        send_data file_contents.string.force_encoding('binary'), filename: filename 
+      end
+    end
+    
   end
 
   # GET /disturbances/1 or /disturbances/1.json
