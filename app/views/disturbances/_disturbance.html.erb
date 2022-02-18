@@ -1,10 +1,14 @@
 <div id="<%= dom_id disturbance %>">
 
   <p>
+    <strong>#</strong>
+    <%= disturbance.id %>
+  </p>
+
+  <p>
     <strong>Train:</strong>
     <%= disturbance.train %>
   </p>
-
 
   <% if disturbance.sens == 'Départ' %>
     <p>
