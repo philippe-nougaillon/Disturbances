@@ -5,20 +5,29 @@
     <%= disturbance.train %>
   </p>
 
-  <p>
-    <strong>Départ:</strong>
-    <%= disturbance.départ %>
-  </p>
 
-  <p>
-    <strong>Origine:</strong>
-    <%= disturbance.origine %>
-  </p>
+  <% if disturbance.sens == 'Départ' %>
+    <p>
+      <strong>Horaire Départ:</strong>
+      <%= disturbance.départ %>
+    </p>
 
-  <p>
-    <strong>Destination:</strong>
-    <%= disturbance.destination %>
-  </p>
+    <p>
+      <strong>Destination:</strong>
+      <%= disturbance.destination %>
+    </p>
+  <% else %>
+    <p>
+      <strong>Horaire Arrivée:</strong>
+      <%= disturbance.arrivée %>
+    </p>
+
+    <p>
+      <strong>Provenance:</strong>
+      <%= disturbance.provenance %>
+    </p>
+  <% end %>
+
 
   <p>
     <strong>Voie:</strong>

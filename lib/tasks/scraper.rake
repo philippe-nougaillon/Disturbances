@@ -1,9 +1,11 @@
 namespace :scraper do
   desc "TODO"
   task go: :environment do
-    origine = 'Gare Strasbourg'
-    url = 'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027'
+    scraping('Départ', 'Gare Strasbourg', 'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027' )
+    scraping('Arrivée', 'Gare Strasbourg', 'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/strasbourg-87212027')
+  end
 
+  def scraping(sens, gare, url)
     unparsed_html = HTTParty.get(url)
     page ||= Nokogiri::HTML(unparsed_html.body)
     disturbances = page.css('div.disturbanceNameRoot')
@@ -19,15 +21,33 @@ namespace :scraper do
         train = content.split('Train TER ').last[0..5]
         puts 'TER N° ' + train
 
-        if content.include?('prévu')
-          départ = content.split('Départ prévu').last[0..20]
+        départ = ''
+        arrivée= ''
+        if sens == 'Départ'
+          if content.include?('prévu')
+            départ = content.split('Départ prévu').last[0..4]
+          elsif content.include?('réel')
+            départ = content.split('Départ réel').last[0..4]
+          else
+            départ = content.split('Départ').last[0..4]
+          end
+          puts 'Départ: ' + départ
         else
-          départ = content.split('Départ').last[0..4]
-        end
-        puts 'Départ: ' + départ
+          if content.include?('réelle')
+            arrivée = content.split('Arrivée réelle').last[0..4]
+          else
+            arrivée = content.split('Arrivée').last[0..4]
+          end
+          puts 'Arrivée: ' + arrivée
+        end  
 
-        destination = content.split('Destination').last.split('Mode').first
-        puts 'Destination: ' + destination
+        if sens == 'Départ'
+          destination = content.split('Destination').last.split('Mode').first
+          puts 'Destination: ' + destination
+        else
+          provenance = content.split('Provenance').last.split('Mode').first
+          puts 'Provenance: ' + provenance
+        end
 
         voie = content.split('Voie').last.split('-').first
         voie = voie.split('Retard').first if voie.include?('Retard')
@@ -43,8 +63,18 @@ namespace :scraper do
         puts 'Raison: ' + raison
 
         begin
-          Disturbance.create!(date: Date.today, train: train, départ: départ, origine: origine, destination: destination, voie: voie, raison: raison)
-          puts '|--> Enregistré dans la BDD !'
+          Disturbance
+              .create!( date: Date.today, 
+                        sens: sens, 
+                        train: train, 
+                        départ: départ, 
+                        arrivée: arrivée, 
+                        origine: gare, 
+                        provenance: provenance, 
+                        destination: destination, 
+                        voie: voie, 
+                        raison: raison)
+          puts '|--> Enregistrée dans la BDD !'
         rescue
           puts '|--> Doublon! Pas enregistré.'  
         end  
@@ -52,7 +82,6 @@ namespace :scraper do
         puts "content = " + content.inspect
         puts '- ' * 70     
       end
-      #puts content
     end
   end
 
