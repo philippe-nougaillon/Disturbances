@@ -60,6 +60,14 @@ namespace :scraper do
         if raison.include?('Voie')
           raison = raison.split('Voie').last
         end
+        # supprimer le N° de Voie dans la raison
+        if raison[0..1].include?(voie)
+          if voie.to_i < 10
+            raison = raison[1..-1]
+          else
+            raison = raison[2..-1]
+          end
+        end
         puts 'Raison: ' + raison
 
         begin
