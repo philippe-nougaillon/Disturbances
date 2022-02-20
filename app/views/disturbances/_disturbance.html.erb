@@ -32,7 +32,6 @@
     </p>
   <% end %>
 
-
   <p>
     <strong>Voie:</strong>
     <%= disturbance.voie %>
@@ -40,7 +39,9 @@
 
   <p>
     <strong>Raison:</strong>
-    <%= disturbance.raison %>
+    <span style="<%= disturbance.raison.include?('Supprimé') ? 'color: red;' : (disturbance.raison.include?('Retard') ? 'color: orange;'  : '')  %>">
+      <%= disturbance.raison %>
+    </span>
   </p>
 
   <p>
