@@ -3,6 +3,27 @@ namespace :scraper do
   task go: :environment do
     scraping('Départ', 'Gare Strasbourg', 'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027' )
     scraping('Arrivée', 'Gare Strasbourg', 'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/strasbourg-87212027')
+    scraping('Arrivée','Haguenau','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/haguenau-87213058')
+    scraping('Départ','Molsheim','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/molsheim-87214577')
+    scraping('Départ','Sélestat','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/selestat-87214056')
+    scraping('Arrivée','Colmar','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/colmar-87182014')
+    scraping('Départ','Mulhouse','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/mulhouse-87182063')
+    scraping('Arrivée','Mulhouse Gare-centrale','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/mulhouse-gare-centrale-87533620')
+    scraping('Départ','Culmont Chalindrey','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/culmont-chalindrey-87142125')
+    scraping('Arrivée','Troyes','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/troyes-87118000')
+    scraping('Arrivée','Reims','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/reims-87171009')
+    scraping('Départ','Châlons en Champagne','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/chalons-en-champagne-87174003')
+    scraping('Départ','Saint Dizier','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/saint-dizier-87175000')
+    scraping('Départ','Bar le Duc','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/bar-le-duc-87175042')
+    scraping('Départ','Epinal','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/epinal-87144006')
+    scraping('Départ','Nancy','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/nancy-87141002')
+    scraping('Départ','Metz','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/metz-87192039')
+    scraping('Arrivée','Longwy','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/longwy-87194001')
+    scraping('Arrivée','Conflans Jarny','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/conflans-jarny-87192666')
+    scraping('Départ','Thionville','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/thionville-87191007')
+    scraping('Départ','Forbach','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/forbach-87193003')
+    scraping('Départ','Sarreguemines','https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/sarreguemines-87193615')
+    scraping('Arrivée','Verdun','https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/verdun-87175778')
   end
 
   def scraping(sens, gare, url)
@@ -10,7 +31,9 @@ namespace :scraper do
     page ||= Nokogiri::HTML(unparsed_html.body)
     disturbances = page.css('div.disturbanceNameRoot')
     puts '- ' * 70
-    
+    puts gare + ' ' + sens
+    puts '- ' * 70
+
     disturbances.each_with_index do | disturbance, index |
       #puts "disturbance = " + disturbance.inspect
       content = disturbance.parent.parent.parent.text
