@@ -47,6 +47,7 @@ LocalTime.config.i18n["fr"] = {
         hour: "heure",
         hours: "heures",   
         singular: "une {time}", 
+        singularAn: "une {time}",
         formats: {
             default: "%l:%M",
         },
