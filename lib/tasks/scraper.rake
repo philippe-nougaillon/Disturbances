@@ -108,8 +108,8 @@ namespace :scraper do
         if content.include?('Information')
           gare_id = url.split('-').last
 
-          if sens == 'Départ'
-            horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ_prévu.split('h').first.to_i, départ_prévu.split('h').last.to_i, 0, "+01:00")
+          if départ
+            horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
           else
             horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée_prévue.split('h').first.to_i, arrivée_prévue.split('h').last.to_i, 0, "+01:00")
           end  
