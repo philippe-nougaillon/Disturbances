@@ -1,7 +1,6 @@
 class Disturbance < ApplicationRecord
     paginates_per 10
     default_scope { order('created_at DESC') }
-
     
     def self.to_xls(perturbations)
         require 'spreadsheet'    
@@ -13,7 +12,7 @@ class Disturbance < ApplicationRecord
         bold = Spreadsheet::Format.new :weight => :bold, :size => 11
 
         headers = ["id", "date", "origine", "sens", "train", "départ", "destination",
-                    "arrivée", "provenance", "voie", "raison", "information",
+                    "arrivée", "provenance", "voie", "raison", "information", "information_api_payload",
                     "created_at", "updated_at"]
 
         sheet.row(0).concat headers
@@ -34,6 +33,7 @@ class Disturbance < ApplicationRecord
                 perturbation.voie,
                 perturbation.raison,
                 perturbation.information,
+                perturbation.information_payload.to_s,
                 perturbation.created_at, 
                 perturbation.updated_at
             ]

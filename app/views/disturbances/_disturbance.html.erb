@@ -59,6 +59,14 @@
     <%= disturbance.information %>
   </p>
 
+  <% if disturbance.information_payload %>
+    <small>
+      <pre>
+        <%= JSON.pretty_generate(disturbance.information_payload) %>
+      </pre>
+    </small>
+  <% end %>
+
   <p>
     <strong>Enregistrée :</strong>
     <%= time_tag disturbance.created_at, "data-local": "time-ago" %>

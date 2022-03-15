@@ -46,6 +46,7 @@ namespace :scraper do
         arrivée = nil
         arrivée_prévue = nil
         arrivée_réelle = nil
+        réponse_informations = nil
 
         if sens == 'Départ'
           if content.include?('Départ prévu')
@@ -86,6 +87,7 @@ namespace :scraper do
 
         voie = content.split('Voie').last.split('-').first
         voie = voie.split('Retard').first if voie.include?('Retard')
+        voie = voie.split('Modifié').first if voie.include?('Modifié')
 
         raison = content.split('-').last
         if raison.include?('Information')
@@ -164,7 +166,8 @@ namespace :scraper do
                               destination: destination, 
                               voie: voie, 
                               raison: raison, 
-                              information: information)
+                              information: information,
+                              information_payload: réponse_informations)
           puts '|--> Enregistrée dans la BDD !'
         rescue
           puts '|--> Doublon! Pas enregistré.'  
