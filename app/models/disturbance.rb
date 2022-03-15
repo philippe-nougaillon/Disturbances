@@ -11,8 +11,15 @@ class Disturbance < ApplicationRecord
         sheet = book.create_worksheet name: 'Perturbations'
         bold = Spreadsheet::Format.new :weight => :bold, :size => 11
 
-        headers = ["id", "date", "origine", "sens", "train", "départ", "destination",
-                    "arrivée", "provenance", "voie", "raison", "information", "information_api_payload",
+        headers = ["id", "date", "origine", "sens", "train", 
+                    "départ prévu",
+                    "départ réel",
+                    "destination",
+                    "arrivée prévue", 
+                    "arrivée réelle", 
+                    "provenance", 
+                    "voie", "raison", "information", 
+                    "information_api_payload",
                     "created_at", "updated_at"]
 
         sheet.row(0).concat headers
@@ -26,9 +33,11 @@ class Disturbance < ApplicationRecord
                 perturbation.origine,
                 perturbation.sens,
                 perturbation.train,
-                perturbation.départ,
+                perturbation.départ_prévu,
+                perturbation.départ_réel,
                 perturbation.destination,
-                perturbation.arrivée,
+                perturbation.arrivée_prévue,
+                perturbation.arrivée_réelle,
                 perturbation.provenance, 
                 perturbation.voie,
                 perturbation.raison,
