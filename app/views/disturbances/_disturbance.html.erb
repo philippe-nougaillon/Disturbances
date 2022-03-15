@@ -12,8 +12,13 @@
 
   <% if disturbance.sens == 'Départ' %>
     <p>
-      <strong>Horaire Départ:</strong>
-      <%= disturbance.départ %>
+      <strong>Départ prévu:</strong>
+      <%= disturbance.départ_prévu %>
+    </p>
+
+    <p>
+      <strong>Départ réel:</strong>
+      <%= disturbance.départ_réel %>
     </p>
 
     <p>
@@ -22,8 +27,13 @@
     </p>
   <% else %>
     <p>
-      <strong>Horaire Arrivée:</strong>
-      <%= disturbance.arrivée %>
+      <strong>Arrivée prévue:</strong>
+      <%= disturbance.arrivée_prévue %>
+    </p>
+
+    <p>
+      <strong>Arrivée réelle:</strong>
+      <%= disturbance.arrivée_réelle %>
     </p>
 
     <p>
@@ -42,6 +52,11 @@
     <span style="<%= disturbance.raison.include?('Supprimé') ? 'color: red;' : (disturbance.raison.include?('Retard') ? 'color: orange;'  : '')  %>">
       <%= disturbance.raison %>
     </span>
+  </p>
+
+  <p>
+    <strong>Information:</strong>
+    <%= disturbance.information %>
   </p>
 
   <p>

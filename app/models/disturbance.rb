@@ -13,7 +13,7 @@ class Disturbance < ApplicationRecord
         bold = Spreadsheet::Format.new :weight => :bold, :size => 11
 
         headers = ["id", "date", "origine", "sens", "train", "départ", "destination",
-                    "arrivée", "provenance", "voie", "raison", 
+                    "arrivée", "provenance", "voie", "raison", "information",
                     "created_at", "updated_at"]
 
         sheet.row(0).concat headers
@@ -33,6 +33,7 @@ class Disturbance < ApplicationRecord
                 perturbation.provenance, 
                 perturbation.voie,
                 perturbation.raison,
+                perturbation.information,
                 perturbation.created_at, 
                 perturbation.updated_at
             ]

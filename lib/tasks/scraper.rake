@@ -1,6 +1,6 @@
 namespace :scraper do
 
-  desc "Scraper les informations du panneau des arrivéées de 22 gares"
+  desc "Scraper les informations du panneau des arrivées de 22 gares"
   task go: :environment do
     scraping('Départ',  'Gare Strasbourg',  'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027' )
     scraping('Arrivée', 'Gare Strasbourg',  'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/strasbourg-87212027')
@@ -40,21 +40,41 @@ namespace :scraper do
 
         train = content.split('Train TER ').last[0..5]
 
-        départ = ''
-        arrivée= ''
+        départ = nil
+        départ_prévu = nil
+        départ_réel = nil
+        arrivée = nil
+        arrivée_prévue = nil
+        arrivée_réelle = nil
+
         if sens == 'Départ'
-          if content.include?('prévu')
-            départ = content.split('Départ prévu').last[0..4]
-          elsif content.include?('réel')
-            départ = content.split('Départ réel').last[0..4]
+          if content.include?('Départ prévu')
+            départ_prévu = content.split('Départ prévu').last[0..4]
+          end
+          if content.include?('Départ réel')
+            départ_réel = content.split('Départ réel').last[0..4]
+          end
+          if !départ_prévu && !départ_réel && content.include?('Départ')
+            départ_prévu = content.split('Départ').last[0..4]
+          end
+
+          if départ_prévu 
+            départ = départ_prévu
           else
-            départ = content.split('Départ').last[0..4]
+            départ = départ_réel
           end
         else
-          if content.include?('réelle')
-            arrivée = content.split('Arrivée réelle').last[0..4]
+          if content.include?('Arrivée prévue')
+            arrivée_prévue = content.split('Arrivée prévue').last[0..4]
+          elsif content.include?('Arrivée réelle')
+            arrivée_réelle = content.split('Arrivée réelle').last[0..4]
+          else  
+            arrivée_prévue = content.split('Arrivée').last[0..4]
+          end  
+          if arrivée_prévue
+            arrivée = arrivée_prévue
           else
-            arrivée = content.split('Arrivée').last[0..4]
+            arrivée = arrivée_réelle
           end
         end  
 
@@ -83,19 +103,50 @@ namespace :scraper do
           end
         end
 
-        if false
+        if content.include?('Information')
+          gare_id = url.split('-').last
+
+          if sens == 'Départ'
+            horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ_prévu.split('h').first.to_i, départ_prévu.split('h').last.to_i, 0, "+01:00")
+          else
+            horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée_prévue.split('h').first.to_i, arrivée_prévue.split('h').last.to_i, 0, "+01:00")
+          end  
+          
+          horaire = horaire.strftime("%Y-%m-%dT%I:%M")
+          information = ''
+          réponse_informations = getInformation(train.to_i, horaire, gare_id)
+          puts réponse_informations
+          events = réponse_informations[0]['events']
+          information = events[0]['description'] if events
+
+          if true
+            puts '- ' * 70
+            puts "!!! Information !!!"
+            puts "Train: #{ train.to_i }"
+            puts "Gare_id: #{ gare_id}"
+            puts "horaire: #{ horaire }"
+            puts "Information : #{ information }"
+          end
+        end
+
+        if true
           puts '- ' * 70
           puts gare + ' ' + sens
           puts '- ' * 70
-          puts "Disturbance = " + disturbance.inspect
+          #puts "Disturbance = " + disturbance.inspect
           puts "TER N° #{ train }"
+          puts "Départ prévu: #{ départ_prévu }" 
+          puts "Départ réel: #{ départ_réel }" 
           puts "Départ: #{ départ }" 
+          puts "Arrivée prévue: #{ arrivée_prévue }" 
+          puts "Arrivée réelle: #{ arrivée_réelle }" 
           puts "Arrivée: #{ arrivée }" 
           puts "Destination: #{ destination }" 
           puts "Raison: #{ raison }" 
           puts "Voie: #{ voie }" 
           puts "Provenance: #{ provenance } " 
           puts "Content = #{ content.inspect }" 
+          puts "Information: #{ information }"
         end
 
         begin
@@ -103,18 +154,31 @@ namespace :scraper do
                               sens: sens, 
                               train: train, 
                               départ: départ, 
+                              départ_prévu: départ_prévu,
+                              départ_réel: départ_réel,
                               arrivée: arrivée, 
+                              arrivée_prévue: arrivée_prévue,
+                              arrivée_réelle: arrivée_réelle,
                               origine: gare, 
                               provenance: provenance, 
                               destination: destination, 
                               voie: voie, 
-                              raison: raison)
-          # puts '|--> Enregistrée dans la BDD !'
+                              raison: raison, 
+                              information: information)
+          puts '|--> Enregistrée dans la BDD !'
         rescue
-          # puts '|--> Doublon! Pas enregistré.'  
+          puts '|--> Doublon! Pas enregistré.'  
         end  
       end
     end
+  end
+
+  def getInformation(train, horaire, gare_id)
+    # https://m.ter.sncf.com/api/circulation-details?number=9568&circulationDate=2022-03-15T08:52:00&departureStopPlaceId=87212027
+    url = "https://m.ter.sncf.com/api/circulation-details?number=#{ train }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
+    puts url
+    unparsed_json = HTTParty.get(url)
+    JSON.parse(unparsed_json.body)
   end
 
 end

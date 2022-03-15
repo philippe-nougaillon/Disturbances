@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_18_131846) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_15_134117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_18_131846) do
     t.string "sens"
     t.string "arrivée"
     t.string "provenance"
+    t.string "information"
+    t.string "départ_prévu"
+    t.string "départ_réel"
+    t.string "arrivée_prévue"
+    t.string "arrivée_réelle"
     t.index ["date", "sens", "train", "raison"], name: "super_index_uniq", unique: true
   end
 
