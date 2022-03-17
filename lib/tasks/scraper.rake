@@ -2,8 +2,8 @@ namespace :scraper do
 
   desc "Scraper les informations du panneau des arrivées de 22 gares"
   task go: :environment do
-    scraping('Départ',  'Gare Strasbourg',  'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027' )
-    scraping('Arrivée', 'Gare Strasbourg',  'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/strasbourg-87212027')
+    scraping('Départ',  'Strasbourg',       'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027' )
+    scraping('Arrivée', 'Strasbourg',       'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/strasbourg-87212027')
     scraping('Arrivée', 'Haguenau',         'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/haguenau-87213058')
     scraping('Départ',  'Molsheim',         'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/molsheim-87214577')
     scraping('Départ',  'Sélestat',         'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/selestat-87214056')
