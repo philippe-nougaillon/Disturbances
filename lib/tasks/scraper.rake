@@ -120,7 +120,7 @@ namespace :scraper do
           events = réponse_informations[0]['events']
           information = events[0]['description'] if events
 
-          if true
+          if false
             puts '- ' * 70
             puts "!!! Information !!!"
             puts "Train: #{ train.to_i }"
@@ -130,7 +130,7 @@ namespace :scraper do
           end
         end
 
-        if true
+        if false
           puts '- ' * 70
           puts "#{ gare } (#{ gare_id }) #{ sens }"
           puts '- ' * 70
@@ -168,9 +168,9 @@ namespace :scraper do
                               raison: raison, 
                               information: information,
                               information_payload: réponse_informations)
-          puts '|--> Enregistrée dans la BDD !'
+          # puts '|--> Enregistrée dans la BDD !'
         rescue
-          puts '|--> Doublon! Pas enregistré.'  
+          # puts '|--> Doublon! Pas enregistré.'  
         end  
       end
     end
