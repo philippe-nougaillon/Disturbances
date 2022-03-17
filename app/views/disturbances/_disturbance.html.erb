@@ -6,6 +6,14 @@
   </p>
 
   <p>
+    <strong>Gare:</strong>
+    <%= disturbance.origine %>
+    <small>
+      <%= "(#{ disturbance.gare_id })" if disturbance.gare_id %>
+    </small>
+  </p>
+
+  <p>
     <strong>Train:</strong>
     <%= disturbance.train %>
   </p>

@@ -105,9 +105,8 @@ namespace :scraper do
           end
         end
 
+        gare_id = url.split('-').last
         if content.include?('Information')
-          gare_id = url.split('-').last
-
           if départ
             horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
           else
@@ -133,7 +132,7 @@ namespace :scraper do
 
         if true
           puts '- ' * 70
-          puts gare + ' ' + sens
+          puts "#{ gare } (#{ gare_id }) #{ sens }"
           puts '- ' * 70
           #puts "Disturbance = " + disturbance.inspect
           puts "TER N° #{ train }"
@@ -154,7 +153,8 @@ namespace :scraper do
         begin
           Disturbance.create!(date: Date.today, 
                               sens: sens, 
-                              train: train, 
+                              train: train,
+                              gare_id: gare_id, 
                               départ: départ, 
                               départ_prévu: départ_prévu,
                               départ_réel: départ_réel,

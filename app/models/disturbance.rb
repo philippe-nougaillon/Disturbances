@@ -20,6 +20,7 @@ class Disturbance < ApplicationRecord
                     "provenance", 
                     "voie", "raison", "information", 
                     "information_api_payload",
+                    "gare_id",
                     "created_at", "updated_at"]
 
         sheet.row(0).concat headers
@@ -43,6 +44,7 @@ class Disturbance < ApplicationRecord
                 perturbation.raison,
                 perturbation.information,
                 perturbation.information_payload.to_s,
+                perturbation.gare_id,
                 perturbation.created_at, 
                 perturbation.updated_at
             ]
