@@ -106,7 +106,7 @@ namespace :scraper do
           end
         end
 
-        # Rechercher les compléments d'information
+        # Rechercher les compléments d'informations
         gare_id = url.split('-').last
         if départ
           horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
@@ -121,7 +121,7 @@ namespace :scraper do
           information = events[0]['description'] if events
         end
 
-        if true
+        if false
           puts '- ' * 70
           puts "#{ gare } (#{ gare_id }) #{ sens }"
           puts '- ' * 70
