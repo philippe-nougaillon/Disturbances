@@ -20,6 +20,11 @@
 
   <% if disturbance.sens == 'Départ' %>
     <p>
+      <strong>Destination:</strong>
+      <%= disturbance.destination %>
+    </p>
+
+    <p>
       <strong>Départ prévu:</strong>
       <%= disturbance.départ_prévu %>
     </p>
@@ -28,12 +33,12 @@
       <strong>Départ réel:</strong>
       <%= disturbance.départ_réel %>
     </p>
-
-    <p>
-      <strong>Destination:</strong>
-      <%= disturbance.destination %>
-    </p>
   <% else %>
+    <p>
+      <strong>Provenance:</strong>
+      <%= disturbance.provenance %>
+    </p>
+
     <p>
       <strong>Arrivée prévue:</strong>
       <%= disturbance.arrivée_prévue %>
@@ -42,11 +47,6 @@
     <p>
       <strong>Arrivée réelle:</strong>
       <%= disturbance.arrivée_réelle %>
-    </p>
-
-    <p>
-      <strong>Provenance:</strong>
-      <%= disturbance.provenance %>
     </p>
   <% end %>
 
