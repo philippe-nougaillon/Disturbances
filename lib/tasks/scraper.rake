@@ -47,6 +47,7 @@ namespace :scraper do
         arrivée_prévue = nil
         arrivée_réelle = nil
         réponse_informations = nil
+        information = nil
 
         if sens == 'Départ'
           if content.include?('Départ prévu')
@@ -105,32 +106,22 @@ namespace :scraper do
           end
         end
 
+        # Rechercher les compléments d'information
         gare_id = url.split('-').last
-        if content.include?('Information')
-          if départ
-            horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
-          else
-            horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée_prévue.split('h').first.to_i, arrivée_prévue.split('h').last.to_i, 0, "+01:00")
-          end  
-          
-          horaire = horaire.strftime("%Y-%m-%dT%I:%M")
-          information = ''
-          réponse_informations = getInformation(train.to_i, horaire, gare_id)
-          puts réponse_informations
+        if départ
+          horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
+        else
+          horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée.split('h').first.to_i, arrivée.split('h').last.to_i, 0, "+01:00")
+        end  
+        
+        horaire = horaire.strftime("%Y-%m-%dT%I:%M")
+        réponse_informations = getInformation(train.to_i, horaire, gare_id)
+        if réponse_informations
           events = réponse_informations[0]['events']
           information = events[0]['description'] if events
-
-          if false
-            puts '- ' * 70
-            puts "!!! Information !!!"
-            puts "Train: #{ train.to_i }"
-            puts "Gare_id: #{ gare_id}"
-            puts "horaire: #{ horaire }"
-            puts "Information : #{ information }"
-          end
         end
 
-        if false
+        if true
           puts '- ' * 70
           puts "#{ gare } (#{ gare_id }) #{ sens }"
           puts '- ' * 70
@@ -148,6 +139,7 @@ namespace :scraper do
           puts "Provenance: #{ provenance } " 
           puts "Content = #{ content.inspect }" 
           puts "Information: #{ information }"
+          puts réponse_informations
         end
 
         begin
@@ -179,7 +171,7 @@ namespace :scraper do
   def getInformation(train, horaire, gare_id)
     # https://m.ter.sncf.com/api/circulation-details?number=9568&circulationDate=2022-03-15T08:52:00&departureStopPlaceId=87212027
     url = "https://m.ter.sncf.com/api/circulation-details?number=#{ train }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
-    puts url
+    #puts url
     unparsed_json = HTTParty.get(url)
     JSON.parse(unparsed_json.body)
   end
