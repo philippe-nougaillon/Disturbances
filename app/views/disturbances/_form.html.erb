@@ -12,6 +12,11 @@
   <% end %>
 
   <div>
+    <%= form.label :origine, style: "display: block" %>
+    <%= form.text_field :origine %>
+  </div>
+
+  <div>
     <%= form.label :date, style: "display: block" %>
     <%= form.text_field :date %>
   </div>
@@ -22,13 +27,43 @@
   </div>
 
   <div>
+    <%= form.label :destination, style: "display: block" %>
+    <%= form.text_field :destination %>
+  </div>
+
+  <div>
     <%= form.label :départ, style: "display: block" %>
     <%= form.text_field :départ %>
   </div>
 
   <div>
-    <%= form.label :destination, style: "display: block" %>
-    <%= form.text_field :destination %>
+    <%= form.label :départ_prévu, style: "display: block" %>
+    <%= form.text_field :départ_prévu %>
+  </div>
+
+  <div>
+    <%= form.label :départ_réel, style: "display: block" %>
+    <%= form.text_field :départ_réel %>
+  </div>
+
+  <div>
+    <%= form.label :provenance, style: "display: block" %>
+    <%= form.text_field :provenance %>
+  </div>
+
+  <div>
+    <%= form.label :arrivée, style: "display: block" %>
+    <%= form.text_field :arrivée %>
+  </div>
+
+  <div>
+    <%= form.label :arrivée_prévue, style: "display: block" %>
+    <%= form.text_field :arrivée_prévue %>
+  </div>
+
+  <div>
+    <%= form.label :arrivée_réelle, style: "display: block" %>
+    <%= form.text_field :arrivée_réelle %>
   </div>
 
   <div>
@@ -39,6 +74,11 @@
   <div>
     <%= form.label :raison, style: "display: block" %>
     <%= form.text_field :raison %>
+  </div>
+
+  <div>
+    <%= form.label :information, style: "display: block" %>
+    <%= form.text_field :information %>
   </div>
 
   <div>

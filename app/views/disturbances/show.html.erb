@@ -3,8 +3,14 @@
 <%= render @disturbance %>
 
 <div>
-  <%= link_to "Edit this disturbance", edit_disturbance_path(@disturbance) %> |
-  <%= link_to "Back to disturbances", disturbances_path %>
+  <%= link_to "Editer cette perturbation", edit_disturbance_path(@disturbance) %> |
+  <%= link_to "Retour aux perturbations", disturbances_path %>
+  <br><br>
 
-  <%= button_to "Destroy this disturbance", @disturbance, method: :delete %>
+<%
+=begin%>
+   
+  <%= button_to "Détruire cette perturbation", @disturbance, method: :delete %> 
+<%
+=end%>
 </div>
