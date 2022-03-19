@@ -79,3 +79,6 @@ gem 'kaminari'
 gem 'spreadsheet'
 gem 'yaml_db'
 
+
+gem 'devise'
+
