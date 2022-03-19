@@ -80,6 +80,8 @@ class DisturbancesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def disturbance_params
-      params.require(:disturbance).permit(:date, :train, :départ, :destination, :voie, :raison)
+      params.require(:disturbance)
+            .permit(:origine, :date, :train, :départ, :destination, :voie, :raison, :information,
+                    :départ_prévu, :départ_réel, :provenance, :arrivée, :arrivée_prévue, :arrivée_réelle)
     end
 end
