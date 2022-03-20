@@ -23,6 +23,17 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <% if user_signed_in? %>
+        <div style="text-align: right;">
+          <small><%= current_user.email %></small>
+        </div>
+      <% end %>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
   </body>
 </html>
