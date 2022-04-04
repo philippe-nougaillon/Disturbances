@@ -27,6 +27,7 @@ namespace :scraper do
     scraping('Arrivée', 'Verdun',           'https://m.ter.sncf.com/grand-est/se-deplacer/prochaines-arrivees/verdun-87175778')
     scraping('Départ',  'Munster',          'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/munster-87182394')
     scraping('Départ',  'Saint-Dié-des-Vosges', 'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/saint-die-des-vosges-87144014')
+    scraping('Départ',  'Herrlisheim',      '	https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/herrlisheim-87212340')
   end
 
   def scraping(sens, gare, url)
