@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -18,19 +19,21 @@
 
       gtag('config', 'G-41S7XKTC1L');
     </script>
-    
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
   </head>
 
   <body>
-    <header>
-      <% if user_signed_in? %>
-        <div style="text-align: right;">
+    <% if user_signed_in? %>
+      <header class="text-right mt-3 mr-4">
+        <nav>
           <small><%= current_user.email %></small>
-        </div>
-      <% end %>
-    </header>
-
+          <%= link_to "Déconnexion", 
+              destroy_user_session_path, 
+              class: "button" 
+          %>
+        </nav>
+      </header>
+    <% end %>
+    <%= render 'partials/notification' %>
     <main>
       <%= yield %>
     </main>

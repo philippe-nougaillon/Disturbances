@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  h1{
+    @apply text-4xl mb-4
+  }
+  h2{
+    @apply text-3xl mb-3
+  }
+  th, td {
+    @apply px-1
+  }
+  th{
+    @apply border border-slate-600
+  }
+  td{
+    @apply border border-slate-700 align-middle text-center
+  }
+  a{
+    @apply underline 
+  }
+  #connexion{
+    @apply p-8 border-2 rounded-xl
+  }
+  .field{
+    @apply mb-4
+  }
+  .field input{
+    @apply rounded
+  }
+
+  .button{
+    @apply rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer
+  }
+}
