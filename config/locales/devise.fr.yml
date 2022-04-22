@@ -52,9 +52,9 @@ fr:
       user:
         signed_up_but_not_approved: "Votre compte n'a pas encore été approuvé par l'administrateur."
     sessions:
-      signed_in: "Connecté."
-      signed_out: "Déconnecté."
-      already_signed_out: "Déconnecté."
+      signed_in: "Connecté"
+      signed_out: "Déconnecté"
+      already_signed_out: "Déconnecté"
     unlocks:
       send_instructions: "Vous allez recevoir les instructions nécessaires au déverrouillage de votre compte dans quelques instants."
       send_paranoid_instructions: "Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller."
