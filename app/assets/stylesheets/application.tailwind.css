@@ -12,12 +12,6 @@
   th, td {
     @apply px-1
   }
-  th{
-    @apply border border-slate-600
-  }
-  td{
-    @apply border border-slate-700 align-middle text-center
-  }
   a{
     @apply underline 
   }
@@ -33,5 +27,12 @@
 
   .button{
     @apply rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer
+  }
+
+  th span{
+    @apply italic
+  }
+  th span:first-child{
+    @apply font-black not-italic
   }
 }
