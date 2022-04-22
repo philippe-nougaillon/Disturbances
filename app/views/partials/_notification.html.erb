@@ -1,0 +1,13 @@
+<% if notice || alert %>
+  <section>
+    <div class="notification align-middle text-center <%= notice ? 'is-success' : 'is-danger' %> is-light">
+      <button class="delete <%= notice ? 'text-green-900' : 'text-red-900' %>"></button>
+      <p class="notice is-size-5 has-text-weight-bold has-text-success">
+        <%= notice %>
+      </p>
+      <p class="alert is-size-5 has-text-weight-bold has-text-danger">
+        <%= alert %>
+      </p>
+    </div>
+  </section>
+<% end %>
