@@ -26,9 +26,10 @@
       <header class="text-right mt-3 mr-4">
         <nav>
           <small><%= current_user.email %></small>
-          <%= link_to "Déconnexion", 
-              destroy_user_session_path, 
-              class: "button" 
+          <%= button_to "Déconnexion", 
+              destroy_user_session_path,
+              method: :delete,
+              class: "button"
           %>
         </nav>
       </header>
