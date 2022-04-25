@@ -12,7 +12,7 @@ class DisturbancesController < ApplicationController
       end
 
       format.xls do
-        book = Disturbance.to_xls(@disturbances)
+        book = DisturbancesToXls.new(@disturbances).call
         file_contents = StringIO.new
         book.write file_contents 
         filename = 'perturbations.xls'
