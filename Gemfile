@@ -91,3 +91,6 @@ gem "tailwindcss-rails", "~> 2.0"
 
 # Minimal authorization through OO design and pure Ruby classes
 gem "pundit", "~> 2.2"
+
+# Audited (formerly acts_as_audited) is an ORM extension that logs all changes to your Rails models.
+gem "audited", "~> 5.0"
