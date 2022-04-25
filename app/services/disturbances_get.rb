@@ -1,21 +1,19 @@
 class DisturbancesGet < ApplicationService
-    attr_reader :url, :gare, :sens
+    attr_reader :source_id
 
-    def initialize(sens, gare, url)
-        @url = url
-        @gare = gare
-        @sens = sens
+    def initialize(source_id)
+        @source = Source.find(source_id)
     end
 
     def call
+        puts "scarping #{@source.gare}..."
         scraping
-        puts "scarping..."
     end
 
 private
 
     def scraping
-        unparsed_html = HTTParty.get(@url)
+        unparsed_html = HTTParty.get(@source.url)
         page ||= Nokogiri::HTML(unparsed_html.body)
         disturbances = page.css('div.disturbanceNameRoot')
 
@@ -37,7 +35,7 @@ private
                 réponse_informations = nil
                 information = nil
         
-                if @sens == 'Départ'
+                if @source.sens == 'Départ'
                     if content.include?('Départ prévu')
                         départ_prévu = content.split('Départ prévu').last[0..4]
                     end
@@ -68,7 +66,7 @@ private
                     end
                 end  
         
-                if @sens == 'Départ'
+                if @source.sens == 'Départ'
                     destination = content.split('Destination').last.split('Mode').first
                 else
                     provenance = content.split('Provenance').last.split('Mode').first
@@ -96,7 +94,7 @@ private
                 end
         
                 # Rechercher les compléments d'informations
-                gare_id = url.split('-').last
+                gare_id = @source.url.split('-').last
                 if départ
                     horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
                 else
@@ -110,9 +108,9 @@ private
                     information = events[0]['description'] if events
                 end
         
-                if true
+                if false
                     puts '- ' * 70
-                    puts "#{ @gare } (#{ gare_id }) #{ @sens }"
+                    puts "#{ @source.gare } (#{ gare_id }) #{ @source.sens }"
                     puts '- ' * 70
                     #puts "Disturbance = " + disturbance.inspect
                     puts "TER N° #{ train }"
@@ -133,7 +131,7 @@ private
         
                 begin
                     Disturbance.create!(date: Date.today, 
-                                    sens: @sens, 
+                                    sens: @source.sens, 
                                     train: train,
                                     gare_id: gare_id, 
                                     départ: départ, 
@@ -142,7 +140,7 @@ private
                                     arrivée: arrivée, 
                                     arrivée_prévue: arrivée_prévue,
                                     arrivée_réelle: arrivée_réelle,
-                                    origine: @gare, 
+                                    origine: @source.gare, 
                                     provenance: provenance, 
                                     destination: destination, 
                                     voie: voie, 

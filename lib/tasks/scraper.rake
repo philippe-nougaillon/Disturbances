@@ -4,7 +4,7 @@ namespace :scraper do
   task go: :environment do
 
     Source.all.each do | source |
-      DisturbancesGet.new(source.sens, source.gare, source.url).call
+      DisturbancesGet.new(source.id).call
     end
 
   end
