@@ -21,7 +21,7 @@ nav ul li a .current{
   background-color: blue;
 }
 
-.prev, .next, .page, .last, .first{
+/* .prev, .next, .page, .last, .first{
   border : none;
   transition: .3s background-color, .3s color;
 
@@ -29,6 +29,6 @@ nav ul li a .current{
 .prev:hover, .next:hover, .page:hover, .last:hover, .first:hover{
   color: white;
   background-color: blue;
-}
+} */
 
 /* //PAGINATION */

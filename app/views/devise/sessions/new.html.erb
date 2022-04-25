@@ -1,6 +1,6 @@
-<div class="h-screen flex flex-col justify-center items-center">
+<div class="flex min-h-screen flex-col justify-center items-center">
   <div id="connexion">
-    <h1>Connexion</h1>
+    <h1 class="text-5xl font-bold">Connexion</h1>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field">
@@ -21,7 +21,7 @@
       <% end %>
 
       <div class="actions">
-        <%= f.submit "Se connecter", class:"btn" %>
+        <%= f.submit "Se connecter", class:"btn btn-success" %>
       </div>
     <% end %>
 

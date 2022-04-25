@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :users
   resources :sources
-  resources :disturbances
+  resources :disturbances, only: [:index, :show, :edit, :update]
   resources :audits
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

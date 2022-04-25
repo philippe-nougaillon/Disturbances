@@ -1,16 +1,8 @@
-<p style="color: green"><%= notice %></p>
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+    <%= render @disturbance %>
 
-<%= render @disturbance %>
-
-<div>
-  <%= link_to "Editer cette perturbation", edit_disturbance_path(@disturbance) %> |
-  <%= link_to "Retour aux perturbations", disturbances_path %>
-  <br><br>
-
-<%
-=begin%>
-   
-  <%= button_to "Détruire cette perturbation", @disturbance, method: :delete %> 
-<%
-=end%>
+    <%= link_to 'Éditer cette disturbance', edit_disturbance_path(@disturbance), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Retour aux disturbances', root_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  </div>
 </div>

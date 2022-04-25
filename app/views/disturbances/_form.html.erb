@@ -1,7 +1,7 @@
-<%= form_with(model: disturbance) do |form| %>
+<%= form_with(model: disturbance, class: "contents") do |form| %>
   <% if disturbance.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(disturbance.errors.count, "error") %> prohibited this disturbance from being saved:</h2>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(disturbance.errors.count, "erreur") %> empêche(nt) cette disturbance d'être enregistrée !</h2>
 
       <ul>
         <% disturbance.errors.each do |error| %>
@@ -11,77 +11,77 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :origine, style: "display: block" %>
-    <%= form.text_field :origine %>
+  <div class="my-5">
+    <%= form.label :origine %>
+    <%= form.text_field :origine, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :date, style: "display: block" %>
-    <%= form.text_field :date %>
+  <div class="my-5">
+    <%= form.label :date %>
+    <%= form.text_field :date, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :train, style: "display: block" %>
-    <%= form.text_field :train %>
+  <div class="my-5">
+    <%= form.label :train %>
+    <%= form.text_field :train, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :destination, style: "display: block" %>
-    <%= form.text_field :destination %>
+  <div class="my-5">
+    <%= form.label :destination %>
+    <%= form.text_field :destination, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :départ, style: "display: block" %>
-    <%= form.text_field :départ %>
+  <div class="my-5">
+    <%= form.label :départ %>
+    <%= form.text_field :départ, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :départ_prévu, style: "display: block" %>
-    <%= form.text_field :départ_prévu %>
+  <div class="my-5">
+    <%= form.label :départ_prévu %>
+    <%= form.text_field :départ_prévu, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :départ_réel, style: "display: block" %>
-    <%= form.text_field :départ_réel %>
+  <div class="my-5">
+    <%= form.label :départ_réel %>
+    <%= form.text_field :départ_réel, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :provenance, style: "display: block" %>
-    <%= form.text_field :provenance %>
+  <div class="my-5">
+    <%= form.label :provenance %>
+    <%= form.text_field :provenance, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :arrivée, style: "display: block" %>
-    <%= form.text_field :arrivée %>
+  <div class="my-5">
+    <%= form.label :arrivée %>
+    <%= form.text_field :arrivée, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :arrivée_prévue, style: "display: block" %>
-    <%= form.text_field :arrivée_prévue %>
+  <div class="my-5">
+    <%= form.label :arrivée_prévue %>
+    <%= form.text_field :arrivée_prévue, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :arrivée_réelle, style: "display: block" %>
-    <%= form.text_field :arrivée_réelle %>
+  <div class="my-5">
+    <%= form.label :arrivée_réelle %>
+    <%= form.text_field :arrivée_réelle, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :voie, style: "display: block" %>
-    <%= form.text_field :voie %>
+  <div class="my-5">
+    <%= form.label :voie %>
+    <%= form.text_field :voie, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :raison, style: "display: block" %>
-    <%= form.text_field :raison %>
+  <div class="my-5">
+    <%= form.label :raison %>
+    <%= form.text_field :raison, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.label :information, style: "display: block" %>
-    <%= form.text_field :information %>
+  <div class="my-5">
+    <%= form.label :information %>
+    <%= form.text_field :information, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>
