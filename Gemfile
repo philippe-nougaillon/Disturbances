@@ -84,6 +84,10 @@ gem 'kaminari'
 gem 'spreadsheet'
 gem 'yaml_db'
 
+# Flexible authentication solution for Rails with Warden.
 gem 'devise'
 
 gem "tailwindcss-rails", "~> 2.0"
+
+# Minimal authorization through OO design and pure Ruby classes
+gem "pundit", "~> 2.2"
