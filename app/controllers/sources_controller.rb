@@ -1,5 +1,6 @@
 class SourcesController < ApplicationController
   before_action :set_source, only: %i[ show edit update destroy ]
+  before_action :is_user_authorized
 
   # GET /sources or /sources.json
   def index
@@ -66,5 +67,9 @@ class SourcesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def source_params
       params.require(:source).permit(:url, :gare, :sens)
+    end
+
+    def is_user_authorized
+      authorize Source
     end
 end

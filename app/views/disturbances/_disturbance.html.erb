@@ -95,7 +95,7 @@
 
       <td>
         <% unless  params[:action] == 'show' %>
-          <%= link_to 'Voir', disturbance_path(disturbance) %>
+          <%= link_to 'Voir', disturbance_path(disturbance), class: "btn btn-ghost btn-xs" %>
         <% end %>
       </td>
     </td>

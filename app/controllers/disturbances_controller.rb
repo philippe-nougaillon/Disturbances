@@ -1,5 +1,6 @@
 class DisturbancesController < ApplicationController
   before_action :set_disturbance, only: %i[ show edit update destroy ]
+  before_action :is_user_authorized
 
   # GET /disturbances or /disturbances.json
   def index
@@ -83,5 +84,9 @@ class DisturbancesController < ApplicationController
       params.require(:disturbance)
             .permit(:origine, :date, :train, :départ, :destination, :voie, :raison, :information,
                     :départ_prévu, :départ_réel, :provenance, :arrivée, :arrivée_prévue, :arrivée_réelle)
+    end
+
+    def is_user_authorized
+      authorize Disturbance
     end
 end
