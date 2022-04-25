@@ -1,3 +1,3 @@
 class Source < ApplicationRecord
-  audited
+  audited except: :collected_at
 end

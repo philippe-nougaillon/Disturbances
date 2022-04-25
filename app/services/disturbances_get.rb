@@ -147,11 +147,13 @@ private
                                     raison: raison, 
                                     information: information,
                                     information_payload: réponse_informations)
-                    puts '|--> Enregistrée dans la BDD !'
+                    # puts '|--> Enregistrée dans la BDD !'
                 rescue
-                    puts '|--> Doublon! Pas enregistré.'  
+                    # puts '|--> Doublon! Pas enregistré.'  
                 end  
             end
+            # marquer la source comme 'traitée'
+            @source.update_columns(collected_at: DateTime.now)
         end
     end
 

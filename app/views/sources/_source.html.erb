@@ -1,7 +1,7 @@
 <div id="<%= dom_id source %>">
   <p class="my-5">
     <strong class="block font-medium mb-1">Url:</strong>
-    <%= source.url %>
+    <%= link_to source.url, source.url %>
   </p>
 
   <p class="my-5">
@@ -12,6 +12,11 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Sens:</strong>
     <%= source.sens %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Collectée le:</strong>
+    <%= source.collected_at %>
   </p>
 
   <% if action_name != "show" %>
