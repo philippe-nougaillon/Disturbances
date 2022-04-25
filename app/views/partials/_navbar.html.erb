@@ -1,0 +1,26 @@
+<div class="navbar bg-base-300">
+  <div class="flex-1">
+    <a class="btn btn-ghost normal-case text-xl">Disturbances</a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal p-0">
+      <li><%= link_to "Perturbations", root_path %></li>
+      <% if current_user.admin %>
+        <li><%= link_to "Sources", sources_path %></li>
+        <li><%= link_to "Utilisateurs", users_path %></li>
+      <% end %>
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full">
+            <img src="https://api.lorem.space/image/face?hash=33791" />
+          </div>
+        </label>
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+          <li><%= current_user.email %></li>
+          <li><%= button_to "Déconnexion", destroy_user_session_path, method: :delete %>
+          </li>
+        </ul>
+      </div>
+    </ul>
+  </div>
+</div>

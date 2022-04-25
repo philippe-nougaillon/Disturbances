@@ -1,4 +1,4 @@
-<tr class="border-4 border-gray-200">
+<tr>
   <div id="<%= dom_id disturbance %>">
     <td>
       <p>
@@ -95,7 +95,7 @@
 
       <td>
         <% unless  params[:action] == 'show' %>
-          <%= link_to 'Voir', disturbance_path(disturbance) %>
+          <%= link_to 'Voir', disturbance_path(disturbance), class: "btn btn-ghost btn-xs" %>
         <% end %>
       </td>
     </td>
