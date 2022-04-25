@@ -94,3 +94,5 @@ gem "pundit", "~> 2.2"
 
 # Audited (formerly acts_as_audited) is an ORM extension that logs all changes to your Rails models.
 gem "audited", "~> 5.0"
+
+gem "annotate", "~> 3.2"
