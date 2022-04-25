@@ -1,0 +1,166 @@
+class DisturbancesGet < ApplicationService
+    attr_reader :url, :gare, :sens
+
+    def initialize(sens, gare, url)
+        @url = url
+        @gare = gare
+        @sens = sens
+    end
+
+    def call
+        scraping
+        puts "scarping..."
+    end
+
+private
+
+    def scraping
+        unparsed_html = HTTParty.get(@url)
+        page ||= Nokogiri::HTML(unparsed_html.body)
+        disturbances = page.css('div.disturbanceNameRoot')
+
+        disturbances.each_with_index do | disturbance, index |
+            content = disturbance.parent.parent.parent.text
+
+            if content.include?('Train TER ')
+                # supprimer le css superflu
+                content = content.split('}').last if content.include?('}')
+        
+                train = content.split('Train TER ').last[0..5]
+        
+                départ = nil
+                départ_prévu = nil
+                départ_réel = nil
+                arrivée = nil
+                arrivée_prévue = nil
+                arrivée_réelle = nil
+                réponse_informations = nil
+                information = nil
+        
+                if @sens == 'Départ'
+                    if content.include?('Départ prévu')
+                        départ_prévu = content.split('Départ prévu').last[0..4]
+                    end
+                    if content.include?('Départ réel')
+                        départ_réel = content.split('Départ réel').last[0..4]
+                    end
+                    if !départ_prévu && !départ_réel && content.include?('Départ')
+                        départ_prévu = content.split('Départ').last[0..4]
+                    end
+        
+                    if départ_prévu 
+                        départ = départ_prévu
+                    else
+                        départ = départ_réel
+                    end
+                else
+                    if content.include?('Arrivée prévue')
+                        arrivée_prévue = content.split('Arrivée prévue').last[0..4]
+                    elsif content.include?('Arrivée réelle')
+                        arrivée_réelle = content.split('Arrivée réelle').last[0..4]
+                    else  
+                        arrivée_prévue = content.split('Arrivée').last[0..4]
+                    end  
+                    if arrivée_prévue
+                        arrivée = arrivée_prévue
+                    else
+                        arrivée = arrivée_réelle
+                    end
+                end  
+        
+                if @sens == 'Départ'
+                    destination = content.split('Destination').last.split('Mode').first
+                else
+                    provenance = content.split('Provenance').last.split('Mode').first
+                end
+        
+                voie = content.split('Voie').last.split('-').first
+                voie = voie.split('Retard').first if voie.include?('Retard')
+                voie = voie.split('Modifié').first if voie.include?('Modifié')
+        
+                raison = content.split('-').last
+                if raison.include?('Information')
+                    raison = raison.gsub('Information','')
+                end
+                if raison.include?('Voie')
+                    raison = raison.split('Voie').last
+                end
+        
+                # supprimer le N° de Voie dans la raison
+                if raison[0..1].include?(voie)
+                    if voie.to_i < 10
+                        raison = raison[1..-1]
+                    else
+                        raison = raison[2..-1]
+                    end
+                end
+        
+                # Rechercher les compléments d'informations
+                gare_id = url.split('-').last
+                if départ
+                    horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
+                else
+                    horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée.split('h').first.to_i, arrivée.split('h').last.to_i, 0, "+01:00")
+                end  
+                
+                horaire = horaire.strftime("%Y-%m-%dT%I:%M")
+                réponse_informations = getInformation(train.to_i, horaire, gare_id)
+                if réponse_informations
+                    events = réponse_informations[0]['events']
+                    information = events[0]['description'] if events
+                end
+        
+                if true
+                    puts '- ' * 70
+                    puts "#{ @gare } (#{ gare_id }) #{ @sens }"
+                    puts '- ' * 70
+                    #puts "Disturbance = " + disturbance.inspect
+                    puts "TER N° #{ train }"
+                    puts "Départ prévu: #{ départ_prévu }" 
+                    puts "Départ réel: #{ départ_réel }" 
+                    puts "Départ: #{ départ }" 
+                    puts "Arrivée prévue: #{ arrivée_prévue }" 
+                    puts "Arrivée réelle: #{ arrivée_réelle }" 
+                    puts "Arrivée: #{ arrivée }" 
+                    puts "Destination: #{ destination }" 
+                    puts "Raison: #{ raison }" 
+                    puts "Voie: #{ voie }" 
+                    puts "Provenance: #{ provenance } " 
+                    puts "Content = #{ content.inspect }" 
+                    puts "Information: #{ information }"
+                    puts réponse_informations
+                end
+        
+                begin
+                    Disturbance.create!(date: Date.today, 
+                                    sens: @sens, 
+                                    train: train,
+                                    gare_id: gare_id, 
+                                    départ: départ, 
+                                    départ_prévu: départ_prévu,
+                                    départ_réel: départ_réel,
+                                    arrivée: arrivée, 
+                                    arrivée_prévue: arrivée_prévue,
+                                    arrivée_réelle: arrivée_réelle,
+                                    origine: @gare, 
+                                    provenance: provenance, 
+                                    destination: destination, 
+                                    voie: voie, 
+                                    raison: raison, 
+                                    information: information,
+                                    information_payload: réponse_informations)
+                    puts '|--> Enregistrée dans la BDD !'
+                rescue
+                    puts '|--> Doublon! Pas enregistré.'  
+                end  
+            end
+        end
+    end
+
+    def getInformation(train, horaire, gare_id)
+        url = "https://m.ter.sncf.com/api/circulation-details?number=#{ train }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
+        unparsed_json = HTTParty.get(url)
+        JSON.parse(unparsed_json.body)
+    end
+    
+end
