@@ -64,7 +64,7 @@
 
       <td>
         <p>
-          <span style="<%= disturbance.perturbation_style  %>">
+          <span style="<%= disturbance.perturbation_style%>">
             <%= disturbance.perturbation %>
           </span>
         </p>
@@ -76,21 +76,6 @@
         </p>
       </td>
 
-      <% if params[:action] == 'show' %>
-        <td>
-          Gare ID : 
-          <%= "(#{ disturbance.gare_id })" if disturbance.gare_id %>
-        </td>
-      <% end %>
-
-      <% if disturbance.information_payload && params[:action] == 'show' %>
-        <small>
-          <pre>
-            <%= JSON.pretty_generate(disturbance.information_payload) %>
-          </pre>
-        </small>
-      <% end %>
-
       <td>
         <p>
           <%= time_tag disturbance.created_at, "data-local": "time-ago" %>
@@ -98,7 +83,7 @@
       </td>
 
       <td>
-        <% unless  params[:action] == 'show' %>
+        <% unless params[:action] == 'show' %>
           <%= link_to 'Voir', disturbance_path(disturbance), class: "btn btn-ghost btn-xs" %>
         <% end %>
       </td>

@@ -1,10 +1,10 @@
-<div class="w-full">
+<div class="mx-auto md:w-2/3 mt-8">
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Sources</h1>
-    <%= link_to 'Nouvelle source', new_source_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to 'Nouvelle source', new_source_path, class: "btn btn-xs btn-outline btn-primary" %>
   </div>
 
-  <div id="sources" class="min-w-full">
+  <div id="sources">
     <%= render @sources %>
   </div>
 </div>
