@@ -6,12 +6,32 @@
 
   <%= form_tag disturbances_path, method: :get do %>
     <div class="flex">
+
       <div class="mr-4">
-        <%= label_tag :search, "Origine/Provenance/Destination", class: "label" %>
-        <%= text_field_tag :search,
-                            params[:search],
-                            class: "input input-bordered w-full max-w-xs",
-                            placeholder: "Entrez un mot à rechercher" %>
+        <%= label_tag :gare, "Gare", class: "label" %>
+        <%= select_tag :gare,
+                        options_for_select(@gares, params[:gare]), 
+                        include_blank: true,
+                        class: 'select select-bordered', 
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="mr-4">
+        <%= label_tag :train, "Train", class: "label" %>
+        <%= select_tag :train,
+                        options_for_select(@trains, params[:train]), 
+                        include_blank: true,
+                        class: 'select select-bordered', 
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="mr-4">
+        <%= label_tag :perturbation, "Perturbation", class: "label" %>
+        <%= select_tag :perturbation, 
+                        options_for_select(@perturbations, params[:perturbation]), 
+                        include_blank: true,
+                        class: 'select select-bordered', 
+                        onchange: 'this.form.submit()' %>
       </div>
 
       <div class="mr-4">
@@ -22,16 +42,6 @@
                         class: 'select select-bordered', 
                         onchange: 'this.form.submit()' %>
       </div>
-
-      <% if defined?(states) %>
-        <div class="control select">
-          <%= select_tag :state, 
-                          options_for_select(states, params[:state]), 
-                          include_blank: true,
-                          onchange: 'this.form.submit()' %>
-        </div>
-      <% end %>
-      <button class="button is-info mt-8">Rechercher</button>
     </div>
   <% end %>
 
@@ -47,14 +57,17 @@
           <th>Réel</th>
           <th>Voie</th>
           <th>Perturbation</th>
-          <th>Raison</th>
+          <th>Information</th>
           <th>Enregistrée</th>
-          <th colspan=1></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <%= render @disturbances %>
       </tbody>
+      <tfoot>
+        <th colspan=11></th>
+      </tfoot>
     </table>
   </div>
 
