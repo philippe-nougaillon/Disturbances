@@ -96,6 +96,15 @@ private
                     end
                 end
         
+                # si voie = raison
+                if voie == raison
+                    voie = voie.to_i.to_s
+                    raison = raison.split(voie).last
+                end
+
+                # ne pas garder que les retards de moins de 10 min
+                next if raison == 'Retard estimé de 5 min'
+
                 # Rechercher les compléments d'informations
                 gare_id = @source.url.split('-').last
                 if départ
