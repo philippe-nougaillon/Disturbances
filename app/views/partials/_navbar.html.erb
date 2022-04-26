@@ -3,7 +3,7 @@
   </div>
   <div class="navbar-end flex-none">
     <ul class="menu menu-horizontal p-0">
-      <% if current_user.admin %>
+      <% if current_user.admin? %>
         <li><%= link_to "Perturbations", root_path %></li>
         <li><%= link_to "Sources", sources_path %></li>
         <li><%= link_to "Utilisateurs", users_path %></li>
@@ -14,8 +14,8 @@
             <img src="https://api.lorem.space/image/face?hash=33791" />
           </div>
         </label>
-        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li><%= current_user.email %></li>
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-fit">
+          <li><p><%= current_user.email %></p></li>
           <li><%= button_to "Déconnexion", destroy_user_session_path, method: :delete %>
           </li>
         </ul>
