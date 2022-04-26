@@ -14,6 +14,7 @@
 #  information         :string
 #  information_payload :jsonb
 #  origine             :string
+#  perturbation        :string
 #  provenance          :string
 #  raison              :string
 #  sens                :string
@@ -25,7 +26,7 @@
 #
 # Indexes
 #
-#  super_index_uniq  (date,sens,train,raison) UNIQUE
+#  super_index_uniq  (date,sens,train,perturbation) UNIQUE
 #
 
 one:

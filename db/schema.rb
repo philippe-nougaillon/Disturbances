@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_25_194943) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_26_091439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,7 +56,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_25_194943) do
     t.string "arrivée_réelle"
     t.jsonb "information_payload"
     t.integer "gare_id"
-    t.index ["date", "sens", "train", "raison"], name: "super_index_uniq", unique: true
+    t.string "perturbation"
+    t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
   end
 
   create_table "sources", force: :cascade do |t|
