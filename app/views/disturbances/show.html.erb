@@ -1,6 +1,6 @@
-<div class="mx-auto md:w-2/3 w-full flex">
+<div class="mx-auto md:w-2/3 w-full">
   <div class="mx-auto">
-    <div id="<%= dom_id @disturbance %>">
+    <div id="<%= dom_id @disturbance %>" class="grid grid-flow-col-dense grid-cols-3 grid-rows-3">
 
       <p class="my-5">
         <strong class="block mb-1">Id:</strong>
@@ -57,7 +57,9 @@
 
       <p class="my-5">
         <strong class="block font-medium mb-1">Perturbation:</strong>
-        <%= @disturbance.perturbation %>
+        <span style="<%= @disturbance.perturbation_style%>">
+          <%= @disturbance.perturbation %>
+        </span>
       </p>
 
       <p class="my-5">
@@ -70,13 +72,6 @@
         <%= "(#{ @disturbance.gare_id })" if @disturbance.gare_id %>
       </p>
 
-      <% if @disturbance.information_payload %>
-        <small>
-          <pre class="mockup-code bg-primary text-primary-content">
-            <%= JSON.pretty_generate(@disturbance.information_payload) %>
-          </pre>
-        </small>
-      <% end %>
 
       <p class="my-5">
         <strong class="block font-medium mb-1">Créée le:</strong>
@@ -86,6 +81,14 @@
     </div>
 
     <%= link_to 'Éditer cette disturbance', edit_disturbance_path(@disturbance), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Retour aux disturbances', root_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Retour aux disturbances', root_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium mb-4" %>
+
+    <% if @disturbance.information_payload %>
+      <small>
+        <pre class="mockup-code bg-primary text-primary-content">
+          <%= JSON.pretty_generate(@disturbance.information_payload) %>
+        </pre>
+      </small>
+    <% end %>
   </div>
 </div>

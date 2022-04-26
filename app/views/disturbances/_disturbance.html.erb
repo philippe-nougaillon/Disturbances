@@ -83,7 +83,7 @@
       </td>
 
       <td>
-        <% unless params[:action] == 'show' %>
+        <% if policy(disturbance).show? %>
           <%= link_to 'Voir', disturbance_path(disturbance), class: "btn btn-ghost btn-xs" %>
         <% end %>
       </td>
