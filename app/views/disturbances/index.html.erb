@@ -89,9 +89,10 @@
     </table>
   </div>
 
+  <%= page_entries_info @disturbances, entry_name: 'perturbation' %>
   <%= paginate @disturbances %>
 
-  <p>
+  <p class="mt-4">
     <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
     |
     Source :

@@ -13,22 +13,3 @@
  *= require_tree .
  *= require_self
  */
-
-/* //// PAGINATION //// */
-
-nav ul li a .current{
-  color: white;
-  background-color: blue;
-}
-
-/* .prev, .next, .page, .last, .first{
-  border : none;
-  transition: .3s background-color, .3s color;
-
-}
-.prev:hover, .next:hover, .page:hover, .last:hover, .first:hover{
-  color: white;
-  background-color: blue;
-} */
-
-/* //PAGINATION */

@@ -411,9 +411,9 @@ fr:
         display_entries:
           zero: "0 %{entry_name} à  afficher"
           one: "Affichage de <strong>1</strong> %{entry_name}"
-          other: "Affichage de <strong>%{count}</strong> %{entry_name}"
+          other: "Affichage de <strong>%{count}</strong> %{entry_name}s"
       more_pages:
-        display_entries: "Affichage de %{entry_name} <strong>%{first}&nbsp;-&nbsp;%{last}</strong> sur <strong>%{total}</strong> au total"
+        display_entries: "Affichage des %{entry_name}s <strong>%{first}&nbsp;à&nbsp;%{last}</strong> sur <strong>%{total}</strong> au total"
   id: 'Id'
   ville: 'Ville'
   montant: 'Montant'
