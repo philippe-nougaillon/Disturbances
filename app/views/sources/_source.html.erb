@@ -1,17 +1,18 @@
 <div id="<%= dom_id source %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Url:</strong>
-    <%= link_to source.url, source.url %>
-  </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Gare:</strong>
+    <strong class="block mb-1">Gare:</strong>
     <%= source.gare %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Sens:</strong>
     <%= source.sens %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Url:</strong>
+    <%= link_to source.url, source.url %>
   </p>
 
   <p class="my-5">
