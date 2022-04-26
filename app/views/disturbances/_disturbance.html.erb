@@ -9,9 +9,6 @@
     <td>
       <p>
         <%= disturbance.origine %>
-        <small>
-          <%= "(#{ disturbance.gare_id })" if disturbance.gare_id %>
-        </small>
       </p>
     </td>
 
@@ -78,6 +75,13 @@
           <%= disturbance.information %>
         </p>
       </td>
+
+      <% if params[:action] == 'show' %>
+        <td>
+          Gare ID : 
+          <%= "(#{ disturbance.gare_id })" if disturbance.gare_id %>
+        </td>
+      <% end %>
 
       <% if disturbance.information_payload && params[:action] == 'show' %>
         <small>

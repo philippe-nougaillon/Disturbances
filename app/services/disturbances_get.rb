@@ -8,6 +8,9 @@ class DisturbancesGet < ApplicationService
     def call
         puts "scarping #{@source.gare}..."
         scraping
+        puts "scarping #{@source.gare}... Done."
+        # marquer la source comme 'traitée'
+        @source.update_columns(collected_at: DateTime.now)
     end
 
 private
@@ -152,8 +155,6 @@ private
                     # puts '|--> Doublon! Pas enregistré.'  
                 end  
             end
-            # marquer la source comme 'traitée'
-            @source.update_columns(collected_at: DateTime.now)
         end
     end
 
