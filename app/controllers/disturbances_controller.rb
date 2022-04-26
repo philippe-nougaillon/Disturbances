@@ -5,7 +5,16 @@ class DisturbancesController < ApplicationController
   # GET /disturbances or /disturbances.json
   def index
     @disturbances = Disturbance.all
-    
+    @informations = Disturbance.where.not(information: nil).pluck(:information).uniq.sort
+
+    unless params[:search].blank?
+      @disturbances = @disturbances.where('disturbances.origine ILIKE :search OR disturbances.provenance ILIKE :search OR disturbances.destination ILIKE :search', {search: "%#{params[:search].upcase}%"})
+    end
+
+    unless params[:information].blank?
+      @disturbances = @disturbances.where("disturbances.information = ?", params[:information])
+    end
+
     respond_to do |format|
       format.html do 
         @disturbances = @disturbances.page(params[:page])
