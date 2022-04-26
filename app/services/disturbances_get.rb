@@ -6,9 +6,9 @@ class DisturbancesGet < ApplicationService
     end
 
     def call
-        puts "scarping #{@source.gare}..."
+        puts "scraping #{@source.gare}..."
         scraping
-        puts "scarping #{@source.gare}... Done."
+        puts "scraping #{@source.gare}... Done."
         # marquer la source comme 'traitée'
         @source.update_columns(collected_at: DateTime.now)
     end
