@@ -105,6 +105,9 @@ private
                 # ne pas garder que les retards de moins de 10 min
                 next if raison == 'Retard estimé de 5 min'
 
+                # remplacer non disponible par ND
+                voie = voie.gsub('non disponible', 'ND') if voie.include?('non disponible')
+                
                 # Rechercher les compléments d'informations
                 gare_id = @source.url.split('-').last
                 if départ
