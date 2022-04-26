@@ -20,8 +20,9 @@ class DisturbancesToXls < ApplicationService
                   "arrivée prévue", 
                   "arrivée réelle", 
                   "provenance", 
-                  "voie", "raison", "information", 
-                  "information_api_payload",
+                  "voie", 
+                  "perturbation", 
+                  "information", 
                   "gare_id",
                   "created_at", "updated_at"]
 
@@ -43,9 +44,8 @@ class DisturbancesToXls < ApplicationService
               perturbation.arrivée_réelle,
               perturbation.provenance, 
               perturbation.voie,
-              perturbation.raison,
+              perturbation.perturbation,
               perturbation.information,
-              perturbation.information_payload.to_s,
               perturbation.gare_id,
               perturbation.created_at, 
               perturbation.updated_at
