@@ -30,6 +30,10 @@ class DisturbancesController < ApplicationController
       @disturbances = @disturbances.where("disturbances.information = ?", params[:information])
     end
 
+    if (!params[:du].blank? && !params[:au].blank?)
+      @disturbances = @disturbances.where("disturbances.created_at BETWEEN ? AND ?", params[:du], params[:au])
+    end
+
     respond_to do |format|
       format.html do 
         @disturbances = @disturbances.page(params[:page])

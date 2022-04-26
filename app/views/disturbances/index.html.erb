@@ -42,6 +42,24 @@
                         class: 'select select-bordered', 
                         onchange: 'this.form.submit()' %>
       </div>
+
+      <div class="mr-4">
+        <%= label_tag :du, "Du", class: "label" %>
+        <%= text_field_tag :du,
+                            params[:du],
+                            type: "datetime-local",
+                            class: 'input input-bordered', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+
+      <div>
+        <%= label_tag :au, "Au", class: "label" %>
+        <%= text_field_tag :au,
+                            params[:au],
+                            type: "datetime-local",
+                            class: 'input input-bordered', 
+                            onchange: 'this.form.submit()' %>
+      </div>
     </div>
   <% end %>
 
