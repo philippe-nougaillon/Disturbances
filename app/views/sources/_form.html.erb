@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :url %>
-    <%= form.text_field :url, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
     <%= form.label :gare %>
     <%= form.text_field :gare, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :sens %>
-    <%= form.text_field :sens, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.select :sens, ['Départ', 'Arrivée'], class: "block shadow" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :url %>
+    <%= form.text_field :url, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="inline">
