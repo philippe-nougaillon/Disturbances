@@ -64,7 +64,7 @@
 
       <td>
         <p>
-          <span style="<%= disturbance.perturbation.include?('Supprimé') ? 'color: red;' : (disturbance.perturbation.include?('Retard') ? 'color: orange;'  : '')  %>">
+          <span style="<%= disturbance.perturbation_style  %>">
             <%= disturbance.perturbation %>
           </span>
         </p>

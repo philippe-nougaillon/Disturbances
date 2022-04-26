@@ -96,3 +96,5 @@ gem "pundit", "~> 2.2"
 gem "audited", "~> 5.0"
 
 gem "annotate", "~> 3.2"
+
+gem "active_decorator", "~> 1.4"
