@@ -5,10 +5,10 @@ class DisturbancesController < ApplicationController
   # GET /disturbances or /disturbances.json
   def index
     @disturbances = Disturbance.all
-    @gares = Disturbance.pluck(:origine).uniq.sort
-    @trains = Disturbance.pluck(:train).uniq.sort
-    @perturbations = Disturbance.pluck(:perturbation).uniq.sort
-    @informations = Disturbance.where.not(information: nil).pluck(:information).uniq.sort
+    @gares = Gare.pluck(:origine)
+    @trains = Train.pluck(:train)
+    @perturbations = Perturbation.pluck(:perturbation)
+    @informations = Info.pluck(:information)
 
     unless params[:gare].blank?
       @disturbances = @disturbances.where("disturbances.origine = ?", params[:gare])

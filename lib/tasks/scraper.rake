@@ -7,6 +7,12 @@ namespace :scraper do
       DisturbancesGet.new(source.id).call
     end
 
+    puts "refreshing views"
+    Gare.refresh
+    Train.refresh
+    Perturbation.refresh
+    Info.refresh
+
   end
 
 end

@@ -98,3 +98,6 @@ gem "audited", "~> 5.0"
 gem "annotate", "~> 3.2"
 
 gem "active_decorator", "~> 1.4"
+
+# Versioned database views for Rails
+gem "scenic", "~> 1.6"

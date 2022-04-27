@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_26_091439) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_27_102245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -89,4 +89,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_26_091439) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+
+  create_view "gares", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.origine
+     FROM disturbances
+    ORDER BY disturbances.origine;
+  SQL
+  create_view "perturbations", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.perturbation
+     FROM disturbances
+    ORDER BY disturbances.perturbation;
+  SQL
+  create_view "trains", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.train
+     FROM disturbances
+    ORDER BY disturbances.train;
+  SQL
+  create_view "infos", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.information
+     FROM disturbances
+    WHERE (disturbances.information IS NOT NULL)
+    ORDER BY disturbances.information;
+  SQL
 end
