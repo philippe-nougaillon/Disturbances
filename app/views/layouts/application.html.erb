@@ -25,9 +25,7 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <%= render partial: "partials/navbar" %>
-    <% end %>
+    <%= render partial: "partials/navbar" %>
     <%= render partial: "partials/notification" %>
     <main class="container mx-auto">
       <%= yield %>

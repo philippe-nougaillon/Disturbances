@@ -161,7 +161,8 @@ private
                                     voie: voie, 
                                     perturbation: raison, 
                                     information: information,
-                                    information_payload: réponse_informations)
+                                    information_payload: réponse_informations,
+                                    source_id: @source.id)
                     # puts '|--> Enregistrée dans la BDD !'
                 rescue
                     # puts '|--> Doublon! Pas enregistré.'  

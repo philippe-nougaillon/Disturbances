@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_27_102245) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,7 +57,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_102245) do
     t.jsonb "information_payload"
     t.integer "gare_id"
     t.string "perturbation"
+    t.bigint "source_id", null: false
     t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
+    t.index ["source_id"], name: "index_disturbances_on_source_id"
   end
 
   create_table "sources", force: :cascade do |t|
@@ -89,6 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_102245) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "disturbances", "sources"
 
   create_view "gares", materialized: true, sql_definition: <<-SQL
       SELECT DISTINCT disturbances.origine

@@ -23,14 +23,21 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  gare_id             :integer
+#  source_id           :bigint           not null
 #
 # Indexes
 #
-#  super_index_uniq  (date,sens,train,perturbation) UNIQUE
+#  index_disturbances_on_source_id  (source_id)
+#  super_index_uniq                 (date,sens,train,perturbation) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (source_id => sources.id)
 #
 class Disturbance < ApplicationRecord
-    
+    belongs_to :source
+
+    default_scope { order('disturbances.created_at DESC') }
+
     paginates_per 10
-    default_scope { order('created_at DESC') }
-        
 end
