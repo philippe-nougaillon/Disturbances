@@ -48,7 +48,7 @@ class DisturbancesToXls < ApplicationService
             perturbation.voie,
             perturbation.perturbation,
             perturbation.information,
-            (@with_payload ? perturbation.information_payload : nil),
+            (@with_payload ? perturbation.information_payload.to_s : nil),
             perturbation.gare_id,
             perturbation.created_at, 
             perturbation.updated_at
