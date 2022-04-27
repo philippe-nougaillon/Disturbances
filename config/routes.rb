@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'pages/status'
+  get 'status', to: 'pages#status', as: :status
   devise_for :users
 
   resources :users
