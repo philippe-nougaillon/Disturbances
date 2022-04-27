@@ -12,4 +12,6 @@
 #
 class Source < ApplicationRecord
   audited except: :collected_at
+
+  has_many :disturbances
 end

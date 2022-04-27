@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/status'
   devise_for :users
 
   resources :users
