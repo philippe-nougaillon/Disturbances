@@ -3,11 +3,46 @@
     <h1 class="font-bold text-4xl">Status</h1>
   </div>
 
-  <% @disturbances.each do |disturbance| %>
+  <% @sources.each do |source| %>
+    <% if disturbance = source.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).last %>
+      <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
+        <div class="collapse-title text-xl font-medium">
+            <span style="<%= disturbance.perturbation_style%>">
+              <%= source.gare %>
+            </span>
+        </div>
+        <div class="collapse-content">
+          <p>
+            <%= disturbance.train %>
+            <% if disturbance.sens == 'Départ' %>
+                ->
+                <%= disturbance.destination %>
+            <% else %>
+                <-
+                <%= disturbance.provenance %>
+            <% end %>
+          </p>
+          <span style="<%= disturbance.perturbation_style%>">
+            <%= disturbance.perturbation %>
+          </span>
+          <br>
+          <% if disturbance.information %>
+            <%= disturbance.information %>
+            <br>
+          <% end %>
+          <%= time_tag disturbance.created_at, "data-local": "time-ago" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%
+=begin%>
+ <% @sources.each do |source| %>
     <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
       <div class="collapse-title text-xl font-medium">
         <span style="<%= disturbance.perturbation_style%>">
-          <%= disturbance.origine %>
+          <%= source.gare %>
         </span>
       </div>
       <div class="collapse-content"> 
@@ -23,5 +58,7 @@
       </div>
     </div>
     <br>
-  <% end %>
+  <% end %> 
+<%
+=end%>
 </div>
