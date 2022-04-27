@@ -68,10 +68,14 @@
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Gare ID:</strong>
+        <strong class="block font-medium mb-1">Gare Id:</strong>
         <%= "(#{ @disturbance.gare_id })" if @disturbance.gare_id %>
       </p>
 
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Source Id:</strong>
+        <%= link_to @disturbance.source_id, source_path(@disturbance.source_id) %>
+      </p>
 
       <p class="my-5">
         <strong class="block font-medium mb-1">Créée le:</strong>
