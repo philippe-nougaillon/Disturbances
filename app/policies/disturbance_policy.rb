@@ -10,7 +10,7 @@ class DisturbancePolicy < ApplicationPolicy
   end
 
   def show?
-    @user.admin?
+    @user
   end
 
   def new?
