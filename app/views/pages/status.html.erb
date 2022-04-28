@@ -35,30 +35,5 @@
       </div>
     <% end %>
   <% end %>
-
-  <%
-=begin%>
- <% @sources.each do |source| %>
-    <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
-      <div class="collapse-title text-xl font-medium">
-        <span style="<%= disturbance.perturbation_style%>">
-          <%= source.gare %>
-        </span>
-      </div>
-      <div class="collapse-content"> 
-        <span style="<%= disturbance.perturbation_style%>">
-          <%= disturbance.perturbation %>
-        </span>
-        <br>
-        <% if disturbance.information %>
-          <%= disturbance.information %>
-          <br>
-        <% end %>
-        <%= time_tag disturbance.created_at, "data-local": "time-ago" %>
-      </div>
-    </div>
-    <br>
-  <% end %> 
-<%
-=end%>
+  <br>
 </div>
