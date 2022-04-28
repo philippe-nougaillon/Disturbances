@@ -97,7 +97,7 @@
   <p class="mt-4">
     <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
     |
-    <%= link_to 'Export XLS (+Json)', url_for(params.permit!.merge(format: :xls, with_payload: true)) %>
+    <%= link_to 'Export XLS+JSON', url_for(params.permit!.merge(format: :xls, with_payload: true)) %>
     |
     Source :
     <%= link_to 'm.ter.sncf.com',
