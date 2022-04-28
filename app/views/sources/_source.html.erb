@@ -16,8 +16,9 @@
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Collectée le:</strong>
+    <strong class="block font-medium mb-1">Dernière collecte:</strong>
     <%= source.collected_at %>
+    (<i><%= time_tag source.collected_at, "data-local": "time-ago" %></i>)
   </p>
 
   <% if action_name != "show" %>
