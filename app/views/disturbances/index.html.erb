@@ -18,10 +18,10 @@
 
       <div class="mr-4">
         <%= label_tag :train, "Train", class: "label" %>
-        <%= select_tag :train,
-                        options_for_select(@trains, params[:train]), 
+        <%= text_field_tag :train,
+                        params[:train],
                         include_blank: true,
-                        class: 'select select-sm select-bordered w-full max-w-xs',
+                        class: 'input input-sm select-bordered w-full max-w-xs',
                         onchange: 'this.form.submit()' %>
       </div>
 
@@ -62,6 +62,8 @@
       </div>
     </div>
   <% end %>
+  <%= @train1 %>
+  <%= @train2 %>
 
   <div id="disturbances" class="my-4 overflow-x-auto">
     <table class="table table-zebra w-full">

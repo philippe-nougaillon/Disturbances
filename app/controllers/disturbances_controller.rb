@@ -15,7 +15,7 @@ class DisturbancesController < ApplicationController
     end
 
     unless params[:train].blank?
-      @disturbances = @disturbances.where("disturbances.train = ?", params[:train])
+      @disturbances = @disturbances.where("disturbances.train BETWEEN ? AND ?", params[:train].split('-').first, params[:train].split('-').last)
     end
 
     unless params[:perturbation].blank?
