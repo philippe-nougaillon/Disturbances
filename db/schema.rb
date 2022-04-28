@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_19_182054) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.text "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
+  end
 
   create_table "disturbances", force: :cascade do |t|
     t.string "date"
@@ -34,7 +56,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_19_182054) do
     t.string "arrivée_réelle"
     t.jsonb "information_payload"
     t.integer "gare_id"
-    t.index ["date", "sens", "train", "raison"], name: "super_index_uniq", unique: true
+    t.string "perturbation"
+    t.bigint "source_id", null: false
+    t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
+    t.index ["source_id"], name: "index_disturbances_on_source_id"
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.string "url"
+    t.string "gare"
+    t.string "sens"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "collected_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,8 +79,39 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_19_182054) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false, null: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "nom"
+    t.string "prénom"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "disturbances", "sources"
+
+  create_view "gares", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.origine
+     FROM disturbances
+    ORDER BY disturbances.origine;
+  SQL
+  create_view "perturbations", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.perturbation
+     FROM disturbances
+    ORDER BY disturbances.perturbation;
+  SQL
+  create_view "trains", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.train
+     FROM disturbances
+    ORDER BY disturbances.train;
+  SQL
+  create_view "infos", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.information
+     FROM disturbances
+    WHERE (disturbances.information IS NOT NULL)
+    ORDER BY disturbances.information;
+  SQL
 end

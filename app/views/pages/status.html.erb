@@ -1,0 +1,40 @@
+<div class="mx-auto md:w-2/3 mt-8">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-4xl">Status</h1>
+  </div>
+
+  <% @sources.each do |source| %>
+    <% if disturbance = source.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first %>
+      <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
+        <div class="collapse-title text-xl font-medium">
+            <span style="<%= disturbance.perturbation_style%>">
+              <%= source.gare %>
+            </span>
+        </div>
+        <div class="collapse-content">
+          <p>
+            <%= disturbance.train %>
+            <% if disturbance.sens == 'Départ' %>
+                ->
+                <%= disturbance.destination %>
+            <% else %>
+                <-
+                <%= disturbance.provenance %>
+            <% end %>
+          </p>
+          <span style="<%= disturbance.perturbation_style%>">
+            <%= disturbance.perturbation %>
+          </span>
+          <br>
+          <% if disturbance.information %>
+            <%= disturbance.information %>
+            <br>
+          <% end %>
+          <br>
+          <i>Enregistré <%= time_tag disturbance.created_at, "data-local": "time-ago" %></i>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+  <br>
+</div>

@@ -1,0 +1,33 @@
+<div class="navbar bg-base-300 sm:px-0 lg:px-20">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end flex-none">
+    <ul class="menu menu-horizontal p-0">
+      <% if user_signed_in? %>
+        <li><%= link_to "Perturbations", root_path %></li>
+      <% end %>
+      <li><%= link_to "Status", status_path %></li>
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+          <div class="w-8 rounded-full">
+            <img src="https://questhowth.ie/wp-content/uploads/2018/04/user-placeholder.png" />
+          </div>
+        </label>
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-fit">
+          <% if user_signed_in? %>
+            <li><p class="font-black"><%= current_user.email %></p></li>
+            <hr>
+            <% if current_user.admin? %>
+              <li><%= link_to "Sources", sources_path %></li>
+              <li><%= link_to "Utilisateurs", users_path %></li>
+            <% end %>
+            <hr>
+            <li><%= button_to "Déconnexion", destroy_user_session_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to "Connexion", new_user_session_path %></li>
+          <% end %>
+        </ul>
+      </div>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div id="<%= dom_id user %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Nom:</strong>
+    <%= user.nom %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Prénom:</strong>
+    <%= user.prénom %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Email:</strong>
+    <%= user.email %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Admin:</strong>
+    <%= user.admin %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Voir cet utilisateur", user, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Éditer cet utilisateur', edit_user_path(user), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.1"
+ruby "3.1.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.0"
@@ -51,6 +51,11 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  
+  # RSpec
+  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
+    gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'main'
+  end
 end
 
 group :development do
@@ -79,6 +84,20 @@ gem 'kaminari'
 gem 'spreadsheet'
 gem 'yaml_db'
 
-
+# Flexible authentication solution for Rails with Warden.
 gem 'devise'
 
+gem "tailwindcss-rails", "~> 2.0"
+
+# Minimal authorization through OO design and pure Ruby classes
+gem "pundit", "~> 2.2"
+
+# Audited (formerly acts_as_audited) is an ORM extension that logs all changes to your Rails models.
+gem "audited", "~> 5.0"
+
+gem "annotate", "~> 3.2"
+
+gem "active_decorator", "~> 1.4"
+
+# Versioned database views for Rails
+gem "scenic", "~> 1.6"

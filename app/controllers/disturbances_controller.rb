@@ -1,17 +1,42 @@
 class DisturbancesController < ApplicationController
   before_action :set_disturbance, only: %i[ show edit update destroy ]
+  before_action :is_user_authorized
 
   # GET /disturbances or /disturbances.json
   def index
     @disturbances = Disturbance.all
-    
+    @gares = Gare.pluck(:origine)
+    @trains = Train.pluck(:train)
+    @perturbations = Perturbation.pluck(:perturbation)
+    @informations = Info.pluck(:information)
+
+    unless params[:gare].blank?
+      @disturbances = @disturbances.where("disturbances.origine = ?", params[:gare])
+    end
+
+    unless params[:train].blank?
+      @disturbances = @disturbances.where("disturbances.train BETWEEN ? AND ?", params[:train].split('-').first, params[:train].split('-').last)
+    end
+
+    unless params[:perturbation].blank?
+      @disturbances = @disturbances.where("disturbances.perturbation = ?", params[:perturbation])
+    end
+
+    unless params[:information].blank?
+      @disturbances = @disturbances.where("disturbances.information = ?", params[:information])
+    end
+
+    if (!params[:du].blank? && !params[:au].blank?)
+      @disturbances = @disturbances.where("disturbances.created_at BETWEEN ? AND ?", params[:du], params[:au])
+    end
+
     respond_to do |format|
       format.html do 
         @disturbances = @disturbances.page(params[:page])
       end
 
       format.xls do
-        book = Disturbance.to_xls(@disturbances)
+        book = DisturbancesToXls.new(@disturbances, (params[:with_payload] == 'true')).call
         file_contents = StringIO.new
         book.write file_contents 
         filename = 'perturbations.xls'
@@ -81,7 +106,11 @@ class DisturbancesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def disturbance_params
       params.require(:disturbance)
-            .permit(:origine, :date, :train, :départ, :destination, :voie, :raison, :information,
+            .permit(:origine, :date, :train, :départ, :destination, :voie, :perturbation, :information,
                     :départ_prévu, :départ_réel, :provenance, :arrivée, :arrivée_prévue, :arrivée_réelle)
+    end
+
+    def is_user_authorized
+      authorize Disturbance
     end
 end

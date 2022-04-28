@@ -1,0 +1,28 @@
+<div id="<%= dom_id source %>">
+
+  <p class="my-5">
+    <strong class="block mb-1">Gare:</strong>
+    <%= source.gare %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Sens:</strong>
+    <%= source.sens %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Url:</strong>
+    <%= link_to source.url, source.url %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Collectée le:</strong>
+    <%= source.collected_at %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Voir cette source", source, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Éditer cette source', edit_source_path(source), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

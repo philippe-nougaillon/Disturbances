@@ -1,0 +1,41 @@
+<h1 class="title is-2">
+  <i class="fas fa-search"></i>
+  Audit trail
+</h1>
+
+<%= form_with(url: audits_path, method: :get) do | f | %>
+  <div class="columns">
+    <div class="column"><%= f.date_field :date, value: params[:date], onchange: "this.form.submit()" %></div>
+    <div class="column"><%= f.select :user_id, options_from_collection_for_select(@users, 'id', 'email', params[:user_id]), { include_blank: true, label: "Utilisateur" }, { onchange: "this.form.submit()" } %></div>
+    <div class="column"><%= f.select :type, options_for_select(@types, params[:type]), { include_blank: true, label: "Type" }, { onchange: "this.form.submit()" } %></div>
+    <div class="column"><%= f.select :audit_action, options_for_select(@actions, params[:audit_action]), { include_blank: true, label: "Action" }, {  onchange: "this.form.submit()" } %></div>
+  </div>
+<% end %>
+<br>
+
+<div class="table-container">
+  <table class="table is-hoverable is-striped is-fullwidth is-narrow">
+    <thead>
+      <tr>
+        <th>DateTime</th>
+        <th>Il y a</th>
+        <th>Utilisateur</th>
+        <th>Type</th>
+        <th>Id</th>
+        <th>Action</th>
+        <th>Changements</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= render partial: 'audit', collection: @audits.includes(:user) %>
+    </tbody>
+
+    <tfoot>
+      <tr><th colspan=7></th></tr>
+    </tfoot>
+  </table>
+</div>
+
+<%= page_entries_info @audits, entry_name: 'audit' %>
+<%= paginate @audits %>

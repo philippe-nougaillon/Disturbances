@@ -1,10 +1,8 @@
-<h1>Editer perturbation</h1>
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Éditer une disturbance</h1>
 
-<%= render "form", disturbance: @disturbance %>
+  <%= render "form", disturbance: @disturbance %>
 
-<br>
-
-<div>
-  <%= link_to "Voir cette perturbation", @disturbance %> |
-  <%= link_to "Retour aux perturbations", disturbances_path %>
+  <%= link_to "Voir cette disturbance", @disturbance, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= link_to "Retour aux disturbances", root_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

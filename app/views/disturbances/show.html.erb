@@ -1,16 +1,101 @@
-<p style="color: green"><%= notice %></p>
+<div class="mx-auto md:w-2/3 w-full">
+  <div class="mx-auto">
+    <div id="<%= dom_id @disturbance %>" class="grid grid-flow-col-dense grid-cols-3 grid-rows-3">
 
-<%= render @disturbance %>
+      <p class="my-5">
+        <strong class="block mb-1">Id:</strong>
+        <%= @disturbance.id %>
+      </p>
 
-<div>
-  <%= link_to "Editer cette perturbation", edit_disturbance_path(@disturbance) %> |
-  <%= link_to "Retour aux perturbations", disturbances_path %>
-  <br><br>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Origine:</strong>
+        <%= @disturbance.origine %>
+      </p>
 
-<%
-=begin%>
-   
-  <%= button_to "Détruire cette perturbation", @disturbance, method: :delete %> 
-<%
-=end%>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Train:</strong>
+        <%= @disturbance.train %>
+      </p>
+
+      <% if @disturbance.sens == 'Départ' %>
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Destination:</strong>
+          <%= @disturbance.destination %>
+        </p>
+
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Départ Prévu:</strong>
+          <%= @disturbance.départ_prévu %>
+        </p>
+
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Départ Réel:</strong>
+          <%= @disturbance.départ_réel %>
+        </p>
+
+      <% else %>
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Provenance:</strong>
+          <%= @disturbance.provenance %>
+        </p>
+
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Arrivée Prévue:</strong>
+          <%= @disturbance.arrivée_prévue %>
+        </p>
+
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Arrivée Réelle:</strong>
+          <%= @disturbance.arrivée_réelle %>
+        </p>
+      <% end %>
+
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Voie:</strong>
+        <%= @disturbance.voie %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Perturbation:</strong>
+        <span style="<%= @disturbance.perturbation_style%>">
+          <%= @disturbance.perturbation %>
+        </span>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Information:</strong>
+        <%= @disturbance.information %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Gare Id:</strong>
+        <%= "(#{ @disturbance.gare_id })" if @disturbance.gare_id %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Source Id:</strong>
+        <%= link_to @disturbance.source_id, source_path(@disturbance.source_id) %>
+      </p>
+
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Créée le:</strong>
+        <%= @disturbance.created_at %>
+      </p>
+
+    </div>
+
+    <% if policy(@disturbance).edit? %>
+      <%= link_to 'Éditer cette disturbance', edit_disturbance_path(@disturbance), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+    <%= link_to 'Retour aux disturbances', root_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium mb-4" %>
+
+    <% if @disturbance.information_payload %>
+      <small>
+        <pre class="mockup-code bg-primary text-primary-content">
+          <%= JSON.pretty_generate(@disturbance.information_payload) %>
+        </pre>
+      </small>
+    <% end %>
+  </div>
+  <br>
 </div>

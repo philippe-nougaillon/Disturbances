@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  h1{
+    @apply text-4xl mb-4
+  }
+  h2{
+    @apply text-3xl mb-3
+  }
+  a{
+    @apply underline 
+  }
+  #connexion{
+    @apply p-8 border-2 rounded-xl
+  }
+  .field{
+    @apply mb-4
+  }
+  .field input{
+    @apply rounded
+  }
+
+  .button{
+    @apply rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer
+  }
+
+  th span{
+    @apply italic
+  }
+  th span:first-child{
+    @apply font-black not-italic
+  }
+
+  /* //// PAGINATION //// */
+
+  .prev, .next, .page, .last, .first{
+    @apply ml-2 rounded-lg py-1 px-2 bg-gray-100 inline-block font-medium hover:bg-sky-400
+  }
+
+  .current{
+    @apply font-black
+  }
+
+  /* //PAGINATION */
+}
