@@ -7,9 +7,9 @@
     <% if disturbance = source.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first %>
       <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
         <div class="collapse-title text-xl font-medium">
-            <span style="<%= disturbance.perturbation_style%>">
-              <%= source.gare %>
-            </span>
+          <span style="<%= disturbance.perturbation_style%>">
+            <%= source.sens_et_gare %>
+          </span>
         </div>
         <div class="collapse-content">
           <p>
@@ -32,6 +32,14 @@
           <% end %>
           <br>
           <i>Enregistré <%= time_tag disturbance.created_at, "data-local": "time-ago" %></i>
+        </div>
+      </div>
+    <% else %>
+      <div tabindex="0" class="border border-base-300 rounded-box">
+        <div class="collapse-title text-xl font-medium">
+          <span style="color: forestgreen;">
+            <%= source.sens_et_gare %>
+          </span>
         </div>
       </div>
     <% end %>
