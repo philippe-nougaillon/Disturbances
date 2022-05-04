@@ -44,10 +44,10 @@
       </div>
 
       <div class="mr-4">
-        <%= label_tag :du, "Du", class: "label" %>
+        <%= label_tag :du, "Enregistrée du", class: "label" %>
         <%= text_field_tag :du,
                             params[:du],
-                            type: "datetime-local",
+                            type: "date",
                             class: 'input input-sm input-bordered w-full max-w-xs', 
                             onchange: 'this.form.submit()' %>
       </div>
@@ -56,14 +56,12 @@
         <%= label_tag :au, "Au", class: "label" %>
         <%= text_field_tag :au,
                             params[:au],
-                            type: "datetime-local",
+                            type: "date",
                             class: 'input input-sm input-bordered w-full max-w-xs', 
                             onchange: 'this.form.submit()' %>
       </div>
     </div>
   <% end %>
-  <%= @train1 %>
-  <%= @train2 %>
 
   <div id="disturbances" class="my-4 overflow-x-auto">
     <table class="table table-zebra w-full">
@@ -75,7 +73,6 @@
           <th>Destination/Provenance</th>
           <th>Prévu</th>
           <th>Réel</th>
-          <th>Voie</th>
           <th>Perturbation</th>
           <th>Information</th>
           <th>Enregistrée</th>
