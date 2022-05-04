@@ -75,10 +75,13 @@ private
                     provenance = content.split('Provenance').last.split('Mode').first
                 end
         
+                # Supprimer les informations parasites
                 voie = content.split('Voie').last.split('-').first
                 voie = voie.split('Retard').first if voie.include?('Retard')
                 voie = voie.split('Modifié').first if voie.include?('Modifié')
-        
+                voie = voie.split('Arrêts supplémentaires').first if voie.include?('Arrêts supplémentaires')
+                voie = voie.split('Information').first if voie.include?('Information')
+                
                 raison = content.split('-').last
                 if raison.include?('Information')
                     raison = raison.gsub('Information','')

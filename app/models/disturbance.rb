@@ -39,5 +39,5 @@ class Disturbance < ApplicationRecord
 
     default_scope { order('disturbances.created_at DESC') }
 
-    paginates_per 10
+    paginates_per 20
 end
