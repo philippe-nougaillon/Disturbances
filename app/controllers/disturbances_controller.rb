@@ -27,7 +27,7 @@ class DisturbancesController < ApplicationController
     end
 
     if (!params[:du].blank? && !params[:au].blank?)
-      @disturbances = @disturbances.where("disturbances.created_at BETWEEN ? AND ?", params[:du], params[:au])
+      @disturbances = @disturbances.where("DATE(disturbances.created_at) BETWEEN ? AND ?", params[:du], params[:au])
     end
 
     respond_to do |format|
