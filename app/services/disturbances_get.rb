@@ -1,5 +1,6 @@
 class DisturbancesGet < ApplicationService
     attr_reader :source_id
+    private :source_id
 
     def initialize(source_id)
         @source = Source.find(source_id)

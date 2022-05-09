@@ -1,6 +1,7 @@
 class DisturbancesToXls < ApplicationService
     require 'spreadsheet'    
     attr_reader :disturbances, :with_payload
+    private :disturbances, :with_payload
 
     def initialize(disturbances, with_payload)
       @perturbations = disturbances

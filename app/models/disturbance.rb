@@ -35,9 +35,11 @@
 #  fk_rails_...  (source_id => sources.id)
 #
 class Disturbance < ApplicationRecord
+
     belongs_to :source
 
     default_scope { order('disturbances.created_at DESC') }
 
     paginates_per 20
+
 end
