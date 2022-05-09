@@ -11,7 +11,13 @@
 #  updated_at   :datetime         not null
 #
 class Source < ApplicationRecord
+
   audited except: :collected_at
 
   has_many :disturbances
+
+  def last_disturbance
+    self.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first
+  end
+
 end
