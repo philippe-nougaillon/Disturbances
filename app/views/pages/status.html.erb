@@ -14,7 +14,11 @@
       <% if disturbance %>
         <div class="collapse-content">
           <p>
-            <%= disturbance.train %>
+            <% if disturbance.information %>
+              <b><%= disturbance.information %></b>
+              <br>
+            <% end %>
+            Train #<%= disturbance.train %>
             <% if disturbance.sens == 'Départ' %>
                 ->
                 <%= disturbance.destination %>
@@ -27,14 +31,10 @@
             <%= disturbance.perturbation %>
           </span>
           <br>
-          <% if disturbance.information %>
-            <%= disturbance.information %>
-            <br>
-          <% end %>
-          <br>
           <i>Enregistré <%= time_tag disturbance.created_at, "data-local": "time-ago" %></i>
         </div>
       <% end %>
     </div>
   <% end %>
+  <br>
 </div>
