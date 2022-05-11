@@ -16,6 +16,8 @@ class Source < ApplicationRecord
 
   has_many :disturbances
 
+  default_scope { order(:gare, 'sources.sens DESC') }
+
   def last_disturbance
     self.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first
   end
