@@ -38,6 +38,6 @@ class User < ApplicationRecord
          :trackable
 
 
-  default_scope { order(:nom, :email) }
+  default_scope { order(:admin, :nom) }
   
 end
