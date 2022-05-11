@@ -4,7 +4,7 @@
 
     <%= link_to 'Éditer cette source', edit_source_path(@source), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
-      <%= button_to 'Détruire cette source', source_path(@source), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <%= button_to 'Détruire cette source', source_path(@source), method: :delete, class: "mt-2 rounded-lg py-3 px-5 font-medium" %>
     </div>
     <%= link_to 'Retour aux sources', sources_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
