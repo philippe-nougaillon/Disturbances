@@ -7,5 +7,13 @@ module SourceDecorator
         else
             "<- #{ self.gare }"
         end
-    end        
+    end    
+
+    def gare_et_sens
+        if self.sens == 'Départ'
+            "#{ self.gare } ->"
+        else
+            "#{ self.gare } <-"
+        end
+    end      
 end

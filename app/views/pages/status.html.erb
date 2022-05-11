@@ -3,13 +3,13 @@
     <h1 class="font-bold text-4xl">Gares en direct</h1>
   </div>
 
-  <% @gares.each do |gare| %>
-    <% @sources.where(gare: gare).each_with_index do |source, index| %>
+  <% @gares.each do |nom_gare| %>
+    <% @sources.where(gare: nom_gare).each_with_index do |source, index| %>
       <% if disturbance = source.last_disturbance %>
         <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
-          <div class="collapse-title text-xl font-medium">
+          <div class="collapse-title text-xl">
             <span style="<%= disturbance.perturbation_style %>">
-              <%= source.sens_et_gare %>
+              <%= source.gare_et_sens %>
             </span>
           </div>
             <div class="collapse-content">
@@ -36,8 +36,8 @@
         </div>
       <% else %>
         <% if index == 0 %>
-          <div tabindex="0" class="border border-base-300 rounded-box">
-            <div class="collapse-title text-xl font-medium">
+          <div tabindex="0" class="border border-base-200 rounded-box">
+            <div class="collapse-title text-xl">
               <span style="color: forestgreen;">
                 <%= source.gare %>
               </span>
