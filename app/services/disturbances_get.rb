@@ -7,10 +7,13 @@ class DisturbancesGet < ApplicationService
     end
 
     def call
-        puts "scraping #{@source.gare}..."
+        puts "scraping #{@source.gare} (#{@source.sens})..."
+
         scraping
-        puts "scraping #{@source.gare}... Done."
-        # marquer la source comme 'traitée'
+
+        puts "scraping #{@source.gare} (#{@source.sens})... Done."
+
+        # Marquer la source comme 'traitée'
         @source.update_columns(collected_at: DateTime.now)
     end
 
