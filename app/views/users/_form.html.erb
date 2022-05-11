@@ -27,7 +27,7 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :admin %>
+    <%= form.label :admin, 'Administrateur ?' %>
     <%= form.check_box :admin, class: "block mt-2 h-5 w-5" %>
   </div>
 
@@ -43,6 +43,6 @@
   <% end %>
 
   <div class="inline">
-    <%= form.submit "Enregistrer cet utilisateur", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit "Enregistrer", class: "btn rounded-md py-3 px-5" %>
   </div>
 <% end %>

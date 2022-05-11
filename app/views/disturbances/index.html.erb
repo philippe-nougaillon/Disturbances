@@ -95,11 +95,6 @@
     <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
     |
     <%= link_to 'Export XLS+JSON', url_for(params.permit!.merge(format: :xls, with_payload: true)) %>
-    |
-    Source :
-    <%= link_to 'm.ter.sncf.com',
-                'https://m.ter.sncf.com/grand-est/se-deplacer/prochains-departs/strasbourg-87212027',
-                target: '_blank' %>
   </p>
 </div>
 
