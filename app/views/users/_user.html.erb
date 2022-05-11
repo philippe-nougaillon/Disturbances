@@ -1,22 +1,20 @@
 <div id="<%= dom_id user %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Nom:</strong>
+  <p class="my-5 text-xl">
     <%= user.nom %>
   </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Prénom:</strong>
+  <p class="my-5 text-xl">
     <%= user.prénom %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Email:</strong>
+    <strong class="font-medium mb-1">Email : </strong>
     <%= user.email %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Admin:</strong>
-    <%= user.admin %>
+    <strong class="font-medium mb-1">Administrateur : </strong>
+    <%= t user.admin %>
   </p>
 
   <% if action_name != "show" %>

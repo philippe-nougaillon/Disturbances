@@ -422,3 +422,5 @@ fr:
   fait: 'Fait'
   nom: 'Nom'
   fonction: 'Fonction'
+  true: Oui
+  false: Non
