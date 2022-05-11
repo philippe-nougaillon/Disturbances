@@ -4,7 +4,7 @@ class SourcesController < ApplicationController
 
   # GET /sources or /sources.json
   def index
-    @sources = Source.all
+    @sources = Source.order(:gare, 'sources.sens DESC')
   end
 
   # GET /sources/1 or /sources/1.json
