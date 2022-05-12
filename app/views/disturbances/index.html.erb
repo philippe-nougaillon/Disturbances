@@ -8,6 +8,24 @@
     <div class="flex flex-wrap xl:flex-nowrap">
 
       <div class="mr-4">
+        <%= label_tag :du, "Du", class: "label" %>
+        <%= text_field_tag :du,
+                            params[:du],
+                            type: "date",
+                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="mr-4">
+        <%= label_tag :au, "Au", class: "label" %>
+        <%= text_field_tag :au,
+                            params[:au],
+                            type: "date",
+                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="mr-4">
         <%= label_tag :gare, "Gare", class: "label" %>
         <%= select_tag :gare,
                         options_for_select(@gares, params[:gare]), 
@@ -34,7 +52,7 @@
                         onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="mr-4">
+      <div>
         <%= label_tag :information, "Information", class: "label" %>
         <%= select_tag :information, 
                         options_for_select(@informations, params[:information]), 
@@ -43,23 +61,6 @@
                         onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="mr-4">
-        <%= label_tag :du, "Enregistrée du", class: "label" %>
-        <%= text_field_tag :du,
-                            params[:du],
-                            type: "date",
-                            class: 'input input-sm input-bordered w-full max-w-xs', 
-                            onchange: 'this.form.submit()' %>
-      </div>
-
-      <div>
-        <%= label_tag :au, "Au", class: "label" %>
-        <%= text_field_tag :au,
-                            params[:au],
-                            type: "date",
-                            class: 'input input-sm input-bordered w-full max-w-xs', 
-                            onchange: 'this.form.submit()' %>
-      </div>
     </div>
   <% end %>
 
@@ -67,7 +68,7 @@
     <table class="table table-zebra w-full">
       <thead>
         <tr>
-          <th>Id</th>
+          <th>Date</th>
           <th>Gare</th>
           <th>Train</th>
           <th>Destination/Provenance</th>
@@ -75,7 +76,7 @@
           <th>Réel</th>
           <th>Perturbation</th>
           <th>Information</th>
-          <th>Enregistrée</th>
+          <th>ID</th>
         </tr>
       </thead>
       <tbody>
