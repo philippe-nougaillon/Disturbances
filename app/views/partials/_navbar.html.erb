@@ -20,6 +20,7 @@
             <% if current_user.admin? %>
               <li><%= link_to "Sources", sources_path %></li>
               <li><%= link_to "Utilisateurs", users_path %></li>
+              <li><%= link_to "Audit trail", audits_path %></li>
             <% end %>
             <hr>
             <li><%= button_to "Déconnexion", destroy_user_session_path, method: :delete %></li>
