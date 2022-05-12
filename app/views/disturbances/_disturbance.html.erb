@@ -2,7 +2,7 @@
   <div id="<%= dom_id disturbance %>">
     <th class="font-normal">
       <p>
-        <%= disturbance.id %>
+        <%= link_to_if policy(disturbance).show?, disturbance.id, disturbance_path(disturbance) %>
       </p>
     </th>
 
@@ -76,12 +76,6 @@
         <p>
           <%= time_tag disturbance.created_at, "data-local": "time-ago" %>
         </p>
-      </td>
-
-      <td>
-        <% if policy(disturbance).show? %>
-          <%= link_to 'Voir', disturbance_path(disturbance), class: "btn btn-ghost btn-xs" %>
-        <% end %>
       </td>
     </td>
   </div>

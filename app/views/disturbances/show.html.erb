@@ -3,28 +3,28 @@
     <div id="<%= dom_id @disturbance %>" class="grid grid-flow-col-dense grid-cols-3 grid-rows-3">
 
       <p class="my-5">
-        <strong class="block mb-1">Id:</strong>
+        <strong class="block mb-1">ID</strong>
         <%= @disturbance.id %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Origine:</strong>
+        <strong class="block font-medium mb-1">Origine</strong>
         <%= @disturbance.origine %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Train:</strong>
+        <strong class="block font-medium mb-1">Train</strong>
         <%= @disturbance.train %>
       </p>
 
       <% if @disturbance.sens == 'Départ' %>
         <p class="my-5">
-          <strong class="block font-medium mb-1">Destination:</strong>
+          <strong class="block font-medium mb-1">Destination</strong>
           <%= @disturbance.destination %>
         </p>
 
         <p class="my-5">
-          <strong class="block font-medium mb-1">Départ Prévu:</strong>
+          <strong class="block font-medium mb-1">Départ Prévu</strong>
           <%= @disturbance.départ_prévu %>
         </p>
 
@@ -35,50 +35,50 @@
 
       <% else %>
         <p class="my-5">
-          <strong class="block font-medium mb-1">Provenance:</strong>
+          <strong class="block font-medium mb-1">Provenance</strong>
           <%= @disturbance.provenance %>
         </p>
 
         <p class="my-5">
-          <strong class="block font-medium mb-1">Arrivée Prévue:</strong>
+          <strong class="block font-medium mb-1">Arrivée Prévue</strong>
           <%= @disturbance.arrivée_prévue %>
         </p>
 
         <p class="my-5">
-          <strong class="block font-medium mb-1">Arrivée Réelle:</strong>
+          <strong class="block font-medium mb-1">Arrivée Réelle</strong>
           <%= @disturbance.arrivée_réelle %>
         </p>
       <% end %>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Voie:</strong>
+        <strong class="block font-medium mb-1">Voie</strong>
         <%= @disturbance.voie %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Perturbation:</strong>
+        <strong class="block font-medium mb-1">Perturbation</strong>
         <span style="<%= @disturbance.perturbation_style%>">
           <%= @disturbance.perturbation %>
         </span>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Information:</strong>
+        <strong class="block font-medium mb-1">Information</strong>
         <%= @disturbance.information %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Gare Id:</strong>
+        <strong class="block font-medium mb-1">Gare ID</strong>
         <%= "(#{ @disturbance.gare_id })" if @disturbance.gare_id %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Source Id:</strong>
+        <strong class="block font-medium mb-1">Source Id</strong>
         <%= link_to @disturbance.source_id, source_path(@disturbance.source_id) %>
       </p>
 
       <p class="my-5">
-        <strong class="block font-medium mb-1">Créée le:</strong>
+        <strong class="block font-medium mb-1">Créée le</strong>
         <%= @disturbance.created_at %>
       </p>
 
@@ -91,7 +91,7 @@
 
     <% if @disturbance.information_payload %>
       <small>
-        <pre class="mockup-code bg-primary text-primary-content">
+        <pre class="mockup-code">
           <%= JSON.pretty_generate(@disturbance.information_payload) %>
         </pre>
       </small>

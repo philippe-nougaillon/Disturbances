@@ -14,7 +14,7 @@
                           onchange: "this.form.submit()" %>
       </div>
       <div class="mr-4">
-        <%= label_tag :user_id, "User", class: "label" %>
+        <%= label_tag :user_id, "Utilisateur", class: "label" %>
         <%= f.select :user_id, 
                       options_from_collection_for_select(@users, 'id', 'email', params[:user_id]),
                       { include_blank: true, label: "Utilisateur" },
@@ -45,7 +45,7 @@
     <table class="table table-zebra w-full table-compact">
       <thead>
         <tr>
-          <th>DateTime</th>
+          <th>Date</th>
           <th>Il y a</th>
           <th>Utilisateur</th>
           <th>Type</th>
