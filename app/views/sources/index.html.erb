@@ -1,10 +1,13 @@
 <div class="mx-auto md:w-2/3 mt-8">
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Sources</h1>
-    <%= link_to '+Source', new_source_path, class: "btn btn-sm btn-outline btn-primary" %>
+    <%= link_to '+ Source', new_source_path, class: "btn btn-sm btn-outline btn-primary" %>
   </div>
 
   <div id="sources">
     <%= render @sources %>
   </div>
+
+  <%= page_entries_info @sources, entry_name: 'Source' %>
+
 </div>

@@ -39,5 +39,6 @@ class User < ApplicationRecord
 
 
   default_scope { order(:admin, :nom) }
+  paginates_per 100
   
 end
