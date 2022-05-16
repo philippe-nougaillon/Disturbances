@@ -25,7 +25,7 @@ class AuditsController < ApplicationController
       @audits = @audits.where(user_id: params[:user_id])
     end
 
-    @audits = @audits.page(params[:page])
+    @audits = @audits.page(params[:page]).per(20)
   end
 
   private

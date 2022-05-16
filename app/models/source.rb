@@ -17,6 +17,7 @@ class Source < ApplicationRecord
   has_many :disturbances
 
   default_scope { order(:gare, 'sources.sens DESC') }
+  paginates_per 100
 
   def last_disturbance
     self.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first
