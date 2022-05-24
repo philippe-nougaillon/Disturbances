@@ -20,7 +20,7 @@ class DisturbancesGet < ApplicationService
 private
 
     def scraping
-        unparsed_html = HTTParty.get(@source.url)
+        unparsed_html = HTTParty.get(@source.url, timeout: 10)
         page ||= Nokogiri::HTML(unparsed_html.body)
         disturbances = page.css('div.disturbanceNameRoot')
 
