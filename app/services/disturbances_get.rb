@@ -20,7 +20,7 @@ class DisturbancesGet < ApplicationService
 private
 
     def scraping
-        unparsed_html = HTTParty.get(@source.url)
+        unparsed_html = HTTParty.get(@source.url, timeout: 10)
         page ||= Nokogiri::HTML(unparsed_html.body)
         disturbances = page.css('div.disturbanceNameRoot')
 
@@ -115,6 +115,9 @@ private
                 # supprimer les parasites parfois collés à 'Supprimé'
                 raison = 'Supprimé' if raison.include?('Supprimé') && raison[0] != 'S'
 
+                # supprimer le premier charactère s'il est pas voulu
+                raison.slice!(0) if raison[1] == raison[1].upcase
+
                 # remplacer 'non disponible' par 'ND'
                 voie = voie.gsub('non disponible', 'ND') if voie.include?('non disponible')
                 
@@ -124,7 +127,7 @@ private
                     horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
                 else
                     horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée.split('h').first.to_i, arrivée.split('h').last.to_i, 0, "+01:00")
-                end  
+                end
                 
                 horaire = horaire.strftime("%Y-%m-%dT%I:%M")
                 réponse_informations = getInformation(train.to_i, horaire, gare_id)
@@ -132,7 +135,7 @@ private
                     events = réponse_informations[0]['events']
                     information = events[0]['description'] if events
                 end
-        
+
                 if false
                     puts '- ' * 70
                     puts "#{ @source.gare } (#{ gare_id }) #{ @source.sens }"
@@ -153,7 +156,7 @@ private
                     puts "Information: #{ information }"
                     puts réponse_informations
                 end
-        
+
                 begin
                     Disturbance.create!(date: Date.today, 
                                     sens: @source.sens, 
@@ -176,7 +179,7 @@ private
                     # puts '|--> Enregistrée dans la BDD !'
                 rescue
                     # puts '|--> Doublon! Pas enregistré.'  
-                end  
+                end
             end
         end
     end

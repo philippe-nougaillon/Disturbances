@@ -7,7 +7,7 @@ class DisturbancesController < ApplicationController
     @disturbances = Disturbance.all
     @gares = Gare.pluck(:origine)
     @trains = Train.pluck(:train)
-    @perturbations = Perturbation.pluck(:perturbation)
+    @perturbations = Disturbance.perturbations
     @informations = Info.pluck(:information)
 
     unless params[:gare].blank?
@@ -19,7 +19,8 @@ class DisturbancesController < ApplicationController
     end
 
     unless params[:perturbation].blank?
-      @disturbances = @disturbances.where("disturbances.perturbation = ?", params[:perturbation])
+      s = "%#{params[:perturbation]}%"
+      @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", s)
     end
 
     unless params[:information].blank?
