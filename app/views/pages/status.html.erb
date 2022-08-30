@@ -13,7 +13,7 @@
           <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
             <div class="collapse-title">
               <span style="<%= disturbance.perturbation_style %>">
-                <%= source.gare_et_sens %>
+                <%= source.gare_et_sens.upcase %>
               </span>
             </div>
             <div class="collapse-content">
@@ -43,7 +43,7 @@
             <div tabindex="0" class="border border-base-200 rounded-box">
               <div class="collapse-title">
                 <span style="color: forestgreen;">
-                  <%= source.gare %>
+                  <%= source.gare.upcase %>
                 </span>
               </div>
             </div>
