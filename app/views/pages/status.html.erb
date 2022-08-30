@@ -6,15 +6,16 @@
     </h1>
   </div>
 
-  <% @gares.each do |nom_gare| %>
-    <% @sources.where(gare: nom_gare).each_with_index do |source, index| %>
-      <% if disturbance = source.last_disturbance %>
-        <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
-          <div class="collapse-title text-xl">
-            <span style="<%= disturbance.perturbation_style %>">
-              <%= source.gare_et_sens %>
-            </span>
-          </div>
+  <div class="grid grid-cols-5 gap-2">
+    <% @gares.each do |nom_gare| %>
+      <% @sources.where(gare: nom_gare).each_with_index do |source, index| %>
+        <% if disturbance = source.last_disturbance %>
+          <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
+            <div class="collapse-title">
+              <span style="<%= disturbance.perturbation_style %>">
+                <%= source.gare_et_sens %>
+              </span>
+            </div>
             <div class="collapse-content">
               <p>
                 <% if disturbance.information %>
@@ -36,19 +37,20 @@
               <br>
               <i>Enregistré <%= time_tag disturbance.created_at, "data-local": "time-ago" %></i>
             </div>
-        </div>
-      <% else %>
-        <% if index == 0 %>
-          <div tabindex="0" class="border border-base-200 rounded-box">
-            <div class="collapse-title text-xl">
-              <span style="color: forestgreen;">
-                <%= source.gare %>
-              </span>
-            </div>
           </div>
+        <% else %>
+          <% if index == 0 %>
+            <div tabindex="0" class="border border-base-200 rounded-box">
+              <div class="collapse-title">
+                <span style="color: forestgreen;">
+                  <%= source.gare %>
+                </span>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
-  <% end %>
+  </div>
   <br>
 </div>
