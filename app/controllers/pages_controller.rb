@@ -11,14 +11,13 @@ class PagesController < ApplicationController
     @paginatable_cancelled = Kaminari.paginate_array(@cancelled).page(params[:page]).per(25)
 
     respond_to do |format|
-      format.html do 
-      end
+      format.html
 
       format.xls do
         book = CancelledToXls.new(@cancelled, (params[:with_payload] == 'true')).call
         file_contents = StringIO.new
         book.write file_contents
-        filename = 'perturbations.xls'
+        filename = 'suppressions.xls'
         send_data file_contents.string.force_encoding('binary'), filename: filename
       end
     end
