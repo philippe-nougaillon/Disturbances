@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def cancelled
-    @deleted = Disturbance.find_by_sql("SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' ORDER BY created_at DESC LIMIT 100")
+    @cancelled = Disturbance.find_by_sql("SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' ORDER BY date DESC LIMIT 100")
 
     respond_to do |format|
       format.html do 

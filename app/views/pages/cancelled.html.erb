@@ -23,58 +23,58 @@
         </tr>
       </thead>
       <tbody>
-        <% @deleted.each do |d| %>
-          <% disturbance = Disturbance.find_by(date: d.date, train: d.train) %>
+        <% @cancelled.each do |c| %>
+          <% cancelled = Disturbance.find_by(date: c.date, train: c.train) %>
           <tr class="hover">
             <th class="font-normal">
               <p>
-                <%= time_tag disturbance.created_at, "data-local": "time-ago" %>
+                <%= l cancelled.date.to_date %>
               </p>
             </th>
 
             <td>
               <p>
-                <%= disturbance.origine %>
+                <%= cancelled.origine %>
               </p>
             </td>
 
             <td>
               <p>
-                <%= disturbance.train %>
+                <%= cancelled.train %>
               </p>
             </td>
 
-              <% if disturbance.sens == 'Départ' %>
+              <% if cancelled.sens == 'Départ' %>
                 <td>
                   <p>
                     ->
-                    <%= disturbance.destination %>
+                    <%= cancelled.destination %>
                   </p>
                 </td>
 
                 <td>
                   <p>
-                    <%= disturbance.départ_prévu %>
+                    <%= cancelled.départ_prévu %>
                   </p>
                 </td>
               <% else %>
                 <td>
                   <p>
                     <-
-                    <%= disturbance.provenance %>
+                    <%= cancelled.provenance %>
                   </p>
                 </td>
 
                 <td>
                   <p>
-                    <%= disturbance.arrivée_prévue %>
+                    <%= cancelled.arrivée_prévue %>
                   </p>
                 </td>
               <% end %>
 
               <td>
                 <p>
-                  Supprimé : <%= disturbance.information %>
+                  Supprimé : <%= cancelled.information %>
                 </p>
               </td>
           </tr>
