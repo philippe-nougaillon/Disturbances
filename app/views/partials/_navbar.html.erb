@@ -1,8 +1,8 @@
-<div class="navbar bg-base-300 sm:px-0 lg:px-20">
-  <div class="flex-1">
-    <a class="normal-case">Disturbances</a>
-  </div>
+<div class="navbar bg-base-300 sm:px-0 lg:px-20 justify-around">
   <div class="navbar-start">
+    <a class="normal-case font-bold">DISTURBANCES</a>
+  </div>
+  <div class="navbar-center">
     <ul class="menu menu-horizontal p-0 sm:mr-3">
       <li>
           <%= link_to disturbances_path do %>
@@ -25,7 +25,7 @@
     </ul>
   </div>
   <% if user_signed_in? %>
-    <div class="navbar-end flex-none">
+    <div class="navbar-end">
       <ul class="menu menu-horizontal p-0 sm:mr-3">
         <div class="dropdown dropdown-end mt-2">
           <div tabindex="0" class="avatar online placeholder cursor-pointer">
@@ -67,12 +67,6 @@
   <% else %>
     <div class="navbar-end sm:mr-3">
       <ul class="menu menu-horizontal p-0">
-        <li class="whitespace-nowrap sm:mr-3">
-          <%= link_to status_path do %>
-            <i class="fa-solid fa-school-circle-exclamation"></i>
-            Gares en direct
-          <% end %>
-        </li>
         <div class="dropdown dropdown-end mt-2">
           <div tabindex="0" class="avatar offline placeholder cursor-pointer">
             <div class="bg-primary-focus text-neutral-content rounded-full w-8">
