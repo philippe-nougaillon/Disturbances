@@ -7,14 +7,15 @@ class PagesController < ApplicationController
   end
 
   def cancelled
-    @cancelled = Disturbance.find_by_sql("SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' ORDER BY date DESC LIMIT 100")
+    @cancelled = Disturbance.find_by_sql("SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' ORDER BY date DESC")
+    @paginatable_cancelled = Kaminari.paginate_array(@cancelled).page(params[:page]).per(25)
 
     respond_to do |format|
       format.html do 
       end
 
       format.xls do
-        book = CancelledToXls.new(@deleted, (params[:with_payload] == 'true')).call
+        book = CancelledToXls.new(@cancelled, (params[:with_payload] == 'true')).call
         file_contents = StringIO.new
         book.write file_contents
         filename = 'perturbations.xls'
