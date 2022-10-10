@@ -1,0 +1,92 @@
+<div class="w-full">
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl text-primary mt-1 mb-4">
+      <i class="fa-solid fa-circle-xmark"></i>
+      Suppressions de trains
+    </h1>
+  </div>
+
+  <%= form_tag disturbances_path, method: :get do %>
+  <% end %>
+
+  <div id="disturbances" class="my-4 overflow-x-auto">
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Gare</th>
+          <th>Train</th>
+          <th>Destination/Provenance</th>
+          <th>Prévu</th>
+          <th>Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @deleted.each do |d| %>
+          <% disturbance = Disturbance.find_by(date: d.date, train: d.train) %>
+          <tr class="hover">
+            <th class="font-normal">
+              <p>
+                <%= time_tag disturbance.created_at, "data-local": "time-ago" %>
+              </p>
+            </th>
+
+            <td>
+              <p>
+                <%= disturbance.origine %>
+              </p>
+            </td>
+
+            <td>
+              <p>
+                <%= disturbance.train %>
+              </p>
+            </td>
+
+              <% if disturbance.sens == 'Départ' %>
+                <td>
+                  <p>
+                    ->
+                    <%= disturbance.destination %>
+                  </p>
+                </td>
+
+                <td>
+                  <p>
+                    <%= disturbance.départ_prévu %>
+                  </p>
+                </td>
+              <% else %>
+                <td>
+                  <p>
+                    <-
+                    <%= disturbance.provenance %>
+                  </p>
+                </td>
+
+                <td>
+                  <p>
+                    <%= disturbance.arrivée_prévue %>
+                  </p>
+                </td>
+              <% end %>
+
+              <td>
+                <p>
+                  Supprimé : <%= disturbance.information %>
+                </p>
+              </td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <th colspan=9></th>
+      </tfoot>
+    </table>
+  </div>
+
+  <p class="mt-4">
+    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
+  </p>
+</div>

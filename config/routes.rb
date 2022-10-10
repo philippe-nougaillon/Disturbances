@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'status', to: 'pages#status', as: :status
+  get 'cancelled', to: 'pages#cancelled', as: :cancelled
   devise_for :users
 
   resources :users

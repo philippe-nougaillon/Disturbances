@@ -1,13 +1,19 @@
 <div class="navbar bg-base-300 sm:px-0 lg:px-20">
-  <div class="navbar-start">
+  <div class="flex-1">
+    <a class="normal-case">Disturbances</a>
   </div>
-  <% if user_signed_in? %>
-    <div class="navbar-end flex-none">
-      <ul class="menu menu-horizontal p-0 sm:mr-3">
-        <li>
-          <%= link_to root_path do %>
+  <div class="navbar-start">
+    <ul class="menu menu-horizontal p-0 sm:mr-3">
+      <li>
+          <%= link_to disturbances_path do %>
             <i class="fa-solid fa-triangle-exclamation"></i>
             Perturbations
+          <% end %>
+        </li>
+        <li>
+          <%= link_to cancelled_path do %>
+            <i class="fa-solid fa-circle-xmark"></i>
+            Suppressions
           <% end %>
         </li>
         <li class="whitespace-nowrap sm:mr-3">
@@ -16,6 +22,11 @@
             Gares en direct
           <% end %>
         </li>
+    </ul>
+  </div>
+  <% if user_signed_in? %>
+    <div class="navbar-end flex-none">
+      <ul class="menu menu-horizontal p-0 sm:mr-3">
         <div class="dropdown dropdown-end mt-2">
           <div tabindex="0" class="avatar online placeholder cursor-pointer">
             <div class="bg-primary-focus text-neutral-content rounded-full w-8">
