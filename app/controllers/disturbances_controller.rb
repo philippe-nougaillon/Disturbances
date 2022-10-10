@@ -11,7 +11,7 @@ class DisturbancesController < ApplicationController
     @informations = Info.pluck(:information)
 
     unless params[:gare].blank?
-      @disturbances = @disturbances.where("disturbances.origine = ?", params[:gare])
+      @disturbances = @disturbances.where("disturbances.origine = :search OR disturbances.destination = :search OR disturbances.provenance = :search", { search: params[:gare] })
     end
 
     unless params[:train].blank?
