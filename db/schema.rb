@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_11_082120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -113,5 +113,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
      FROM disturbances
     WHERE (disturbances.information IS NOT NULL)
     ORDER BY disturbances.information;
+  SQL
+  create_view "cancelleds", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.date,
+      disturbances.train
+     FROM disturbances
+    WHERE ((disturbances.perturbation)::text = 'Supprimé'::text)
+    ORDER BY disturbances.date DESC;
   SQL
 end
