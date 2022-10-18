@@ -1,7 +1,7 @@
 <div class="w-full">
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl text-primary mt-1 mb-4">
+    <h1 class="font-bold text-4xl text-error mt-1 mb-4">
       <i class="fa-solid fa-circle-xmark"></i>
       Liste des trains supprimés
     </h1>
@@ -23,18 +23,36 @@
         </tr>
       </thead>
       <tbody>
-        <%= current_date ="" %>
+        <% current_date = "" %>
+        <% count = 0 %>
+
         <% @paginatable_cancelled.each do |c| %>
           <% cancelled = Disturbance.find_by(date: c.date, train: c.train) %>
+
           <% if cancelled.date != current_date %>
             <% current_date = cancelled.date %>
-            <tr class="hover">
+
+            <% if count > 0 %>
+              <tr>
+                <th class="font-normal" colspan="6">
+                  <p>
+                    <%= count %>
+                  </p>
+                </th>
+              </tr>
+            <% end %>
+            <% count = 0 %>
+
+            <tr>
               <th colspan="6">
                 <p>
                   <%= l cancelled.date.to_date, format: :long %>
                 </p>
               </th>
+            </tr>
           <% end %>
+
+          <% count += 1  %>
 
           <tr class="hover">
             <th>
