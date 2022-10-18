@@ -7,10 +7,21 @@
     </h1>
   </div>
 
-  <%= form_tag disturbances_path, method: :get do %>
+  <%= form_tag cancelled_path, method: :get do %>
+    <div class="flex flex-wrap xl:flex-nowrap">
+
+      <div class="mr-4">
+        <%= label_tag :date, "Date", class: "label" %>
+        <%= text_field_tag :date,
+                            params[:date],
+                            type: "date",
+                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+    </div>
   <% end %>
 
-  <div id="disturbances" class="my-4 overflow-x-auto">
+  <div id="cancelled" class="my-4 overflow-x-auto">
     <table class="table table-zebra table-compact w-full">
       <thead>
         <tr>
@@ -44,7 +55,7 @@
             <tr>
               <th colspan="6">
                 <p>
-                  <%= l cancelled.date.to_date, format: :long %>
+                  <%= link_to l(cancelled.date.to_date, format: :long), cancelled_path(date: cancelled.date) %>
                 </p>
               </th>
             </tr>

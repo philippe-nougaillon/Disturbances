@@ -7,7 +7,13 @@ class PagesController < ApplicationController
   end
 
   def cancelled
-    @cancelled = Disturbance.find_by_sql("SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' ORDER BY date DESC")
+    query = "SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' "
+    
+    unless params[:date].blank?
+      query = query + " AND date = '#{ params[:date] }'" 
+    end
+
+    @cancelled = Disturbance.find_by_sql(query + ' ORDER BY date DESC')    
     @paginatable_cancelled = Kaminari.paginate_array(@cancelled).page(params[:page]).per(100)
 
     respond_to do |format|
