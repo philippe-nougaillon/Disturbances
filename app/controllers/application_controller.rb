@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   private
 
     def set_layout_variables
-      @sitename = "Disturbances v2.2"
+      @sitename = "Disturbances v2.3"
       @sitename_short = "Disturbances"
       @themes = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
     end
