@@ -55,7 +55,7 @@
             <tr>
               <th colspan="6">
                 <p>
-                  <%= link_to l(cancelled.date.to_date, format: :long), cancelled_path(date: cancelled.date) %>
+                  <%= link_to l(cancelled.date.to_date, format: :long), cancelled_path(date: cancelled.date), class: 'link' %>
                 </p>
               </th>
             </tr>
@@ -116,8 +116,15 @@
           </tr>
         <% end %>
       </tbody>
-      <tfoot>
-        <th colspan=9></th>
+      <tfoot class="font-normal">
+        <tr>
+          <td colspan=2></td>
+          <td>
+            <%= "#{count}" %>
+            <%= "+ ..." unless params[:page].to_i == @paginatable_cancelled.total_pages %>
+          </td>
+          <td colspan=3></td>
+        </tr>
       </tfoot>
     </table>
   </div>
