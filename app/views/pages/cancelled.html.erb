@@ -121,7 +121,7 @@
           <td colspan=2></td>
           <td>
             <%= "#{count}" %>
-            <%= "+ ..." unless params[:page].to_i == @paginatable_cancelled.total_pages %>
+            <%= "+ ..." unless params[:date] || (params[:page].to_i == @paginatable_cancelled.total_pages) %>
           </td>
           <td colspan=3></td>
         </tr>
