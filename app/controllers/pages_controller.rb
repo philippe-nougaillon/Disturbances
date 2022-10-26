@@ -28,4 +28,17 @@ class PagesController < ApplicationController
       end
     end
   end
+
+  def stats
+    @cancelled = Disturbance
+                .where(perturbation: "Supprimé")
+                .group(:date, :train)
+                .reorder(nil)
+                .count(:id)
+                .keys
+                .map{|key| key.first}
+                .tally
+    # @cancelled_date = @cancelled.select(:id)pluck(:date).uniq.reorder(:date)
+    # @cancelled_count = @cancelled.select(:id).group(:date).reorder(nil).count(:id).values
+  end
 end

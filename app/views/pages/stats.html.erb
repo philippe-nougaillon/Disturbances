@@ -1,0 +1,36 @@
+<div class="shadow-lg rounded-lg overflow-hidden">
+  <div class="py-3 px-5 text-center text-2xl">Évolution du nombre de trains supprimés</div>
+  <canvas class="p-10" id="chartLine"></canvas>
+</div>
+
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart line -->
+<script>
+  const cancelled = <%= @cancelled.to_json.html_safe %>
+  console.log(cancelled)
+  // const dates = cancelled.map(e => e.date).filter((value, index, self) => self.indexOf(value) === index)
+  const data = {
+    labels: <%= @cancelled.keys.to_json.html_safe %>,
+    datasets: [
+      {
+        label: "trains supprimés",
+        backgroundColor: "hsl(252, 82.9%, 67.8%)",
+        borderColor: "hsl(252, 82.9%, 67.8%)",
+        data: <%= @cancelled.values.to_json.html_safe %>,
+      },
+    ],
+  };
+
+  const configLineChart = {
+    type: "line",
+    data,
+    options: {},
+  };
+
+  var chartLine = new Chart(
+    document.getElementById("chartLine"),
+    configLineChart
+  );
+</script>

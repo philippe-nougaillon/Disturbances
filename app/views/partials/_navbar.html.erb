@@ -22,6 +22,12 @@
             Gares en direct
           <% end %>
         </li>
+        <li>
+          <%= link_to stats_path do %>
+            <i class="fa-solid fa-chart-simple"></i>
+            Statistiques
+          <% end %>
+        </li>
     </ul>
   </div>
   <% if user_signed_in? %>
