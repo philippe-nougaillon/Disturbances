@@ -36,6 +36,7 @@ class PagesController < ApplicationController
                 .reorder(nil)
                 .count(:id)
                 .keys
+                .sort
                 .map{|key| key.first}
                 .tally
     # @cancelled_date = @cancelled.select(:id)pluck(:date).uniq.reorder(:date)
