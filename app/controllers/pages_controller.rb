@@ -57,7 +57,7 @@ class PagesController < ApplicationController
       @disturbances = @disturbances.where("DATE(disturbances.created_at) BETWEEN ? AND ?", Date.today - params[:periode].to_i.days, Date.today)
     end
 
-    @cancelled = @disturbances
+    @disturbances = @disturbances
                 .group(:date, :train)
                 .reorder(nil)
                 .count(:id)
@@ -65,7 +65,5 @@ class PagesController < ApplicationController
                 .sort
                 .map{|key| key.first}
                 .tally
-    # @cancelled_date = @cancelled.select(:id)pluck(:date).uniq.reorder(:date)
-    # @cancelled_count = @cancelled.select(:id).group(:date).reorder(nil).count(:id).values
   end
 end
