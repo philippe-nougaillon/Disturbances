@@ -1,33 +1,18 @@
-<div class="navbar bg-base-300 sm:px-0 lg:px-20 justify-around">
+<div class="navbar bg-base-100">
   <div class="navbar-start">
-    <a class="normal-case font-bold"><%= @sitename_short %></a>
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:!hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+      </label>
+      <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+        <%= render partial:'partials/navbar_items' %>
+      </ul>
+    </div>
+    <a class="normal-case font-bold ml-3"><%= @sitename_short %></a>
   </div>
-  <div class="navbar-center">
-    <ul class="menu menu-horizontal p-0 sm:mr-3">
-      <li>
-          <%= link_to disturbances_path do %>
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            Perturbations
-          <% end %>
-        </li>
-        <li>
-          <%= link_to cancelled_path do %>
-            <i class="fa-solid fa-circle-xmark"></i>
-            Suppressions
-          <% end %>
-        </li>
-        <li class="whitespace-nowrap sm:mr-3">
-          <%= link_to status_path do %>
-            <i class="fa-solid fa-school-circle-exclamation"></i>
-            Gares en direct
-          <% end %>
-        </li>
-        <li>
-          <%= link_to stats_path, 'data-turbo': false do %>
-            <i class="fa-solid fa-chart-simple"></i>
-            Statistiques
-          <% end %>
-        </li>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal p-0">
+      <%= render partial:'partials/navbar_items' %>
     </ul>
   </div>
   <% if user_signed_in? %>
