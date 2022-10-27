@@ -4,8 +4,13 @@ class DisturbancesController < ApplicationController
 
   # GET /disturbances or /disturbances.json
   def index
-    @disturbances = Disturbance.all
-    @gares = Gare.pluck(:origine)
+    if current_user.sources.any?
+      @gares = current_user.sources.pluck(:gare)
+      @disturbances = Disturbance.where(source_id: current_user.sources.pluck(:id))
+    else
+      @gares = Gare.pluck(:origine)
+      @disturbances = Disturbance.all
+    end
     @trains = Train.pluck(:train)
     @perturbations = Disturbance.perturbations
     @informations = Info.pluck(:information)

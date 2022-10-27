@@ -16,6 +16,8 @@ class Source < ApplicationRecord
 
   has_many :disturbances
 
+  has_and_belongs_to_many :users
+  
   default_scope { order(:gare, 'sources.sens DESC') }
   paginates_per 100
 
