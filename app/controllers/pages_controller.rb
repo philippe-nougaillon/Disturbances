@@ -30,8 +30,34 @@ class PagesController < ApplicationController
   end
 
   def stats
-    @cancelled = Disturbance
-                .where(perturbation: "Supprimé")
+    @disturbances = Disturbance.all
+    @gares = Gare.pluck(:origine)
+    @trains = Train.pluck(:train)
+    @perturbations = Disturbance.perturbations
+    @informations = Info.pluck(:information)
+
+    unless params[:gare].blank?
+      @disturbances = @disturbances.where("disturbances.origine = :search OR disturbances.destination = :search OR disturbances.provenance = :search", { search: params[:gare] })
+    end
+
+    unless params[:train].blank?
+      @disturbances = @disturbances.where("disturbances.train BETWEEN ? AND ?", params[:train].split('-').first, params[:train].split('-').last)
+    end
+
+    unless params[:perturbation].blank?
+      s = "%#{params[:perturbation]}%"
+      @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", s)
+    end
+
+    unless params[:information].blank?
+      @disturbances = @disturbances.where("disturbances.information = ?", params[:information])
+    end
+
+    unless params[:periode].blank?
+      @disturbances = @disturbances.where("DATE(disturbances.created_at) BETWEEN ? AND ?", Date.today - params[:periode].to_i.days, Date.today)
+    end
+
+    @cancelled = @disturbances
                 .group(:date, :train)
                 .reorder(nil)
                 .count(:id)
