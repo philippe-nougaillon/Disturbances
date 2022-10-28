@@ -10,58 +10,67 @@
   <%= form_tag disturbances_path, method: :get do %>
     <div class="flex flex-wrap xl:flex-nowrap">
 
-      <div class="mr-4">
+      <div class="w-full mr-4">
         <%= label_tag :du, "Du", class: "label" %>
         <%= text_field_tag :du,
                             params[:du],
                             type: "date",
-                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            class: 'input input-sm input-bordered w-full', 
                             onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="mr-4">
+      <div class="w-full mr-4">
         <%= label_tag :au, "Au", class: "label" %>
         <%= text_field_tag :au,
                             params[:au],
                             type: "date",
-                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            class: 'input input-sm input-bordered w-full', 
                             onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="mr-4">
+      <div class="w-full mr-4">
         <%= label_tag :gare, "Gare", class: "label" %>
         <%= select_tag :gare,
                         options_for_select(@gares, params[:gare]), 
                         include_blank: true,
-                        class: 'select select-sm select-bordered w-full max-w-xs', 
+                        class: 'select select-sm select-bordered w-full', 
                         onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="mr-4">
+      <div class="w-full mr-4">
         <%= label_tag :train, "Train(s)", class: "label" %>
         <%= text_field_tag :train,
                         params[:train],
                         include_blank: true,
-                        class: 'input input-sm select-bordered w-full max-w-xs',
+                        class: 'input input-sm select-bordered w-full',
                         onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="mr-4">
+      <div class="w-full mr-4">
         <%= label_tag :perturbation, "Perturbation", class: "label" %>
         <%= select_tag :perturbation, 
                         options_for_select(@perturbations, params[:perturbation]), 
                         include_blank: true,
-                        class: 'select  select-sm select-bordered w-full max-w-xs', 
+                        class: 'select  select-sm select-bordered w-full', 
                         onchange: 'this.form.submit()' %>
       </div>
 
-      <div>
+      <div class="w-full mr-4">
         <%= label_tag :information, "Information", class: "label" %>
         <%= select_tag :information, 
                         options_for_select(@informations, params[:information]), 
                         include_blank: true,
-                        class: 'select select-sm select-bordered w-full max-w-xs', 
+                        class: 'select select-sm select-bordered w-full', 
                         onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="flex items-end">
+        <%= check_box_tag :source,
+                          true,
+                          params[:source],
+                          onchange: 'this.form.submit()',
+                          class: 'checkbox checkbox-lg checkbox-primary' %>
+        <%= label_tag :source, "Que mes gares ?", class: "label whitespace-nowrap" %>
       </div>
 
     </div>

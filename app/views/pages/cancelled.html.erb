@@ -18,6 +18,15 @@
                             class: 'input input-sm input-bordered w-full max-w-xs', 
                             onchange: 'this.form.submit()' %>
       </div>
+
+      <div class="self-end">
+        <%= check_box_tag :source,
+                          true,
+                          params[:source],
+                          onchange: 'this.form.submit()',
+                          class: 'checkbox checkbox-lg checkbox-accent' %>
+        <%= label_tag :source, "Que mes gares ?", class: "label !inline" %>
+      </div>
     </div>
   <% end %>
 

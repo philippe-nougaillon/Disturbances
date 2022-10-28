@@ -4,16 +4,16 @@ class DisturbancesController < ApplicationController
 
   # GET /disturbances or /disturbances.json
   def index
-    if current_user.sources.any?
-      @gares = current_user.sources.pluck(:gare)
-      @disturbances = Disturbance.where(source_id: current_user.sources.pluck(:id))
-    else
-      @gares = Gare.pluck(:origine)
-      @disturbances = Disturbance.all
-    end
+    @disturbances = Disturbance.all
+    @gares = Gare.pluck(:origine)
     @trains = Train.pluck(:train)
     @perturbations = Disturbance.perturbations
     @informations = Info.pluck(:information)
+
+    if params[:source]
+      @disturbances = Disturbance.where(source_id: current_user.sources.pluck(:id))
+      @gares = current_user.sources.pluck(:gare)
+    end
 
     unless params[:gare].blank?
       @disturbances = @disturbances.where("disturbances.origine = :search OR disturbances.destination = :search OR disturbances.provenance = :search", { search: params[:gare] })

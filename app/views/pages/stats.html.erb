@@ -47,13 +47,24 @@
                         onchange: 'this.form.submit()' %>
       </div>
 
+      <div class="mt-4">
+        <%= check_box_tag :source,
+                          true,
+                          params[:source],
+                          onchange: 'this.form.submit()',
+                          class: 'checkbox checkbox-lg' %>
+        <%= label_tag :source, "Que mes gares ?", class: "label !inline" %>
+      </div>
+
     </div>
   <% end %>
   <div class="w-full ml-2 mt-4 lg:mt-0">
     <div class="text-center">
-      <h1 class="text-2xl">Perturbations (<%= @disturbances.values.sum %>)</h1>
+      <h1 class="text-2xl">Perturbations</h1>
       <p>
         <%= [params[:gare], params[:train], params[:perturbation], params[:information], params[:periode].blank? ? "" : "depuis #{params[:periode]} jours" ].compact_blank.join(', ') %>
+        <br>
+        Total : <%= @disturbances.values.sum %> train.s
       </p>
     </div>
     <canvas class="" id="chartLine"></canvas>
