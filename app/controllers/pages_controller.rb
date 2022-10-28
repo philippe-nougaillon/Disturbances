@@ -1,6 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:status]
-
+  
   def status
     @gares = Source.pluck(:gare).uniq
     @sources = Source.all
@@ -76,4 +75,5 @@ class PagesController < ApplicationController
                 .map{|key| key.first}
                 .tally
   end
+  
 end

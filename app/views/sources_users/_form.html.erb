@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :source_id, class:"label" %>
-    <%= form.select :source_id, options_from_collection_for_select(Source.all, "id", "gare" ), {include_blank: true}, {class: "select select-bordered"} %>
+    <%= form.select :source_id, options_from_collection_for_select(Source.all, "id", "gare_sens"), {include_blank: true}, {class: "select select-bordered"} %>
   </div>
 
   <div class="my-5">
@@ -22,6 +22,6 @@
   </div>
 
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 btn inline-block font-medium cursor-pointer" %>
+    <%= form.submit "Enregistrer", class: "rounded-lg py-3 px-5 btn inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

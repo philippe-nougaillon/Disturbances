@@ -25,4 +25,8 @@ class Source < ApplicationRecord
     self.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first
   end
 
+  def gare_sens
+    "#{ self.gare } #{ self.sens == 'Départ' ? '->' : '<-' }"
+  end
+
 end
