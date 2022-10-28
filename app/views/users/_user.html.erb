@@ -16,8 +16,7 @@
     <p class="my-5">
       <strong class="font-medium mb-1">Sources : </strong>
       <% user.sources.each do |source| %>
-        <br>
-        <%= source.gare %> (<%= source.sens %>)
+        <%= source.gare_et_sens %>, 
       <% end %>
     </p>
 

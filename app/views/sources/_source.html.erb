@@ -20,6 +20,11 @@
     <% end %>
   </p>
 
+  <p class="my-4">
+    <strong class="font-medium mb-1">Utilisateurs : </strong>
+    <%= source.users.pluck(:nom).join(', ') %>
+  </p>
+
   <% if action_name != "show" %>
     <%= link_to "Voir cette source", source, class: "btn-sm rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     <%= link_to 'Éditer cette source', edit_source_path(source), class: "btn-sm rounded-lg py-3 ml-2 px-5 bg-gray-100 font-medium" %>

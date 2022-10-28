@@ -12,13 +12,13 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :source_id %>
-    <%= form.select :source_id, options_from_collection_for_select(Source.all, "id", "gare" ), {}, class: "select select-bordered" %>
+    <%= form.label :source_id, class:"label" %>
+    <%= form.select :source_id, options_from_collection_for_select(Source.all, "id", "gare" ), {include_blank: true}, {class: "select select-bordered"} %>
   </div>
 
   <div class="my-5">
-    <%= form.label :user_id, "Utilisateur" %>
-    <%= form.select :user_id, options_from_collection_for_select(User.all, "id", "nom"), {}, class: "select select-bordered" %>
+    <%= form.label :user_id, "Utilisateur", class:"label" %>
+    <%= form.select :user_id, options_from_collection_for_select(User.all, "id", "nom"), {include_blank: true}, class: "select select-bordered" %>
   </div>
 
   <div class="inline">
