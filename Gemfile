@@ -101,3 +101,5 @@ gem "active_decorator", "~> 1.4"
 
 # Versioned database views for Rails
 gem "scenic", "~> 1.6"
+
+gem "composite_primary_keys", "~> 14.0"

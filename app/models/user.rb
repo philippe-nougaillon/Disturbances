@@ -37,6 +37,7 @@ class User < ApplicationRecord
          :validatable,
          :trackable
 
+  has_and_belongs_to_many :sources
 
   default_scope { order(:admin, :nom) }
   paginates_per 100
