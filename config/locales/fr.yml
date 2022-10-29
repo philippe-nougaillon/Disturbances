@@ -246,158 +246,6 @@ fr:
     passwords:
       new:
         title: "Mot de passe oublié"
-  maisons:
-    index:
-      title: 'Maisons'
-    new: 
-      title: 'Nouvelle Maison'
-    edit:
-      title: 'Modifier une Maison'
-    show:
-      title: 'Maison'
-  contacts:
-    index:  
-      title: 'Contacts'
-    new:
-      title: 'Nouveau Contact'
-    edit:
-      title: 'Modifier un Contact'
-    show:
-      title: 'Contact'
-  ressources:
-    index:
-      title: 'Ressources'
-    new:
-      title: 'Nouvelle Ressource'
-    edit: 
-      title: 'Modifier une Ressource'
-    show:
-      title: 'Ressource'
-  actions:
-    index:
-      title: 'Actions'
-    new:  
-      title: 'Nouvelle Action'
-    edit:
-      title: 'Modifier une Action'
-  pages:
-    welcome:
-      title: 'Bienvenue'
-    evenements:
-      title: 'Agenda'
-    posts:
-      title: 'Actualités'
-    maisons:
-      title: 'Les maisons'
-    ressources:
-      title: 'Centre ressources'
-    confidentialite:
-      title: 'Politique de confidentialité'
-    publications:
-      title: 'Publications'
-    projets:
-      title: 'Projets'
-    reseau:
-      title: 'Le Réseau'
-    recherche:
-      title: "Recherche"
-    newsletter:
-      title: "Newsletter"
-  adhesions:
-    index: 
-      title: 'Adhésions'
-    new:
-      title: 'Nouvelle adhésion'
-    edit: 
-      title: 'Editer une adhésion'
-    show:
-      title: 'Adhésion'
-  cotisations:
-    index:
-      title: 'Cotisations'
-    new:  
-      title: 'Nouvelle Cotisation'
-    edit:
-      title: 'Modifier une Cotisation'
-    show:
-      title: 'Cotisation'
-  posts:
-    index:
-      title: "Actualités"
-    new:  
-      title: 'Nouvelle Actualité'
-    edit:
-      title: 'Editer une Actualité'
-    show:
-      title: 'Actualité'
-  evenements:
-    index:
-      title: 'Evénements'
-    new:  
-      title: 'Nouvel Evénement'
-    edit:
-      title: 'Modifier un Evénement'
-    show:
-      title: 'Evénement'
-  partenaires:
-    index:
-      title: 'Partenaires'
-    new:  
-      title: 'Nouveau Partenaire'
-    edit:
-      title: 'Modifier un Partenaire'
-    show:
-      title: 'Partenaire'
-  publications:
-    index:
-      title: 'Publications'
-    new:  
-      title: 'Nouvelle Publication'
-    edit:
-      title: 'Modifier une Publication'
-    show:
-      title: 'Publication'
-  projets:
-    index:
-      title: 'Projets'
-    new:  
-      title: 'Nouveau Projet'
-    edit:
-      title: 'Modifier un Projet'
-    show:
-      title: 'Projet'
-  categories:
-    index:
-      title: 'Catégories'
-    new:  
-      title: 'Nouvelle Catégorie'
-    edit:
-      title: 'Modifier une Catégorie'
-    show:
-      title: 'Catégorie'
-  typologies:
-    index:
-      title: 'Typologies'
-    new:  
-      title: 'Nouvelle Typologie'
-    edit:
-      title: 'Modifier une Typologie'
-    show:
-      title: 'Typologie'
-  slideshow_images:
-    index:
-      title: "Carrousel (Slideshow Images)"
-    new:
-      title: "Nouvelle image de carrousel"
-    edit:
-      title: "Modifier image de carrousel"
-    show:
-      title: "Image de carrousel"
-  admin:
-    index:
-      title: 'Administration'
-    memo:
-      title: 'Mémo'
   views:
     pagination:
       first: "&laquo; Début"
@@ -414,13 +262,47 @@ fr:
           other: "Affichage de <strong>%{count}</strong> %{entry_name}s"
       more_pages:
         display_entries: "Affichage des %{entry_name}s <strong>%{first}&nbsp;à&nbsp;%{last}</strong> sur <strong>%{total}</strong> au total"
-  id: 'Id'
-  ville: 'Ville'
-  montant: 'Montant'
-  fonction: 'Fonction'
-  intitulé: 'Intitulé'
-  fait: 'Fait'
-  nom: 'Nom'
-  fonction: 'Fonction'
   true: Oui
   false: Non
+  disturbances:
+    index:
+      title: 'Perturbations'
+    show:
+      title: 'Détails pertubation'
+  pages:
+    cancelled:
+      title: 'Suppressions'
+    status:
+      title: 'Gares en direct'
+    stats:
+      title: 'Statistiques'
+  sources:
+    index:
+      title: 'Sources'
+    show: 
+      title: 'Détails Source'
+    edit:
+      title: 'Modification Source'
+    new:
+      title: 'Nouvelle Source'
+  users:  
+    index:
+      title: 'Utilisateurs'
+    show:
+      title: 'Détails Utilisateur'
+    edit:
+      title: 'Modifier Utilisateur'
+    new:
+      title: 'Nouvel Utilisateur'
+  sources_users:
+    index:
+      title: 'Sources/Users'
+    show: 
+      title: 'Détails Source/User'
+    edit:
+      title: 'Modification Source/User'
+    new:
+      title: 'Nouvelle Source/User'
+
+
+    

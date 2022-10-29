@@ -103,3 +103,5 @@ gem "active_decorator", "~> 1.4"
 gem "scenic", "~> 1.6"
 
 gem "composite_primary_keys", "~> 14.0"
+
+gem 'page_title_helper'
