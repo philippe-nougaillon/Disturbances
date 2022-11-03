@@ -8,11 +8,9 @@ class ApplicationController < ActionController::Base
   private
 
     def set_layout_variables
-      @sitename = "Disturbances v3.0"
       @sitename_short = "Disturbances"
       @themes = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
     end
-
 
     def user_not_authorized
       flash[:alert] = "Vous n'êtes pas autorisé à effectuer cette action."
