@@ -20,6 +20,7 @@ class DisturbancesGet < ApplicationService
 private
 
     def scraping
+        HTTParty::Basement.default_options.update(verify: false)
         unparsed_html = HTTParty.get(@source.url, timeout: 10)
         page ||= Nokogiri::HTML(unparsed_html.body)
         disturbances = page.css('div.disturbanceNameRoot')
@@ -132,7 +133,7 @@ private
                 horaire = horaire.strftime("%Y-%m-%dT%I:%M")
                 réponse_informations = getInformation(train.to_i, horaire, gare_id)
                 if réponse_informations
-                    events = réponse_informations[0]['events']
+                    events = réponse_informations[0]['events'] if réponse_informations[0]
                     information = events[0]['description'] if events
                 end
 
