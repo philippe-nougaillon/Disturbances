@@ -1,17 +1,17 @@
-<div class="flex min-h-screen flex-col justify-center aligns-items-center items-center">
-  <div id="connexion">
-    <h1 class="text-4xl font-bold">Connexion</h1>
-    <hr class="my-4">
+<div class="flex min-h-screen flex-col justify-center items-center -mt-24">
+  <div id="connexion" class="w-full sm:w-96">
+    <h1 class="text-4xl font-bold text-center">Connexion</h1>
+    <hr class="my-8">
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field">
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'w-full' %>
       </div>
 
       <div class="field">
-        <%= f.label :password %><br />
-        <%= f.password_field :password, autocomplete: "current-password" %>
+        <%= f.label :password, 'Mot de passe' %><br />
+        <%= f.password_field :password, autocomplete: "current-password", class:'w-full' %>
       </div>
 
       <% if devise_mapping.rememberable? %>
@@ -22,7 +22,7 @@
       <% end %>
 
       <div class="actions">
-        <%= f.submit "Se connecter", class:"btn btn-primary btn-outline w-full" %>
+        <%= f.submit "Se connecter", class:"btn btn-primary btn-outline w-full mt-4" %>
       </div>
     <% end %>
 
