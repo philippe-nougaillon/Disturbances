@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_095550) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_04_085035) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_095550) do
     t.bigint "source_id", null: false
     t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
     t.index ["source_id"], name: "index_disturbances_on_source_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.date "date"
+    t.string "train"
+    t.string "horaire"
+    t.string "destination"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date", "train"], name: "index_services_on_date_and_train", unique: true
   end
 
   create_table "sources", force: :cascade do |t|

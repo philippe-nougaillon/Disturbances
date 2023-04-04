@@ -1,6 +1,11 @@
 <li>
+  <%= link_to services_path, class:"w-full" do %>
+    <i class="fa-solid fa-train"></i>Services
+  <% end %>
+</li>
+<li>
   <%= link_to disturbances_path do %>
-    <i class="fa-solid fa-triangle-exclamation text-primary"></i>
+    <i class="fa-solid fa-triangle-exclamation text-warning"></i>
     Perturbations
   <% end %>
 </li>

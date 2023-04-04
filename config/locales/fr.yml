@@ -303,6 +303,6 @@ fr:
       title: 'Modification Source/User'
     new:
       title: 'Nouvelle Source/User'
-
-
-    
+  services:
+    index:
+      title: 'Services'

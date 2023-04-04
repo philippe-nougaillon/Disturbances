@@ -31,9 +31,7 @@ private
             if content.include?('Train TER ')
                 # supprimer le css superflu
                 content = content.split('}').last if content.include?('}')
-        
                 train = content.split('Train TER ').last[0..5]
-        
                 départ = nil
                 départ_prévu = nil
                 départ_réel = nil
@@ -181,6 +179,29 @@ private
                 rescue
                     # puts '|--> Doublon! Pas enregistré.'  
                 end
+            end
+        end
+
+        services = page.css('div.jss143')
+
+        services.each_with_index do | services, index |
+            content = services.children.last.text
+            if content.include?('Train TER ')
+                train = content.split('Mode').last
+                horaire = services.parent.children.first.child.text.split('Départ' || 'Arrivée').last.first(5)
+                destination = services.parent.children.first(2).last.child.text.split('Destination').last
+                puts "-*-" *10
+                puts "HORAIRE : " + horaire
+                puts "DESTINATION : " + destination
+                puts "TRAIN : " + train
+                
+                begin
+                    Service.create!(date: Date.today, train: train, horaire: horaire, destination: destination)
+                    puts "SAUVEGARDÉ !"
+                rescue
+                    puts "DOUBLON !"
+                end
+                puts "-*-" *10
             end
         end
     end
