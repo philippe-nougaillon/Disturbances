@@ -1,17 +1,21 @@
-<div class="mx-auto md:w-2/3 mt-1">
-  <div class="flex items-center mb-4">
-    <h1 class="font-bold text-4xl">Gares en direct</h1>
+<div class="mt-1">
+  <div class="flex items-center mb-6">
+    <h1 class="font-bold text-4xl text-success">
+      <i class="fa-solid fa-school-circle-exclamation"></i>
+      Gares en direct
+    </h1>
   </div>
 
-  <% @gares.each do |nom_gare| %>
-    <% @sources.where(gare: nom_gare).each_with_index do |source, index| %>
-      <% if disturbance = source.last_disturbance %>
-        <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
-          <div class="collapse-title text-xl">
-            <span style="<%= disturbance.perturbation_style %>">
-              <%= source.gare_et_sens %>
-            </span>
-          </div>
+  <div class="grid lg:grid-cols-6 gap-1">
+    <% @gares.each do |nom_gare| %>
+      <% @sources.where(gare: nom_gare).each_with_index do |source, index| %>
+        <% if disturbance = source.last_disturbance %>
+          <div tabindex="0" class="collapse collapse-arrow border border-base-300 rounded-box">
+            <div class="collapse-title">
+              <span style="<%= disturbance.perturbation_style %>">
+                <%= source.gare_et_sens.upcase %>
+              </span>
+            </div>
             <div class="collapse-content">
               <p>
                 <% if disturbance.information %>
@@ -33,19 +37,34 @@
               <br>
               <i>Enregistré <%= time_tag disturbance.created_at, "data-local": "time-ago" %></i>
             </div>
-        </div>
-      <% else %>
-        <% if index == 0 %>
-          <div tabindex="0" class="border border-base-200 rounded-box">
-            <div class="collapse-title text-xl">
-              <span style="color: forestgreen;">
-                <%= source.gare %>
-              </span>
-            </div>
           </div>
+        <% else %>
+          <% if index == 0 %>
+            <div tabindex="0" class="border border-base-200 rounded-box">
+              <div class="collapse-title">
+                <span style="color: forestgreen;">
+                  <%= source.gare.upcase %>
+                </span>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
-  <% end %>
+  </div>
   <br>
 </div>
+
+<p class="font-light italic">
+  <small>
+    Dernière mise à jour : 
+    <%= time_tag DateTime.now, "data-local": "time-ago" %>
+  <small>
+</p>
+
+<script type="text/javascript">
+  setInterval(function() {
+    window.location.reload();
+  }, 5 * 60000); 
+</script>
+

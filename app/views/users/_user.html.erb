@@ -13,6 +13,13 @@
     <%= t user.admin %>
   </p>
 
+    <p class="my-5">
+      <strong class="font-medium mb-1">Sources : </strong>
+      <% user.sources.each do |source| %>
+        <%= source.gare_et_sens %>, 
+      <% end %>
+    </p>
+
   <% if action_name != "show" %>
     <%= link_to "Voir cet utilisateur", user, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to 'Éditer cet utilisateur', edit_user_path(user), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>

@@ -20,6 +20,7 @@ class DisturbancesGet < ApplicationService
 private
 
     def scraping
+        HTTParty::Basement.default_options.update(verify: false)
         unparsed_html = HTTParty.get(@source.url, timeout: 10)
         page ||= Nokogiri::HTML(unparsed_html.body)
         disturbances = page.css('div.disturbanceNameRoot')
@@ -30,9 +31,7 @@ private
             if content.include?('Train TER ')
                 # supprimer le css superflu
                 content = content.split('}').last if content.include?('}')
-        
                 train = content.split('Train TER ').last[0..5]
-        
                 départ = nil
                 départ_prévu = nil
                 départ_réel = nil
@@ -115,6 +114,9 @@ private
                 # supprimer les parasites parfois collés à 'Supprimé'
                 raison = 'Supprimé' if raison.include?('Supprimé') && raison[0] != 'S'
 
+                # supprimer le premier charactère s'il est pas voulu
+                raison.slice!(0) if raison[1] == raison[1].upcase
+
                 # remplacer 'non disponible' par 'ND'
                 voie = voie.gsub('non disponible', 'ND') if voie.include?('non disponible')
                 
@@ -124,15 +126,15 @@ private
                     horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
                 else
                     horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée.split('h').first.to_i, arrivée.split('h').last.to_i, 0, "+01:00")
-                end  
+                end
                 
                 horaire = horaire.strftime("%Y-%m-%dT%I:%M")
                 réponse_informations = getInformation(train.to_i, horaire, gare_id)
                 if réponse_informations
-                    events = réponse_informations[0]['events']
+                    events = réponse_informations[0]['events'] if réponse_informations[0]
                     information = events[0]['description'] if events
                 end
-        
+
                 if false
                     puts '- ' * 70
                     puts "#{ @source.gare } (#{ gare_id }) #{ @source.sens }"
@@ -153,7 +155,7 @@ private
                     puts "Information: #{ information }"
                     puts réponse_informations
                 end
-        
+
                 begin
                     Disturbance.create!(date: Date.today, 
                                     sens: @source.sens, 
@@ -176,7 +178,30 @@ private
                     # puts '|--> Enregistrée dans la BDD !'
                 rescue
                     # puts '|--> Doublon! Pas enregistré.'  
-                end  
+                end
+            end
+        end
+
+        services = page.css('div.jss143')
+
+        services.each_with_index do | services, index |
+            content = services.children.last.text
+            if content.include?('Train TER ')
+                train = content.split('Mode').last
+                horaire = services.parent.children.first.child.text.split('Départ' || 'Arrivée').last.first(5)
+                destination = services.parent.children.first(2).last.child.text.split('Destination').last
+                puts "-*-" *10
+                puts "HORAIRE : " + horaire
+                puts "DESTINATION : " + destination
+                puts "TRAIN : " + train
+                
+                begin
+                    Service.create!(date: Date.today, train: train, horaire: horaire, destination: destination)
+                    puts "SAUVEGARDÉ !"
+                rescue
+                    puts "DOUBLON !"
+                end
+                puts "-*-" *10
             end
         end
     end

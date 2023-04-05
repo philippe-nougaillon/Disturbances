@@ -16,11 +16,17 @@ class Source < ApplicationRecord
 
   has_many :disturbances
 
+  has_and_belongs_to_many :users
+  
   default_scope { order(:gare, 'sources.sens DESC') }
   paginates_per 100
 
   def last_disturbance
     self.disturbances.where("DATE(disturbances.created_at) = ?", Date.today).first
+  end
+
+  def gare_sens
+    "#{ self.gare } #{ self.sens == 'Départ' ? '->' : '<-' }"
   end
 
 end

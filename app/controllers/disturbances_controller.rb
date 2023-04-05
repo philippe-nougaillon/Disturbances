@@ -7,11 +7,16 @@ class DisturbancesController < ApplicationController
     @disturbances = Disturbance.all
     @gares = Gare.pluck(:origine)
     @trains = Train.pluck(:train)
-    @perturbations = Perturbation.pluck(:perturbation)
+    @perturbations = Disturbance.perturbations
     @informations = Info.pluck(:information)
 
+    if params[:source]
+      @disturbances = Disturbance.where(source_id: current_user.sources.pluck(:id))
+      @gares = current_user.sources.pluck(:gare)
+    end
+
     unless params[:gare].blank?
-      @disturbances = @disturbances.where("disturbances.origine = ?", params[:gare])
+      @disturbances = @disturbances.where("disturbances.origine = :search OR disturbances.destination = :search OR disturbances.provenance = :search", { search: params[:gare] })
     end
 
     unless params[:train].blank?
@@ -19,7 +24,8 @@ class DisturbancesController < ApplicationController
     end
 
     unless params[:perturbation].blank?
-      @disturbances = @disturbances.where("disturbances.perturbation = ?", params[:perturbation])
+      s = "%#{params[:perturbation]}%"
+      @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", s)
     end
 
     unless params[:information].blank?

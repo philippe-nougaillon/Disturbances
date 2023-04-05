@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_04_085035) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
     t.index ["source_id"], name: "index_disturbances_on_source_id"
   end
 
+  create_table "services", force: :cascade do |t|
+    t.date "date"
+    t.string "train"
+    t.string "horaire"
+    t.string "destination"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date", "train"], name: "index_services_on_date_and_train", unique: true
+  end
+
   create_table "sources", force: :cascade do |t|
     t.string "url"
     t.string "gare"
@@ -69,6 +79,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "collected_at"
+  end
+
+  create_table "sources_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "source_id", null: false
+    t.index ["source_id"], name: "index_sources_users_on_source_id"
+    t.index ["user_id"], name: "index_sources_users_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -113,5 +130,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_115518) do
      FROM disturbances
     WHERE (disturbances.information IS NOT NULL)
     ORDER BY disturbances.information;
+  SQL
+  create_view "cancelleds", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.date,
+      disturbances.train
+     FROM disturbances
+    WHERE ((disturbances.perturbation)::text = 'Supprimé'::text)
+    ORDER BY disturbances.date DESC;
   SQL
 end

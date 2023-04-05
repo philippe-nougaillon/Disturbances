@@ -1,0 +1,29 @@
+<li>
+  <%= link_to services_path, class:"w-full" do %>
+    <i class="fa-solid fa-train"></i>Services
+  <% end %>
+</li>
+<li>
+  <%= link_to disturbances_path do %>
+    <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+    Perturbations
+  <% end %>
+</li>
+<li>
+  <%= link_to cancelled_path do %>
+    <i class="fa-solid fa-circle-xmark text-error"></i>
+    Suppressions
+  <% end %>
+</li>
+<li class="whitespace-nowrap sm:mr-3">
+  <%= link_to status_path do %>
+    <i class="fa-solid fa-school-circle-exclamation text-success"></i>
+    Gares en direct
+  <% end %>
+</li>
+<li>
+  <%= link_to stats_path, 'data-turbo': false do %>
+    <i class="fa-solid fa-chart-simple text-secondary"></i>
+    Statistiques
+  <% end %>
+</li>

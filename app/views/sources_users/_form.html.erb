@@ -1,0 +1,27 @@
+<%= form_with(model: sources_user, class: "contents") do |form| %>
+  <% if sources_user.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(sources_user.errors.count, "error") %> prohibited this sources_user from being saved:</h2>
+
+      <ul>
+        <% sources_user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :source_id, class:"label" %>
+    <%= form.select :source_id, options_from_collection_for_select(Source.all, "id", "gare_sens"), {include_blank: true}, {class: "select select-bordered"} %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :user_id, "Utilisateur", class:"label" %>
+    <%= form.select :user_id, options_from_collection_for_select(User.all, "id", "nom"), {include_blank: true}, class: "select select-bordered" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit "Enregistrer", class: "rounded-lg py-3 px-5 btn inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

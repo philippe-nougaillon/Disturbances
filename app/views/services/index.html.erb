@@ -1,0 +1,65 @@
+<div class="w-full mb-8">
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl mt-1 mb-4">
+      <i class="fa-solid fa-train"></i>
+      Services
+    </h1>
+  </div>
+
+    <%= form_tag services_path, method: :get do %>
+    <div class="flex flex-wrap xl:flex-nowrap">
+
+      <div class="w-full mr-4">
+        <%= label_tag :date, "Date", class: "label" %>
+        <%= text_field_tag :date,
+                            params[:date],
+                            type: "date",
+                            class: 'input input-sm input-bordered w-full', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="w-full mr-4">
+        <%= label_tag :train, "Train(s)", class: "label" %>
+        <%= text_field_tag :train,
+                        params[:train],
+                        include_blank: true,
+                        class: 'input input-sm select-bordered w-full',
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+            <div class="w-full mr-4">
+        <%= label_tag :destination, "Destination", class: "label" %>
+        <%= text_field_tag :destination,
+                        params[:destination],
+                        include_blank: true,
+                        class: 'input input-sm select-bordered w-full',
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+    </div>
+  <% end %>
+
+  <div id="services" class="my-4 overflow-x-auto">
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Train</th>
+          <th>Horaire</th>
+          <th>Destination</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @services %>
+      </tbody>
+      <tfoot>
+        <th colspan=4></th>
+      </tfoot>
+    </table>
+  </div>
+
+  <%= page_entries_info @services, entry_name: 'service' %>
+  <%= paginate @services %>
+
+</div>

@@ -31,12 +31,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   #:registerable,
   #:recoverable, 
-
+  #:rememberable,
+         
   devise :database_authenticatable, 
-         :rememberable, 
+         :timeoutable,
          :validatable,
          :trackable
 
+  has_and_belongs_to_many :sources
 
   default_scope { order(:admin, :nom) }
   paginates_per 100

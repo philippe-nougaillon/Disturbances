@@ -11,13 +11,18 @@
   </p>
 
   <p class="my-4">
-    <strong class="font-medium mb-1">Dernière collecte le </strong>
-    <%= l source.collected_at %>
+    <strong class="font-medium mb-1">Dernière collecte le : </strong>
     <% if source.collected_at %>
+      <%= l source.collected_at %>
       <span class="<%= ((DateTime.now.to_i - source.collected_at.to_i) > 15.minutes) ? 'bg-red-200' : 'bg-green-200' %>">
         (<i><%= time_tag source.collected_at, "data-local": "time-ago" %></i>)
       </span>
     <% end %>
+  </p>
+
+  <p class="my-4">
+    <strong class="font-medium mb-1">Utilisateurs : </strong>
+    <%= source.users.pluck(:nom).join(', ') %>
   </p>
 
   <% if action_name != "show" %>

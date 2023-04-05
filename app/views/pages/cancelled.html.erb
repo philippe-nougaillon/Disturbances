@@ -1,0 +1,147 @@
+<div class="w-full">
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl text-error mt-1 mb-4">
+      <i class="fa-solid fa-circle-xmark"></i>
+      Liste des trains supprimés
+    </h1>
+  </div>
+
+  <%= form_tag cancelled_path, method: :get do %>
+    <div class="flex flex-wrap xl:flex-nowrap">
+
+      <div class="mr-4">
+        <%= label_tag :date, "Date", class: "label" %>
+        <%= text_field_tag :date,
+                            params[:date],
+                            type: "date",
+                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="self-end">
+        <%= check_box_tag :source,
+                          true,
+                          params[:source],
+                          onchange: 'this.form.submit()',
+                          class: 'checkbox checkbox-lg checkbox-accent' %>
+        <%= label_tag :source, "Que mes gares ?", class: "label !inline" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div id="cancelled" class="my-4 overflow-x-auto">
+    <table class="table table-zebra table-compact w-full">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Gare</th>
+          <th>Train</th>
+          <th>Destination/Provenance</th>
+          <th>Prévu</th>
+          <th>Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_date = "" %>
+        <% count = 0 %>
+
+        <% @paginatable_cancelled.each do |c| %>
+          <% cancelled = Disturbance.find_by(date: c.date, train: c.train) %>
+
+          <% if cancelled.date != current_date %>
+            <% current_date = cancelled.date %>
+
+            <% if count > 0 %>
+              <tr>
+                <th colspan="2"></th>
+                <th class="font-normal"><%= count %></th>
+                <th colspan="3"></th>
+              </tr>
+            <% end %>
+            <% count = 0 %>
+
+            <tr>
+              <th colspan="6">
+                <p>
+                  <%= link_to l(cancelled.date.to_date, format: :long), cancelled_path(date: cancelled.date), class: 'link' %>
+                </p>
+              </th>
+            </tr>
+          <% end %>
+
+          <% count += 1  %>
+
+          <tr class="hover">
+            <th>
+            </th>
+
+            <td>
+              <p>
+                <%= cancelled.origine %>
+              </p>
+            </td>
+
+            <td>
+              <p>
+                <%= cancelled.train %>
+              </p>
+            </td>
+
+              <% if cancelled.sens == 'Départ' %>
+                <td>
+                  <p>
+                    ->
+                    <%= cancelled.destination %>
+                  </p>
+                </td>
+
+                <td>
+                  <p>
+                    <%= cancelled.départ_prévu %>
+                  </p>
+                </td>
+              <% else %>
+                <td>
+                  <p>
+                    <-
+                    <%= cancelled.provenance %>
+                  </p>
+                </td>
+
+                <td>
+                  <p>
+                    <%= cancelled.arrivée_prévue %>
+                  </p>
+                </td>
+              <% end %>
+
+              <td>
+                <p>
+                  Supprimé
+                  <%= " : #{ cancelled.information }" if cancelled.information %>
+                </p>
+              </td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot class="font-normal">
+        <tr>
+          <td colspan=2></td>
+          <td>
+            <%= "#{count}" %>
+            <%= "+ ..." unless params[:date] || (params[:page].to_i == @paginatable_cancelled.total_pages) %>
+          </td>
+          <td colspan=3></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <%= page_entries_info @paginatable_cancelled, entry_name: 'suppression' %>
+  <%= paginate @paginatable_cancelled %>
+
+  <p class="mt-4">
+    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
+  </p>
+</div>

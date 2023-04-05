@@ -10,8 +10,8 @@ namespace :scraper do
     puts "refreshing views"
     Gare.refresh
     Train.refresh
-    Perturbation.refresh
     Info.refresh
+    Cancelled.refresh
 
   end
 
