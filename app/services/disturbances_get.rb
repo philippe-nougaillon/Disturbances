@@ -23,6 +23,11 @@ private
         HTTParty::Basement.default_options.update(verify: false)
         unparsed_html = HTTParty.get(@source.url, timeout: 10)
         page ||= Nokogiri::HTML(unparsed_html.body)
+
+        #
+        # Scraping Perturbations
+        #
+
         disturbances = page.css('div.disturbanceNameRoot')
 
         disturbances.each_with_index do | disturbance, index |
@@ -182,26 +187,38 @@ private
             end
         end
 
-        services = page.css('div.jss143')
+        #
+        # Scraping Services
+        #
 
-        services.each_with_index do | services, index |
-            content = services.children.last.text
-            if content.include?('Train TER ')
-                train = content.split('Mode').last
-                horaire = services.parent.children.first.child.text.split('Départ' || 'Arrivée').last.first(5)
-                destination = services.parent.children.first(2).last.child.text.split('Destination').last
-                puts "-*-" *10
-                puts "HORAIRE : " + horaire
-                puts "DESTINATION : " + destination
-                puts "TRAIN : " + train
-                
-                begin
-                    Service.create!(date: Date.today, train: train, horaire: horaire, destination: destination)
-                    puts "SAUVEGARDÉ !"
-                rescue
-                    puts "DOUBLON !"
+        if @source.sens == "Départ"
+            result_lists = page.css('ul[data-testid="result-list"]')
+
+            # Ne prendre que la liste d'aujourd'hui, pas du lendemain
+            result_list_today = result_lists.first
+
+            result_list_today.children.each_with_index do | item, index |
+                service = item.child.children.first.children.first
+                unless service.nil?
+                    mode = service.children[2].text
+                    if mode.include?('Train TER ')
+                        train = mode.split('Mode').last
+                        horaire = service.children[0].text.split('Départ').last.first(5)
+                        destination = service.children[1].child.text.split('Destination').last
+                        puts "-*-" *10
+                        puts "HORAIRE : " + horaire
+                        puts "DESTINATION : " + destination
+                        puts "TRAIN : " + train
+                        
+                        begin
+                            Service.create!(date: Date.today, train: train, horaire: horaire, destination: destination)
+                            puts "SAUVEGARDÉ !"
+                        rescue
+                            puts "DOUBLON !"
+                        end
+                        puts "-*-" *10
+                    end
                 end
-                puts "-*-" *10
             end
         end
     end
