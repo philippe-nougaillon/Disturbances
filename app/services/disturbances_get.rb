@@ -201,7 +201,7 @@ private
                 service = item.child.children.first.children.first
                 unless service.nil?
                     mode = service.children[2].text
-                    if mode.include?('Train TER ')
+                    if mode.include?('Train TER ') || mode.include?('Car TER ')
                         train = mode.split('Mode').last
                         horaire = service.children[0].text.split('Départ').last.first(5)
                         destination = service.children[1].child.text.split('Destination').last
