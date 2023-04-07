@@ -17,5 +17,5 @@
 #  index_services_on_date_and_numéro_service  (date,numéro_service) UNIQUE
 #
 class Service < ApplicationRecord
-  default_scope -> { order(:date, :horaire) }
+  default_scope -> { order("services.created_at DESC") }
 end

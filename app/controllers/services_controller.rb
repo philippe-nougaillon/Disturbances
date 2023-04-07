@@ -5,17 +5,22 @@ class ServicesController < ApplicationController
   # GET /services or /services.json
   def index
     @services = Service.all
+    @gares = Gare.pluck(:origine)
 
-    unless params[:date].blank?
-      @services = @services.where(date: params[:date])
+    if (!params[:du].blank? && !params[:au].blank?)
+      @services = @services.where("DATE(services.date) BETWEEN ? AND ?", params[:du], params[:au])
     end
 
-    unless params[:train].blank?
-      @services = @services.where("train ILIKE :search", { search: "%#{params[:train]}%" })
+    unless params[:mode].blank?
+      @services = @services.where("services.mode = :search", { search: params[:mode] })
     end
 
-    unless params[:destination].blank?
-      @services = @services.where("destination ILIKE :search", { search: "%#{params[:destination]}%" })
+    unless params[:num_service].blank?
+      @services = @services.where("services.numéro_service BETWEEN ? AND ?", params[:num_service].split('-').first, params[:num_service].split('-').last)
+    end
+
+    unless params[:gare].blank?
+      @services = @services.where("services.origine = :search OR services.destination = :search", { search: params[:gare] })
     end
 
     @services = @services.page(params[:page])
