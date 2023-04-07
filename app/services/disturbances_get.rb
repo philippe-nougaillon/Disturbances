@@ -201,17 +201,19 @@ private
                 service = item.child.children.first.children.first
                 unless service.nil?
                     mode = service.children[2].text
-                    if mode.include?('Train TER ') || mode.include?('Car TER ')
-                        train = mode.split('Mode').last
+                    if mode.include?('TER ')
+                        numéro_service = mode.split('TER').last.strip
+                        modalité = mode.split('TER').first.gsub('Mode', '').strip
                         horaire = service.children[0].text.split('Départ').last.first(5)
                         destination = service.children[1].child.text.split('Destination').last
                         puts "-*-" *10
                         puts "HORAIRE : " + horaire
                         puts "DESTINATION : " + destination
-                        puts "TRAIN : " + train
+                        puts "NUMÉRO DU SERVICE : " + numéro_service
+                        puts "MODALITÉ : " + modalité
                         
                         begin
-                            Service.create!(date: Date.today, train: train, horaire: horaire, destination: destination)
+                            Service.create!(date: Date.today, numéro_service: numéro_service, horaire: horaire, origine: @source.gare, destination: destination, mode: modalité)
                             puts "SAUVEGARDÉ !"
                         rescue
                             puts "DOUBLON !"

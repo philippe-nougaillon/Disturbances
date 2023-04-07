@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_04_085035) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_07_073211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,12 +64,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_085035) do
 
   create_table "services", force: :cascade do |t|
     t.date "date"
-    t.string "train"
+    t.string "numéro_service"
     t.string "horaire"
     t.string "destination"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["date", "train"], name: "index_services_on_date_and_train", unique: true
+    t.string "origine"
+    t.string "mode"
+    t.index ["date", "numéro_service"], name: "index_services_on_date_and_numéro_service", unique: true
   end
 
   create_table "sources", force: :cascade do |t|
