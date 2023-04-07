@@ -23,7 +23,20 @@ class ServicesController < ApplicationController
       @services = @services.where("services.origine = :search OR services.destination = :search", { search: params[:gare] })
     end
 
-    @services = @services.page(params[:page])
+    
+    respond_to do |format|
+      format.html do 
+        @services = @services.page(params[:page])
+      end
+
+      format.xls do
+        book = ServicesToXls.new(@services).call
+        file_contents = StringIO.new
+        book.write file_contents 
+        filename = 'services.xls'
+        send_data file_contents.string.force_encoding('binary'), filename: filename 
+      end
+    end
   end
 
   # GET /services/1 or /services/1.json

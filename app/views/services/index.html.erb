@@ -84,4 +84,8 @@
   <%= page_entries_info @services, entry_name: 'service' %>
   <%= paginate @services %>
 
+  <p class="mt-4">
+    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
+  </p>
+
 </div>
