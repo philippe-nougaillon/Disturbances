@@ -25,7 +25,6 @@ end
 class GithubSpider < Tanakai::Base
   @name = "github_spider"
   @engine = :selenium_chrome
-  # @start_urls = [source.url]
   @config = {
     user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
     before_request: { delay: 4..7 }
@@ -34,6 +33,7 @@ class GithubSpider < Tanakai::Base
   def parse(response, url:, data: {})
     source = Source.find_by(url: url)
     response.xpath("//div[@data-testid='disturbance-name']").each do |disturbance|
+
       content = disturbance.parent.parent.parent.text
 
       if content.include?('Train TER ')
@@ -48,7 +48,7 @@ class GithubSpider < Tanakai::Base
         arrivée_réelle = nil
         réponse_informations = nil
         information = nil
-    
+
         if source.sens == 'Départ'
           if content.include?('Départ prévu')
             départ_prévu = content.split('Départ prévu').last[0..4]
@@ -59,7 +59,7 @@ class GithubSpider < Tanakai::Base
           if !départ_prévu && !départ_réel && content.include?('Départ')
             départ_prévu = content.split('Départ').last[0..4]
           end
-    
+
           if départ_prévu 
             départ = départ_prévu
           else
@@ -79,13 +79,13 @@ class GithubSpider < Tanakai::Base
             arrivée = arrivée_réelle
           end
         end  
-    
+
         if source.sens == 'Départ'
           destination = content.split('Destination').last.split('Mode').first
         else
           provenance = content.split('Provenance').last.split('Mode').first
         end
-    
+
         # Supprimer les informations parasites
         voie = content.split('Voie').last.split('-').first
         voie = voie.split('Retard').first if voie.include?('Retard')
@@ -100,7 +100,7 @@ class GithubSpider < Tanakai::Base
         if raison.include?('Voie')
           raison = raison.split('Voie').last
         end
-    
+
         # supprimer le N° de Voie dans la raison
         if raison[0..1].include?(voie)
           if voie.to_i < 10
@@ -109,7 +109,7 @@ class GithubSpider < Tanakai::Base
             raison = raison[2..-1]
           end
         end
-    
+
         # si voie = raison
         if voie == raison
           voie = voie.to_i.to_s
@@ -168,23 +168,23 @@ class GithubSpider < Tanakai::Base
 
         begin
           Disturbance.create!(date: Date.today, 
-                  sens: source.sens, 
-                  train: train,
-                  gare_id: gare_id, 
-                  départ: départ, 
-                  départ_prévu: départ_prévu,
-                  départ_réel: départ_réel,
-                  arrivée: arrivée, 
-                  arrivée_prévue: arrivée_prévue,
-                  arrivée_réelle: arrivée_réelle,
-                  origine: source.gare, 
-                  provenance: provenance, 
-                  destination: destination, 
-                  voie: voie, 
-                  perturbation: raison, 
-                  information: information,
-                  information_payload: réponse_informations,
-                  source_id: source.id)
+                          sens: source.sens, 
+                          train: train,
+                          gare_id: gare_id, 
+                          départ: départ, 
+                          départ_prévu: départ_prévu,
+                          départ_réel: départ_réel,
+                          arrivée: arrivée, 
+                          arrivée_prévue: arrivée_prévue,
+                          arrivée_réelle: arrivée_réelle,
+                          origine: source.gare, 
+                          provenance: provenance, 
+                          destination: destination, 
+                          voie: voie, 
+                          perturbation: raison, 
+                          information: information,
+                          information_payload: réponse_informations,
+                          source_id: source.id)
           puts '|--> Enregistrée dans la BDD !'
         rescue
           puts '|--> Doublon! Pas enregistré.'  
@@ -192,32 +192,45 @@ class GithubSpider < Tanakai::Base
       end
     end
 
-    services = response.css('div.jss143')
+    #
+    # Scraping Services
+    #
 
-    services.each_with_index do | services, index |
-      content = services.children.last.text
-      if content.include?('Train TER ')
-        train = content.split('Mode').last
-        horaire = services.parent.children.first.child.text.split('Départ' || 'Arrivée').last.first(5)
-        destination = services.parent.children.first(2).last.child.text.split('Destination').last
-        puts "-*-" *10
-        puts "HORAIRE : " + horaire
-        puts "DESTINATION : " + destination
-        puts "TRAIN : " + train
-        
-        begin
-          Service.create!(date: Date.today, train: train, horaire: horaire, destination: destination)
-          puts "SAUVEGARDÉ !"
-        rescue
-          puts "DOUBLON !"
+    if source.sens == "Départ"
+        result_lists = response.css('ul[data-testid="result-list"]')
+
+        # Ne prendre que la liste d'aujourd'hui, pas du lendemain
+        result_list_today = result_lists.first
+
+        result_list_today.children.each_with_index do | item, index |
+            service = item.child.children.first.children.first
+            unless service.nil?
+                mode = service.children[2].text
+                if mode.include?('TER ')
+                    numéro_service = mode.split('TER').last.strip
+                    modalité = mode.split('TER').first.gsub('Mode', '').strip
+                    horaire = service.children[0].text.split('Départ').last.first(5)
+                    destination = service.children[1].child.text.split('Destination').last
+                    puts "-*-" *10
+                    puts "HORAIRE : " + horaire
+                    puts "DESTINATION : " + destination
+                    puts "NUMÉRO DU SERVICE : " + numéro_service
+                    puts "MODALITÉ : " + modalité
+                    
+                    begin
+                        Service.create!(date: Date.today, numéro_service: numéro_service, horaire: horaire, origine: source.gare, destination: destination, mode: modalité)
+                        puts "SAUVEGARDÉ !"
+                    rescue
+                        puts "DOUBLON !"
+                    end
+                    puts "-*-" *10
+                end
+            end
         end
-        puts "-*-" *10
-      end
     end
   end
 
   def parse_repo_page(response, url:, data: {})
-    puts "AAA" * 100
     return JSON.parse(response)
   end
 end
