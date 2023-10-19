@@ -11,9 +11,18 @@
     <div class="flex flex-wrap xl:flex-nowrap">
 
       <div class="mr-4">
-        <%= label_tag :date, "Date", class: "label" %>
+        <%= label_tag :date, "Le", class: "label" %>
         <%= text_field_tag :date,
                             params[:date],
+                            type: "date",
+                            class: 'input input-sm input-bordered w-full max-w-xs', 
+                            onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="mr-4">
+        <%= label_tag :date_fin, "Jusqu'au", class: "label" %>
+        <%= text_field_tag :date_fin,
+                            params[:date_fin],
                             type: "date",
                             class: 'input input-sm input-bordered w-full max-w-xs', 
                             onchange: 'this.form.submit()' %>
