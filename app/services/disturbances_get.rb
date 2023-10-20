@@ -31,7 +31,7 @@ class GithubSpider < Tanakai::Base
     retry_request_errors: [{ error: RuntimeError, skip_on_failure: true }],
     window_size: [1366, 768],
     disable_images: true,
-    before_request: { delay: 1..3, clear_cookies: true, }
+    before_request: { delay: 5..10 }
   }
   
   def parse(response, url:, data: {})
