@@ -3,28 +3,29 @@ require 'nokogiri'
 require 'tanakai'
 
 class DisturbancesGet < ApplicationService
-  attr_reader :source_id
-  private :source_id
+  # attr_reader :source_id
+  # private :source_id
 
-  def initialize(source_id)
-    @source = Source.find(source_id)
+  def initialize()
+    # @source = Source.find(source_id)
   end
 
   def call
-    puts "scraping #{@source.gare} (#{@source.sens})..."
+    # puts "scraping #{@source.gare} (#{@source.sens})..."
 
-    GithubSpider.parse!(:parse, url: @source.url)
+    GithubSpider.crawl!
 
-    puts "scraping #{@source.gare} (#{@source.sens})... Done."
+    # puts "scraping #{@source.gare} (#{@source.sens})... Done."
 
     # Marquer la source comme 'traitée'
-    @source.update_columns(collected_at: DateTime.now)
+    # @source.update_columns(collected_at: DateTime.now)
   end
 end
 
 class GithubSpider < Tanakai::Base
   @name = "github_spider"
   @engine = :selenium_chrome
+  @start_urls = Source.all.pluck(:url)
   @config = {
     user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
     before_request: { delay: 4..7 }
@@ -228,6 +229,8 @@ class GithubSpider < Tanakai::Base
             end
         end
     end
+
+    source.update_columns(collected_at: DateTime.now)
   end
 
   def parse_repo_page(response, url:, data: {})
