@@ -13,7 +13,7 @@ class DisturbancesGet < ApplicationService
   def call
     # puts "scraping #{@source.gare} (#{@source.sens})..."
 
-    GithubSpider.crawl!
+    DisturbancesDancer.crawl!
 
     # puts "scraping #{@source.gare} (#{@source.sens})... Done."
 
@@ -22,12 +22,13 @@ class DisturbancesGet < ApplicationService
   end
 end
 
-class GithubSpider < Tanakai::Base
-  @name = "github_spider"
+class DisturbancesDancer < Tanakai::Base
+  USER_AGENTS = ["Chrome", "Firefox", "Safari", "Opera"]
+  @name = "disturbances_dancer"
   @engine = :selenium_chrome
   @start_urls = Source.all.pluck(:url)
   @config = {
-    user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
+    user_agent: -> { USER_AGENTS.sample },
     retry_request_errors: [{ error: RuntimeError, skip_on_failure: true }],
     window_size: [1366, 768],
     disable_images: true,
