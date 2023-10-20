@@ -444,6 +444,7 @@ DEPENDENCIES
   turbo-rails
   web-console
   webdrivers
+  whenever (~> 1.0)
   yaml_db
 
 RUBY VERSION
