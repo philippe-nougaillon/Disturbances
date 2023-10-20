@@ -28,8 +28,10 @@ class GithubSpider < Tanakai::Base
   @start_urls = Source.all.pluck(:url)
   @config = {
     user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36",
-    before_request: { delay: 4..7 },
-    retry_request_errors: [{ skip_on_failure: true }]
+    retry_request_errors: [{ error: RuntimeError, skip_on_failure: true }],
+    window_size: [1366, 768],
+    disable_images: true,
+    before_request: { delay: 1..3, clear_cookies: true, }
   }
   
   def parse(response, url:, data: {})
