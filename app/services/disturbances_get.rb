@@ -29,7 +29,7 @@ class DisturbancesDancer < Tanakai::Base
   @start_urls = Source.all.pluck(:url)
   @config = {
     user_agent: -> { USER_AGENTS.sample },
-    retry_request_errors: [{ error: RuntimeError, skip_on_failure: true }],
+    retry_request_errors: [Net::ReadTimeout],
     window_size: [1366, 768],
     disable_images: true,
     before_request: { delay: 1..2 }
