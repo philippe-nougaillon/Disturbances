@@ -107,3 +107,5 @@ gem "composite_primary_keys", "~> 14.0"
 
 gem 'page_title_helper'
 gem "tanakai", "~> 1.6"
+
+gem "whenever", "~> 1.0"
