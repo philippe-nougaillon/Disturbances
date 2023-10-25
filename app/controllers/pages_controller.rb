@@ -8,9 +8,12 @@ class PagesController < ApplicationController
   def cancelled
     query = "SELECT DISTINCT date,train FROM Disturbances WHERE perturbation = 'Supprimé' "
     
-
     unless params[:date].blank?
-      query = query + " AND date = '#{ params[:date] }'" 
+      if params[:date_fin].blank?
+        query = query + " AND date = '#{ params[:date] }'" 
+      else
+        query = query + " AND date BETWEEN '#{ params[:date] }' AND '#{params[:date_fin]}'"
+      end
     end
 
     if params[:source]

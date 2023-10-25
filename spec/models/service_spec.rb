@@ -2,17 +2,19 @@
 #
 # Table name: services
 #
-#  id          :bigint           not null, primary key
-#  date        :date
-#  destination :string
-#  horaire     :string
-#  train       :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id             :bigint           not null, primary key
+#  date           :date
+#  destination    :string
+#  horaire        :string
+#  mode           :string
+#  numéro_service :string
+#  origine        :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #
-#  index_services_on_date_and_train  (date,train) UNIQUE
+#  index_services_on_date_and_numéro_service  (date,numéro_service) UNIQUE
 #
 require 'rails_helper'
 

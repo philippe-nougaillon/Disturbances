@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.2"
+ruby "2.7.8"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.0"
@@ -56,6 +56,7 @@ group :development, :test do
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'main'
   end
+  gem "dotenv-rails"
 end
 
 group :development do
@@ -105,3 +106,4 @@ gem "scenic", "~> 1.6"
 gem "composite_primary_keys", "~> 14.0"
 
 gem 'page_title_helper'
+gem "tanakai", "~> 1.6"
