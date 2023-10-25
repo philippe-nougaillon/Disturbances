@@ -32,7 +32,7 @@ class DisturbancesDancer < Tanakai::Base
     retry_request_errors: [Net::ReadTimeout],
     window_size: [1366, 768],
     disable_images: true,
-    before_request: { delay: 5..10 }
+    before_request: { delay: 1..2 }
   }
   
   def parse(response, url:, data: {})
