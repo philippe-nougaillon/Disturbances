@@ -150,49 +150,56 @@ class DisturbancesDancer < Tanakai::Base
           information = events[0]['description'] if events
         end
 
-        if false
-          puts '- ' * 70
-          puts "#{ source.gare } (#{ gare_id }) #{ source.sens }"
-          puts '- ' * 70
-          #puts "Disturbance = " + disturbance.inspect
-          puts "TER N° #{ train }"
-          puts "Départ prévu: #{ départ_prévu }" 
-          puts "Départ réel: #{ départ_réel }" 
-          puts "Départ: #{ départ }" 
-          puts "Arrivée prévue: #{ arrivée_prévue }" 
-          puts "Arrivée réelle: #{ arrivée_réelle }" 
-          puts "Arrivée: #{ arrivée }" 
-          puts "Destination: #{ destination }" 
-          puts "Raison: #{ raison }" 
-          puts "Voie: #{ voie }" 
-          puts "Provenance: #{ provenance } " 
-          puts "Content = #{ content.inspect }" 
-          puts "Information: #{ information }"
-          puts réponse_informations
-        end
+        # if false
+          # puts '- ' * 70
+          # puts "#{ source.gare } (#{ gare_id }) #{ source.sens }"
+          # puts '- ' * 70
+          # #puts "Disturbance = " + disturbance.inspect
+          # puts "TER N° #{ train }"
+          # puts "Départ prévu: #{ départ_prévu }" 
+          # puts "Départ réel: #{ départ_réel }" 
+          # puts "Départ: #{ départ }" 
+          # puts "Arrivée prévue: #{ arrivée_prévue }" 
+          # puts "Arrivée réelle: #{ arrivée_réelle }" 
+          # puts "Arrivée: #{ arrivée }" 
+          # puts "Destination: #{ destination }" 
+          # puts "Raison: #{ raison }" 
+          # puts "Voie: #{ voie }" 
+          # puts "Provenance: #{ provenance } " 
+          # puts "Content = #{ content.inspect }" 
+          # puts "Information: #{ information }"
+          # puts réponse_informations
+          # puts Time.find_zone('Paris').now.hour
+        # end
 
-        begin
-          Disturbance.create!(date: Date.today, 
-                          sens: source.sens, 
-                          train: train,
-                          gare_id: gare_id, 
-                          départ: départ, 
-                          départ_prévu: départ_prévu,
-                          départ_réel: départ_réel,
-                          arrivée: arrivée, 
-                          arrivée_prévue: arrivée_prévue,
-                          arrivée_réelle: arrivée_réelle,
-                          origine: source.gare, 
-                          provenance: provenance, 
-                          destination: destination, 
-                          voie: voie, 
-                          perturbation: raison, 
-                          information: information,
-                          information_payload: réponse_informations,
-                          source_id: source.id)
-          puts '|--> Enregistrée dans la BDD !'
-        rescue
-          puts '|--> Doublon! Pas enregistré.'  
+        current_hour = Time.find_zone('Paris').now.hour
+
+        if ( raison == 'Supprimé' && current_hour > 5 && ((départ && départ.first(2).to_i < current_hour) || (départ_prévu && départ_prévu.first(2).to_i < current_hour) || (arrivée && arrivée.first(2).to_i < current_hour) || (arrivée_prévue && arrivée_prévue.first(2).to_i < current_hour)) )
+          puts '|--> Suppression du lendemain! Pas enregistré.'  
+        else
+          begin
+            Disturbance.create!(date: Date.today, 
+                            sens: source.sens, 
+                            train: train,
+                            gare_id: gare_id, 
+                            départ: départ, 
+                            départ_prévu: départ_prévu,
+                            départ_réel: départ_réel,
+                            arrivée: arrivée, 
+                            arrivée_prévue: arrivée_prévue,
+                            arrivée_réelle: arrivée_réelle,
+                            origine: source.gare, 
+                            provenance: provenance, 
+                            destination: destination, 
+                            voie: voie, 
+                            perturbation: raison, 
+                            information: information,
+                            information_payload: réponse_informations,
+                            source_id: source.id)
+            puts '|--> Enregistrée dans la BDD !'
+          rescue
+            puts '|--> Doublon! Pas enregistré.'  
+          end
         end
       end
     end
