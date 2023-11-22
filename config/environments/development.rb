@@ -72,4 +72,8 @@ Rails.application.configure do
 
   config.active_record.use_yaml_unsafe_load = true
 
+  # Autorise les connexions extérieures
+  config.hosts << "dev.philnoug.com"
+
+
 end

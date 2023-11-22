@@ -14,7 +14,7 @@
     <strong class="font-medium mb-1">Dernière collecte le : </strong>
     <% if source.collected_at %>
       <%= l source.collected_at %>
-      <span class="<%= ((DateTime.now.to_i - source.collected_at.to_i) > 15.minutes) ? 'bg-red-200' : 'bg-green-200' %>">
+      <span class="<%= ((DateTime.now.to_i - source.collected_at.to_i) >= 10.minutes) ? 'bg-red-200' : 'bg-green-200' %>">
         (<i><%= time_tag source.collected_at, "data-local": "time-ago" %></i>)
       </span>
     <% end %>
