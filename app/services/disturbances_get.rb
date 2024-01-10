@@ -122,7 +122,7 @@ class DisturbancesDancer < Tanakai::Base
         end
 
         # ne pas garder que les retards de moins de 10 min
-        next if raison == 'Retard estimé de 5 min'
+        #next if raison == 'Retard estimé de 5 min'
 
         # supprimer les parasites parfois collés à 'Supprimé'
         raison = 'Supprimé' if raison.include?('Supprimé') && raison[0] != 'S'
