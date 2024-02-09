@@ -142,7 +142,7 @@ class DisturbancesDancer < Tanakai::Base
         end
         
         horaire = horaire.strftime("%Y-%m-%dT%I:%M")
-        url = "https://m.ter.sncf.com/api/circulation-details?number=#{ train.to_i }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
+        url = "https://www.ter.sncf.com/api/circulation-details?number=#{ train.to_i }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
         réponse_informations = request_to :parse_repo_page, url: url
         
         if réponse_informations
