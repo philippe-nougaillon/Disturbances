@@ -6,7 +6,7 @@ class ServicePolicy < ApplicationPolicy
   end
 
   def index?
-    @user.admin?
+    @user
   end
 
 end
