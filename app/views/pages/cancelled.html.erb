@@ -28,6 +28,33 @@
                             onchange: 'this.form.submit()' %>
       </div>
 
+      <div class="w-full mr-4">
+        <%= label_tag :gare, "Gare", class: "label" %>
+        <%= select_tag :gare,
+                        options_for_select(@gares, params[:gare]), 
+                        include_blank: true,
+                        class: 'select select-sm select-bordered w-full', 
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="w-full mr-4">
+        <%= label_tag :train, "Train(s)", class: "label" %>
+        <%= text_field_tag :train,
+                        params[:train],
+                        include_blank: true,
+                        class: 'input input-sm select-bordered w-full',
+                        onchange: 'this.form.submit()' %>
+      </div>
+
+      <div class="w-full mr-4">
+        <%= label_tag :information, "Information", class: "label" %>
+        <%= select_tag :information, 
+                        options_for_select(@informations, params[:information]), 
+                        include_blank: true,
+                        class: 'select select-sm select-bordered w-full', 
+                        onchange: 'this.form.submit()' %>
+      </div>
+
       <div class="self-end">
         <%= check_box_tag :source,
                           true,
@@ -55,8 +82,7 @@
         <% current_date = "" %>
         <% count = 0 %>
 
-        <% @paginatable_cancelled.each do |c| %>
-          <% cancelled = Disturbance.find_by(date: c.date, train: c.train) %>
+        <% @paginatable_cancelled.each do |cancelled| %>
 
           <% if cancelled.date != current_date %>
             <% current_date = cancelled.date %>
@@ -151,6 +177,6 @@
   <%= paginate @paginatable_cancelled %>
 
   <p class="mt-4">
-    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
+    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)), class: 'btn btn-sm btn-success btn-outline' %>
   </p>
 </div>
