@@ -16,7 +16,35 @@ class ServicesController < ApplicationController
     end
 
     unless params[:num_service].blank?
-      @services = @services.where("services.numéro_service BETWEEN ? AND ?", params[:num_service].split('-').first, params[:num_service].split('-').last)
+      parts = params[:num_service].split(';').map do |range_str|
+        start_str, end_str = range_str.split('-')
+        start_str = start_str&.strip
+        end_str = end_str&.strip
+
+        if end_str.blank? || start_str == end_str
+          { single: start_str } if start_str.present?
+        else
+          { range: [start_str, end_str] } if start_str.present? && end_str.present?
+        end
+      end.compact
+
+      unless parts.empty?
+        conditions = []
+        values = []
+
+        parts.each do |entry|
+          if entry[:single]
+            conditions << "services.numéro_service = ?"
+            values << entry[:single]
+          elsif entry[:range]
+            conditions << "services.numéro_service BETWEEN ? AND ?"
+            values += entry[:range]
+          end
+        end
+
+        sql_condition = conditions.join(' OR ')
+        @services = @services.where(sql_condition, *values)
+      end
     end
 
     unless params[:gare].blank?

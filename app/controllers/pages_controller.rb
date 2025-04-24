@@ -40,8 +40,33 @@ class PagesController < ApplicationController
     end
 
     if params[:train].present?
-      from_train, to_train = params[:train].split('-')
-      query += " AND train BETWEEN '#{from_train}' AND '#{to_train}'"
+      parts = params[:train].split(';').map do |range_str|
+        start_str, end_str = range_str.split('-')
+        start_str = start_str&.strip
+        end_str = end_str&.strip
+
+        if end_str.blank? || start_str == end_str
+          # Cas simple : égalité
+          { single: start_str } if start_str.present?
+        else
+          # Cas range
+          { range: [start_str, end_str] } if start_str.present? && end_str.present?
+        end
+      end.compact
+
+      unless parts.empty?
+        train_conditions = parts.map do |entry|
+          if entry[:single]
+            sanitized = ActiveRecord::Base.sanitize_sql_like(entry[:single])
+            "train = '#{sanitized}'"
+          elsif entry[:range]
+            from, to = entry[:range].map { |val| ActiveRecord::Base.sanitize_sql_like(val) }
+            "train BETWEEN '#{from}' AND '#{to}'"
+          end
+        end
+
+        query += " AND (#{train_conditions.join(' OR ')})"
+      end
     end
 
     if params[:information].present?
@@ -82,7 +107,30 @@ class PagesController < ApplicationController
     end
 
     unless params[:train].blank?
-      @disturbances = @disturbances.where("disturbances.train BETWEEN ? AND ?", params[:train].split('-').first, params[:train].split('-').last)
+      ranges = params[:train].split(';').map do |range_str|
+        start_str, end_str = range_str.split('-')
+        start_str = start_str&.strip
+        end_str = end_str&.strip
+        end_str.blank? ? { single: start_str } : { range: [start_str, end_str] }
+      end
+
+      conditions = []
+      values = []
+
+      ranges.each do |entry|
+        if entry[:single]
+          conditions << "(disturbances.train = ?)"
+          values << entry[:single]
+        elsif entry[:range]
+          conditions << "(disturbances.train BETWEEN ? AND ?)"
+          values += entry[:range]
+        end
+      end
+
+      unless conditions.empty?
+        sql_condition = conditions.join(' OR ')
+        @disturbances = @disturbances.where(sql_condition, *values)
+      end
     end
 
     unless params[:perturbation].blank?
