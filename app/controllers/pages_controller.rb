@@ -56,7 +56,7 @@ class PagesController < ApplicationController
       format.html
 
       format.xls do
-        book = CancelledToXls.new(@cancelled, (params[:with_payload] == 'true')).call
+        book = CancelledToXls.new(@cancelled.first(20000), (params[:with_payload] == 'true')).call
         file_contents = StringIO.new
         book.write file_contents
         filename = 'suppressions.xls'

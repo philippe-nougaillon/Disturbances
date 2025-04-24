@@ -104,10 +104,9 @@
   <%= paginate @disturbances %>
 
   <p class="mt-4">
-    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)), class: 'btn btn-sm btn-success btn-outline' %>
+    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)), class: 'btn btn-sm btn-success btn-outline', title: 'Export limité aux 20 000 premières perturbations' %>
     <% unless params[:du].blank? && params[:au].blank? %>
-      |
-      <%= link_to 'Export XLS+JSON', url_for(params.permit!.merge(format: :xls, with_payload: true)) %>
+      <%= link_to 'Export XLS+JSON', url_for(params.permit!.merge(format: :xls, with_payload: true)), class: 'btn btn-sm btn-success btn-outline', title: 'Export limité aux 20 000 premières perturbations' %>
     <% end %>
   </p>
 </div>

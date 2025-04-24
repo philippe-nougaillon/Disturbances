@@ -30,7 +30,7 @@ class ServicesController < ApplicationController
       end
 
       format.xls do
-        book = ServicesToXls.new(@services).call
+        book = ServicesToXls.new(@services.first(20000)).call
         file_contents = StringIO.new
         book.write file_contents 
         filename = 'services.xls'

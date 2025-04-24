@@ -42,7 +42,7 @@ class DisturbancesController < ApplicationController
       end
 
       format.xls do
-        book = DisturbancesToXls.new(@disturbances, (params[:with_payload] == 'true')).call
+        book = DisturbancesToXls.new(@disturbances.first(20000), (params[:with_payload] == 'true')).call
         file_contents = StringIO.new
         book.write file_contents 
         filename = 'perturbations.xls'
