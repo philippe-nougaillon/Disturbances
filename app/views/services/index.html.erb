@@ -1,4 +1,4 @@
-<div class="w-full mb-8">
+<div class="w-full">
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl mt-1 mb-4">
@@ -85,7 +85,7 @@
   <%= paginate @services %>
 
   <p class="mt-4">
-    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)) %>
+    <%= link_to 'Export XLS', url_for(params.permit!.merge(format: :xls)), class: 'btn btn-sm btn-success btn-outline' %>
   </p>
 
 </div>
