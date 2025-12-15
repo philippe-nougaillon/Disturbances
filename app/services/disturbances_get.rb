@@ -122,7 +122,7 @@ class DisturbancesDancer < Tanakai::Base
         end
 
         # ne pas garder que les retards de moins de 10 min
-        next if raison == 'Retard estimé de 5 min'
+        #next if raison == 'Retard estimé de 5 min'
 
         # supprimer les parasites parfois collés à 'Supprimé'
         raison = 'Supprimé' if raison.include?('Supprimé') && raison[0] != 'S'
@@ -142,7 +142,7 @@ class DisturbancesDancer < Tanakai::Base
         end
         
         horaire = horaire.strftime("%Y-%m-%dT%I:%M")
-        url = "https://m.ter.sncf.com/api/circulation-details?number=#{ train.to_i }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
+        url = "https://www.ter.sncf.com/api/circulation-details?number=#{ train.to_i }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
         réponse_informations = request_to :parse_repo_page, url: url
         
         if réponse_informations
