@@ -48,7 +48,11 @@ class DisturbancesController < ApplicationController
 
     unless params[:perturbation].blank?
       s = "%#{params[:perturbation]}%"
-      @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", s)
+      if s.include?('Retard >')
+        @disturbances = @disturbances.where("disturbances.perturbation IN ?", Disturbance.perturbations_retard_minimum(s[9..10].to_i))
+      else
+        @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", s)
+      end
     end
 
     unless params[:information].blank?

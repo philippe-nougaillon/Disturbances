@@ -46,6 +46,10 @@ class Disturbance < ApplicationRecord
         ['Arrêt',
         'Modifié',
         'Retard',
+        'Retard > 15 min',
+        'Retard > 30 min',
+        'Retard > 60 min',
+        'Retard estimé de 5 min',
         'Retard estimé de 10 min',
         'Retard estimé de 15 min',
         'Retard estimé de 20 min',
@@ -75,6 +79,15 @@ class Disturbance < ApplicationRecord
         'Retard estimé de 290 min',
         'Supprimé',
         'Autocars de remplacement']
+    end
+
+    # Renvoie la liste des perturbations avec une durée de retard minimale
+    def self.perturbations_retard_minimum(minutes)
+        perturbations.select do |perturbation|
+            if match = perturbation.match(/Retard estimé de (\d+) min/)
+                match[1].to_i >= minutes
+            end
+        end
     end
 
 end
