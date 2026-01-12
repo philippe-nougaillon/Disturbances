@@ -189,10 +189,10 @@ class DisturbancesDancer < Tanakai::Base
                             arrivée_prévue: arrivée_prévue,
                             arrivée_réelle: arrivée_réelle,
                             origine: source.gare, 
-                            provenance: provenance, 
-                            destination: destination, 
+                            provenance: provenance.gsub(/effacé/, ''), 
+                            destination: destination.gsub(/effacé/, ''), 
                             voie: voie, 
-                            perturbation: raison, 
+                            perturbation: Disturbance.remove_plural(raison), 
                             information: information,
                             information_payload: réponse_informations,
                             source_id: source.id)

@@ -42,7 +42,7 @@ class Disturbance < ApplicationRecord
 
     paginates_per 25
 
-    def self.perturbations 
+    def self.perturbations
         ['Arrêt',
         'Modifié',
         'Retard',
@@ -88,6 +88,24 @@ class Disturbance < ApplicationRecord
                 match[1].to_i >= minutes
             end
         end
+    end
+
+    # Enlève tous les s en trop pour unifier les messages
+    def self.remove_plural(perturbation)
+        # Hash du mot au pluriel avec sa version au singulier, le dernier est pour enlever le s à la fin du string, peu importe le texte
+        plural_to_singular = {
+            /Arrêts/ => 'Arrêt',
+            /supplémentaires/ => 'supplémentaire',
+            /s$/ => ''
+        }
+
+        perturbation_cleaned = perturbation
+
+        plural_to_singular.each do |plural, singular|
+            perturbation_cleaned = perturbation_cleaned.gsub(plural, singular)
+        end
+
+        perturbation_cleaned
     end
 
 end

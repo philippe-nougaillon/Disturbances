@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_07_073211) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_12_150049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_073211) do
     t.integer "gare_id"
     t.string "perturbation"
     t.bigint "source_id", null: false
-    t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
+    t.index ["date", "sens", "train", "perturbation", "information"], name: "super_index_uniq", unique: true
     t.index ["source_id"], name: "index_disturbances_on_source_id"
   end
 
@@ -113,31 +113,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_073211) do
   add_foreign_key "disturbances", "sources"
 
   create_view "gares", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT disturbances.origine
+      SELECT DISTINCT origine
      FROM disturbances
-    ORDER BY disturbances.origine;
+    ORDER BY origine;
   SQL
   create_view "perturbations", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT disturbances.perturbation
+      SELECT DISTINCT perturbation
      FROM disturbances
-    ORDER BY disturbances.perturbation;
+    ORDER BY perturbation;
   SQL
   create_view "trains", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT disturbances.train
+      SELECT DISTINCT train
      FROM disturbances
-    ORDER BY disturbances.train;
+    ORDER BY train;
   SQL
   create_view "infos", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT disturbances.information
+      SELECT DISTINCT information
      FROM disturbances
-    WHERE (disturbances.information IS NOT NULL)
-    ORDER BY disturbances.information;
+    WHERE (information IS NOT NULL)
+    ORDER BY information;
   SQL
   create_view "cancelleds", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT disturbances.date,
-      disturbances.train
+      SELECT DISTINCT date,
+      train
      FROM disturbances
-    WHERE ((disturbances.perturbation)::text = 'Supprimé'::text)
-    ORDER BY disturbances.date DESC;
+    WHERE ((perturbation)::text = 'Supprimé'::text)
+    ORDER BY date DESC;
   SQL
 end
