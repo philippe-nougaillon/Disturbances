@@ -83,7 +83,7 @@ class Disturbance < ApplicationRecord
 
     # Renvoie la liste des perturbations avec une durée de retard minimale
     def self.perturbations_retard_minimum(minutes)
-        perturbations.select do |perturbation|
+        Disturbance.pluck(:perturbation).uniq.select do |perturbation|
             if match = perturbation.match(/Retard estimé de (\d+) min/)
                 match[1].to_i >= minutes
             end
