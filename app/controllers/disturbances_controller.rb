@@ -47,11 +47,11 @@ class DisturbancesController < ApplicationController
     end
 
     unless params[:perturbation].blank?
-      s = "%#{params[:perturbation]}%"
-      if s.include?('Retard >')
-        @disturbances = @disturbances.where("disturbances.perturbation IN ?", Disturbance.perturbations_retard_minimum(s[9..10].to_i))
+      if params[:perturbation].include?('Retard >')
+        perturbations = Disturbance.perturbations_retard_minimum(params[:perturbation].match(/\d+/).to_s.to_i)
+        @disturbances = @disturbances.where("disturbances.perturbation IN (?)", perturbations)
       else
-        @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", s)
+        @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", "%#{params[:perturbation]}%")
       end
     end
 
