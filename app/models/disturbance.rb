@@ -27,8 +27,9 @@
 #
 # Indexes
 #
-#  index_disturbances_on_source_id  (source_id)
-#  super_index_uniq                 (date,sens,train,perturbation) UNIQUE
+#  index_disturbances_on_perturbation  (perturbation)
+#  index_disturbances_on_source_id     (source_id)
+#  super_index_uniq                    (date,sens,train,perturbation) UNIQUE
 #
 # Foreign Keys
 #
@@ -79,15 +80,6 @@ class Disturbance < ApplicationRecord
         'Retard estimé de 290 min',
         'Supprimé',
         'Autocars de remplacement']
-    end
-
-    # Renvoie la liste des perturbations avec une durée de retard minimale
-    def self.perturbations_retard_minimum(minutes)
-        Disturbance.pluck(:perturbation).uniq.select do |perturbation|
-            if match = perturbation.match(/Retard estimé de (\d+) min/)
-                match[1].to_i >= minutes
-            end
-        end
     end
 
     # Enlève tous les s en trop pour unifier les messages

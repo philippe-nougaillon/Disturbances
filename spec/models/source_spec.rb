@@ -7,6 +7,7 @@
 #  gare         :string
 #  sens         :string
 #  url          :string
+#  url2         :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

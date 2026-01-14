@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_12_150049) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_14_134925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +58,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_12_150049) do
     t.integer "gare_id"
     t.string "perturbation"
     t.bigint "source_id", null: false
-    t.index ["date", "sens", "train", "perturbation", "information"], name: "super_index_uniq", unique: true
+    t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
+    t.index ["perturbation"], name: "index_disturbances_on_perturbation"
     t.index ["source_id"], name: "index_disturbances_on_source_id"
   end
 
@@ -81,6 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_12_150049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "collected_at"
+    t.string "url2"
   end
 
   create_table "sources_users", id: false, force: :cascade do |t|
@@ -112,32 +114,32 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_12_150049) do
 
   add_foreign_key "disturbances", "sources"
 
+  create_view "cancelleds", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.date,
+      disturbances.train
+     FROM disturbances
+    WHERE ((disturbances.perturbation)::text = 'Supprimé'::text)
+    ORDER BY disturbances.date DESC;
+  SQL
   create_view "gares", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT origine
+      SELECT DISTINCT disturbances.origine
      FROM disturbances
-    ORDER BY origine;
-  SQL
-  create_view "perturbations", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT perturbation
-     FROM disturbances
-    ORDER BY perturbation;
-  SQL
-  create_view "trains", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT train
-     FROM disturbances
-    ORDER BY train;
+    ORDER BY disturbances.origine;
   SQL
   create_view "infos", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT information
+      SELECT DISTINCT disturbances.information
      FROM disturbances
-    WHERE (information IS NOT NULL)
-    ORDER BY information;
+    WHERE (disturbances.information IS NOT NULL)
+    ORDER BY disturbances.information;
   SQL
-  create_view "cancelleds", materialized: true, sql_definition: <<-SQL
-      SELECT DISTINCT date,
-      train
+  create_view "perturbations", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.perturbation
      FROM disturbances
-    WHERE ((perturbation)::text = 'Supprimé'::text)
-    ORDER BY date DESC;
+    ORDER BY disturbances.perturbation;
+  SQL
+  create_view "trains", materialized: true, sql_definition: <<-SQL
+      SELECT DISTINCT disturbances.train
+     FROM disturbances
+    ORDER BY disturbances.train;
   SQL
 end

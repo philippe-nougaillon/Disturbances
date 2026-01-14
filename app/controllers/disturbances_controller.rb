@@ -47,9 +47,15 @@ class DisturbancesController < ApplicationController
     end
 
     unless params[:perturbation].blank?
-      if params[:perturbation].include?('Retard >')
-        perturbations = Disturbance.perturbations_retard_minimum(params[:perturbation].match(/\d+/).to_s.to_i)
-        @disturbances = @disturbances.where("disturbances.perturbation IN (?)", perturbations)
+      if params[:perturbation].include?('Retard > ')
+        case params[:perturbation]
+        when "Retard > 15 min"
+          @disturbances = @disturbances.where("disturbances.perturbation ~ ?", " 15 | 20 | 25 ")
+        when "Retard > 30 min"
+          @disturbances = @disturbances.where("disturbances.perturbation ~ ?", " #{(30..55).step(5).to_a.join(" | ")}")
+        when "Retard > 60 min"
+          @disturbances = @disturbances.where("disturbances.perturbation ~ ?", (60..290).step(10).to_a.join("|"))
+        end
       else
         @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", "%#{params[:perturbation]}%")
       end
@@ -65,6 +71,7 @@ class DisturbancesController < ApplicationController
 
     respond_to do |format|
       format.html do 
+        @perturbations2 = @disturbances.pluck(:perturbation).uniq.sort
         @disturbances = @disturbances.page(params[:page])
       end
 
