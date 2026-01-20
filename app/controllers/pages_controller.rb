@@ -9,6 +9,7 @@ class PagesController < ApplicationController
     @gares = Gare.pluck(:origine)
     @trains = Train.pluck(:train)
     @informations = Info.pluck(:information)
+    @filters = current_user.filters
 
     query = "SELECT DISTINCT disturbances.* FROM disturbances WHERE disturbances.perturbation IN ('Supprimé','Supprimés')"
     
@@ -40,31 +41,8 @@ class PagesController < ApplicationController
     end
 
     if params[:train].present?
-      parts = params[:train].split(';').map do |range_str|
-        start_str, end_str = range_str.split('-')
-        start_str = start_str&.strip
-        end_str = end_str&.strip
-
-        if end_str.blank? || start_str == end_str
-          # Cas simple : égalité
-          { single: start_str } if start_str.present?
-        else
-          # Cas range
-          { range: [start_str, end_str] } if start_str.present? && end_str.present?
-        end
-      end.compact
-
-      unless parts.empty?
-        train_conditions = parts.map do |entry|
-          if entry[:single]
-            sanitized = ActiveRecord::Base.sanitize_sql_like(entry[:single])
-            "train = '#{sanitized}'"
-          elsif entry[:range]
-            from, to = entry[:range].map { |val| ActiveRecord::Base.sanitize_sql_like(val) }
-            "train BETWEEN '#{from}' AND '#{to}'"
-          end
-        end
-
+      train_conditions = train_selector_to_sql(params[:train])
+      if train_conditions
         query += " AND (#{train_conditions.join(' OR ')})"
       end
     end
@@ -72,6 +50,16 @@ class PagesController < ApplicationController
     if params[:information].present?
       info = ActiveRecord::Base.connection.quote(params[:information])
       query += " AND information = #{info}"
+    end
+
+    if params[:filter_id].present?
+      filter = Filter.find_by(id: params[:filter_id])
+      if filter.user == current_user
+        train_conditions = train_selector_to_sql(filter.trains)
+        if train_conditions
+          query += " AND (#{train_conditions.join(' OR ')})"
+        end
+      end
     end
 
     @cancelled = Disturbance.find_by_sql(query + ' ORDER BY date DESC')
@@ -156,4 +144,35 @@ class PagesController < ApplicationController
                 .tally
   end
   
+  private
+
+
+  def train_selector_to_sql(trains)
+    # Coupe la liste des trains en morceau et stocke chaque partie soit dans une range, soit dans une valeur
+    parts = trains.split(';').map do |range_str|
+      start_str, end_str = range_str.split('-')
+      start_str = start_str&.strip
+      end_str = end_str&.strip
+
+      if end_str.blank? || start_str == end_str
+        { single: start_str } if start_str.present?
+      else
+        { range: [start_str, end_str] } if start_str.present? && end_str.present?
+      end
+    end.compact
+
+    # Transforme la liste des trains sélectionnés en condition SQL
+    unless parts.empty?
+      train_conditions = parts.map do |entry|
+        if entry[:single]
+          sanitized = ActiveRecord::Base.sanitize_sql_like(entry[:single])
+          "train = '#{sanitized}'"
+        elsif entry[:range]
+          from, to = entry[:range].map { |val| ActiveRecord::Base.sanitize_sql_like(val) }
+          "train BETWEEN '#{from}' AND '#{to}'"
+        end
+      end
+      return train_conditions
+    end
+  end
 end

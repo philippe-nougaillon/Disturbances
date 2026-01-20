@@ -100,4 +100,30 @@ class Disturbance < ApplicationRecord
         perturbation_cleaned
     end
 
+    def self.filter_by_trains(trains)
+        ranges = trains.split(';').map do |range_str|
+            start_str, end_str = range_str.split('-')
+            start_str = start_str&.strip
+            end_str = end_str&.strip
+            end_str.blank? ? { single: start_str } : { range: [start_str, end_str] }
+        end
+
+        conditions = []
+        values = []
+
+        ranges.each do |entry|
+            if entry[:single]
+                conditions << "(disturbances.train = ?)"
+                values << entry[:single]
+            elsif entry[:range]
+                conditions << "(disturbances.train BETWEEN ? AND ?)"
+                values += entry[:range]
+            end
+        end
+
+        unless conditions.empty?
+            sql_condition = conditions.join(' OR ')
+            return self.where(sql_condition, *values)
+        end
+    end
 end

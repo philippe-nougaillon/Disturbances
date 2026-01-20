@@ -1,0 +1,36 @@
+<%= form_with(model: filter, class: "contents") do |form| %>
+  <% if filter.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(filter.errors.count, "error") %> prohibited this filter from being saved:</h2>
+
+      <ul>
+        <% filter.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <div class="my-5">
+      <%= form.label :user_id, class:"label", value: "Utilisateur" %>
+      <%= form.select :user_id, options_from_collection_for_select(User.all, :id, :nom_prénom, current_user.id), {include_blank: true, required: true}, class: "select select-bordered w-full" %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :name, 'Nom du filtre', class: "label" %>
+    <%= form.text_field :name, class: "input input-bordered w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :trains %>
+    <%= form.text_field :trains, class: "input input-bordered w-full" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit "Enregistrer", class: "rounded-lg py-3 px-5 !bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

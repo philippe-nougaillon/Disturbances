@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :filters
   get 'status', to: 'pages#status', as: :status
   get 'cancelled', to: 'pages#cancelled', as: :cancelled
   get 'stats', to: 'pages#stats', as: :stats

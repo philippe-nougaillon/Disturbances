@@ -9,6 +9,7 @@ class DisturbancesController < ApplicationController
     @trains = Train.pluck(:train)
     @perturbations = Disturbance.perturbations
     @informations = Info.pluck(:information)
+    @filters = current_user.filters
 
     if params[:source]
       @disturbances = Disturbance.where(source_id: current_user.sources.pluck(:id))
@@ -20,30 +21,7 @@ class DisturbancesController < ApplicationController
     end
 
     unless params[:train].blank?
-      ranges = params[:train].split(';').map do |range_str|
-        start_str, end_str = range_str.split('-')
-        start_str = start_str&.strip
-        end_str = end_str&.strip
-        end_str.blank? ? { single: start_str } : { range: [start_str, end_str] }
-      end
-
-      conditions = []
-      values = []
-
-      ranges.each do |entry|
-        if entry[:single]
-          conditions << "(disturbances.train = ?)"
-          values << entry[:single]
-        elsif entry[:range]
-          conditions << "(disturbances.train BETWEEN ? AND ?)"
-          values += entry[:range]
-        end
-      end
-
-      unless conditions.empty?
-        sql_condition = conditions.join(' OR ')
-        @disturbances = @disturbances.where(sql_condition, *values)
-      end
+      @disturbances = @disturbances.filter_by_trains(params[:train])
     end
 
     unless params[:perturbation].blank?
@@ -67,6 +45,13 @@ class DisturbancesController < ApplicationController
 
     if (!params[:du].blank? && !params[:au].blank?)
       @disturbances = @disturbances.where("DATE(disturbances.created_at) BETWEEN ? AND ?", params[:du], params[:au])
+    end
+
+    if params[:filter_id].present?
+      filter = Filter.find_by(id: params[:filter_id])
+      if filter.user == current_user
+        @disturbances = @disturbances.filter_by_trains(filter.trains)
+      end
     end
 
     respond_to do |format|

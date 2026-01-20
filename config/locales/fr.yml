@@ -306,3 +306,12 @@ fr:
   services:
     index:
       title: 'Services'
+  filters:
+    index: 
+      title: Filtres
+    show:
+      title: Filtre
+    edit:
+      title: Modification Filtre
+    new:
+      title: Nouveau Filtre

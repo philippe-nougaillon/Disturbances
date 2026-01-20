@@ -49,6 +49,11 @@
                 <% end %>
               </li>
             <% end %>
+            <li>
+              <%= link_to filters_path, class:"w-full" do %>
+                <i class="fa-solid fa-filter"></i>Filtres
+              <% end %>
+            </li>
             <hr>
             <li data-turbo="false" class="p-0 w-full">
               <%= button_to destroy_user_session_path, method: :delete, class:'w-full text-left p-3', form_class:'w-full !p-0' do %>

@@ -1,0 +1,22 @@
+<div id="<%= dom_id filter %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Utilisateur :</strong>
+    <%= filter.user.nom_prénom %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Nom :</strong>
+    <%= filter.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Trains :</strong>
+    <%= filter.trains %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Voir", filter, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Modifier', edit_filter_path(filter), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

@@ -39,8 +39,12 @@ class User < ApplicationRecord
          :trackable
 
   has_and_belongs_to_many :sources
+  has_many :filters
 
   default_scope { order(:admin, :nom) }
   paginates_per 100
-  
+
+  def nom_prénom
+    "#{self.nom&.upcase} #{self.prénom}"
+  end
 end

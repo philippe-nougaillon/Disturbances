@@ -55,6 +55,15 @@
                         onchange: 'this.form.submit()' %>
       </div>
 
+      <div class="w-full mr-4">
+        <%= label_tag :filter_id, "Filtres", class: "label" %>
+        <%= select_tag :filter_id, 
+                        options_from_collection_for_select(@filters, :id, :name, params[:filter_id]), 
+                        include_blank: true,
+                        class: 'select select-sm select-bordered w-full', 
+                        onchange: 'this.form.submit()' %>
+      </div>
+
       <div class="w-full self-end">
         <%= check_box_tag :source,
                           true,

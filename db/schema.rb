@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_14_134925) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_19_132126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,6 +63,15 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_14_134925) do
     t.index ["source_id"], name: "index_disturbances_on_source_id"
   end
 
+  create_table "filters", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.string "trains"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_filters_on_user_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.date "date"
     t.string "numéro_service"
@@ -113,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_14_134925) do
   end
 
   add_foreign_key "disturbances", "sources"
+  add_foreign_key "filters", "users"
 
   create_view "cancelleds", materialized: true, sql_definition: <<-SQL
       SELECT DISTINCT disturbances.date,
