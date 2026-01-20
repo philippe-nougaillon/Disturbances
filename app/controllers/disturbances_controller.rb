@@ -90,7 +90,7 @@ class DisturbancesController < ApplicationController
 
     respond_to do |format|
       if @disturbance.save
-        format.html { redirect_to disturbance_url(@disturbance), notice: "Disturbance was successfully created." }
+        format.html { redirect_to disturbance_url(@disturbance), notice: "Perturbation créée avec succès." }
         format.json { render :show, status: :created, location: @disturbance }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -103,7 +103,7 @@ class DisturbancesController < ApplicationController
   def update
     respond_to do |format|
       if @disturbance.update(disturbance_params)
-        format.html { redirect_to disturbance_url(@disturbance), notice: "Disturbance was successfully updated." }
+        format.html { redirect_to disturbance_url(@disturbance), notice: "Perturbation modifiée avec succès." }
         format.json { render :show, status: :ok, location: @disturbance }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -117,7 +117,7 @@ class DisturbancesController < ApplicationController
     @disturbance.destroy
 
     respond_to do |format|
-      format.html { redirect_to disturbances_url, notice: "Disturbance was successfully destroyed." }
+      format.html { redirect_to disturbances_url, notice: "Perturbation supprimée avec succès." }
       format.json { head :no_content }
     end
   end

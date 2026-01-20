@@ -26,7 +26,7 @@ class SourcesController < ApplicationController
 
     respond_to do |format|
       if @source.save
-        format.html { redirect_to source_url(@source), notice: "Source was successfully created." }
+        format.html { redirect_to source_url(@source), notice: "Source créée avec succès." }
         format.json { render :show, status: :created, location: @source }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class SourcesController < ApplicationController
   def update
     respond_to do |format|
       if @source.update(source_params)
-        format.html { redirect_to source_url(@source), notice: "Source was successfully updated." }
+        format.html { redirect_to source_url(@source), notice: "Source modifiée avec succès." }
         format.json { render :show, status: :ok, location: @source }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ class SourcesController < ApplicationController
     @source.destroy
 
     respond_to do |format|
-      format.html { redirect_to sources_url, notice: "Source was successfully destroyed." }
+      format.html { redirect_to sources_url, notice: "Source supprimée avec succès." }
       format.json { head :no_content }
     end
   end
