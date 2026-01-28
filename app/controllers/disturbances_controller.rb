@@ -26,14 +26,11 @@ class DisturbancesController < ApplicationController
 
     unless params[:perturbation].blank?
       if params[:perturbation].include?('Retard > ')
-        case params[:perturbation]
-        when "Retard > 15 min"
-          @disturbances = @disturbances.where("disturbances.perturbation ~ ?", " 15 | 20 | 25 ")
-        when "Retard > 30 min"
-          @disturbances = @disturbances.where("disturbances.perturbation ~ ?", " #{(30..55).step(5).to_a.join(" | ")}")
-        when "Retard > 60 min"
-          @disturbances = @disturbances.where("disturbances.perturbation ~ ?", (60..290).step(10).to_a.join("|"))
-        end
+        # Filtre les perturbations avec un retard d'au moins x minutes
+        @disturbances = @disturbances.where(
+          "(regexp_match(disturbances.perturbation, '\\d+'))[1]::int >= ?",
+          params[:perturbation][/(\d+)/, 1]&.to_i
+        )
       else
         @disturbances = @disturbances.where("disturbances.perturbation LIKE ?", "%#{params[:perturbation]}%")
       end
@@ -56,7 +53,6 @@ class DisturbancesController < ApplicationController
 
     respond_to do |format|
       format.html do 
-        @perturbations2 = @disturbances.pluck(:perturbation).uniq.sort
         @disturbances = @disturbances.page(params[:page])
       end
 
