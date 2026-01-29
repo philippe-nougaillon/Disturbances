@@ -1,7 +1,7 @@
 namespace :clean do
 
   desc "Supprime les perturbations doublons"
-  task cleanning: :environment do
+  task duplicate_disturbances_cleanning: :environment do
 
     DisturbancesClean.new.call
 
