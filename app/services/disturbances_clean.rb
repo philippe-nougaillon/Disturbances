@@ -6,7 +6,7 @@ class DisturbancesClean < ApplicationService
   def call
     #TODO : prendre que les disturbances créées / modifiées depuis la dernière fois
     message = ""
-    Disturbance.unscope(:order).group(:date, :train, :perturbation).having('COUNT(*) >= 2').pluck(:date, :train, :perturbation).each do |date, train, perturbation|
+    Disturbance.unscope(:order).where(date: Date.today).group(:date, :train, :perturbation).having('COUNT(*) >= 2').pluck(:date, :train, :perturbation).each do |date, train, perturbation|
       disturbances = Disturbance
       .where(date: date, train: train, perturbation: perturbation)
       .order(:created_at)
