@@ -29,7 +29,7 @@
 #
 #  index_disturbances_on_perturbation  (perturbation)
 #  index_disturbances_on_source_id     (source_id)
-#  super_index_uniq                    (date,sens,train,perturbation) UNIQUE
+#  super_index_uniq                    (date,train,perturbation,information) UNIQUE
 #
 # Foreign Keys
 #

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_19_132126) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_28_144558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_19_132126) do
     t.integer "gare_id"
     t.string "perturbation"
     t.bigint "source_id", null: false
-    t.index ["date", "sens", "train", "perturbation"], name: "super_index_uniq", unique: true
+    t.index ["date", "train", "perturbation", "information"], name: "super_index_uniq", unique: true
     t.index ["perturbation"], name: "index_disturbances_on_perturbation"
     t.index ["source_id"], name: "index_disturbances_on_source_id"
   end

@@ -1,0 +1,17 @@
+class ChangeSuperIndexTer < ActiveRecord::Migration[7.0]
+  def up
+    remove_index :disturbances, name: 'super_index_uniq'
+    add_index :disturbances, 
+        [:date, :train, :perturbation, :information], 
+        unique: true, 
+        name: 'super_index_uniq'
+  end
+
+  def down
+    remove_index :disturbances, name: 'super_index_uniq'
+    add_index :disturbances, 
+        [:date, :sens, :train, :perturbation], 
+        unique: true, 
+        name: 'super_index_uniq'
+  end
+end
