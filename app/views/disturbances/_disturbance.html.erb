@@ -77,6 +77,11 @@
           <%= link_to_if policy(disturbance).show?, disturbance.id, disturbance_path(disturbance) %>
         </p>
       </td>
+      <td>
+        <% if disturbance.discarded? %>
+          <i class="fa-regular fa-trash-can hover:cursor-help" title="Perturbation doublon"></i>
+        <% end %>
+      </td>
     </td>
   </div>
 </tr>

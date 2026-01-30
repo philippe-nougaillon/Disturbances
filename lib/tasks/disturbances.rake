@@ -1,4 +1,4 @@
-namespace :disturbance do
+namespace :disturbances do
 
   desc "Supprime les perturbations doublons"
   task duplicate_cleaner: :environment do

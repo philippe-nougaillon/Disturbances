@@ -8,6 +8,7 @@
 #  arrivée_réelle      :string
 #  date                :string
 #  destination         :string
+#  discarded_at        :datetime
 #  départ              :string
 #  départ_prévu        :string
 #  départ_réel         :string
@@ -27,6 +28,7 @@
 #
 # Indexes
 #
+#  index_disturbances_on_discarded_at  (discarded_at)
 #  index_disturbances_on_perturbation  (perturbation)
 #  index_disturbances_on_source_id     (source_id)
 #  super_index_uniq                    (date,train,perturbation,information) UNIQUE
@@ -36,7 +38,7 @@
 #  fk_rails_...  (source_id => sources.id)
 #
 class Disturbance < ApplicationRecord
-
+    include Discard::Model
     belongs_to :source
 
     default_scope { order('disturbances.created_at DESC') }

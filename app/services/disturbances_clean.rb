@@ -31,7 +31,7 @@ class DisturbancesClean < ApplicationService
 
       # 3. Suppression des autres
       disturbances.each do |d|
-        d.destroy unless survivors.include?(d)
+        d.discard unless survivors.include?(d)
       end
     end
 
