@@ -73,13 +73,24 @@
                         onchange: 'this.form.submit()' %>
       </div>
 
-      <div class="flex items-end">
-        <%= check_box_tag :source,
-                          true,
-                          params[:source],
-                          onchange: 'this.form.submit()',
-                          class: 'checkbox checkbox-lg checkbox-primary' %>
-        <%= label_tag :source, "Que mes gares ?", class: "label whitespace-nowrap" %>
+      <div class="flex flex-wrap">
+        <div class="flex items-center">
+          <%= check_box_tag :source,
+                            true,
+                            params[:source],
+                            onchange: 'this.form.submit()',
+                            class: 'checkbox checkbox-sm checkbox-primary' %>
+          <%= label_tag :source, "Que mes gares ?", class: "label whitespace-nowrap" %>
+        </div>
+
+        <div class="flex items-center">
+          <%= check_box_tag :doublons,
+                            true,
+                            params[:doublons],
+                            onchange: 'this.form.submit()',
+                            class: 'checkbox checkbox-sm checkbox-primary' %>
+          <%= label_tag :doublons, "Doublons ?", class: "label whitespace-nowrap" %>
+        </div>
       </div>
 
     </div>
