@@ -11,7 +11,7 @@ class PagesController < ApplicationController
     @informations = Info.pluck(:information)
     @filters = current_user.filters
 
-    query = "SELECT DISTINCT disturbances.* FROM disturbances WHERE disturbances.perturbation IN ('Supprimé','Supprimés')"
+    query = "SELECT DISTINCT disturbances.* FROM disturbances WHERE disturbances.perturbation IN ('Supprimé','Supprimés') AND discarded_at IS NULL"
     
     unless params[:date].blank?
       if params[:date_fin].blank?
