@@ -83,16 +83,14 @@
           <%= label_tag :source, "Que mes gares ?", class: "label whitespace-nowrap" %>
         </div>
 
-        <% if current_user.admin? %>
-          <div class="flex items-center">
-            <%= check_box_tag :doublons,
-                              true,
-                              params[:doublons],
-                              onchange: 'this.form.submit()',
-                              class: 'checkbox checkbox-sm checkbox-primary' %>
-            <%= label_tag :doublons, "Doublons ?", class: "label whitespace-nowrap" %>
-          </div>
-        <% end %>
+        <div class="flex items-center">
+          <%= check_box_tag :doublons,
+                            true,
+                            params[:doublons],
+                            onchange: 'this.form.submit()',
+                            class: 'checkbox checkbox-sm checkbox-primary' %>
+          <%= label_tag :doublons, "Doublons ?", class: "label whitespace-nowrap" %>
+        </div>
       </div>
 
     </div>
