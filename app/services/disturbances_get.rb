@@ -44,7 +44,8 @@ class DisturbancesDancer < Tanakai::Base
       if content.include?('Train TER ')
         # supprimer le css superflu
         content = content.split('}').last if content.include?('}')
-        train = content.split('Train TER ').last[0..5]
+        # On retire "Fluo" si c'est écrit
+        train = content.split('Train TER ').last.sub('Fluo ', '')[0..5]
         départ = nil
         départ_prévu = nil
         départ_réel = nil
