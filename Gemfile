@@ -111,3 +111,5 @@ gem "tanakai", "~> 1.6"
 gem "whenever", "~> 1.0"
 
 gem "discard", "~> 1.4"
+
+gem 'exception_notification'

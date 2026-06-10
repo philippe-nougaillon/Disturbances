@@ -92,4 +92,15 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.active_record.use_yaml_unsafe_load = true
+
+  ActionMailer::Base.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    :api_key => ENV['MAILGUN_API_KEY'],
+    :domain => ENV['MAILGUN_DOMAIN'],
+    :api_host => 'api.eu.mailgun.net'  # Uncomment this line for EU region domains
+  }
+
+  config.action_mailer.default_url_options = { host: ENV['HOST_URL'], protocol: 'https' }
+  config.action_mailer.asset_host = "https://#{ENV['HOST_URL']}"
+  config.default_url_options = { host: ENV['HOST_URL'], protocol: 'https' }
 end
