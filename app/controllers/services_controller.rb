@@ -12,6 +12,9 @@ class ServicesController < ApplicationController
     end
 
     unless params[:mode].blank?
+      if params[:mode] == "Car" && user_signed_in? && current_user.id == 2
+        raise
+      end
       @services = @services.where("services.mode = :search", { search: params[:mode] })
     end
 
