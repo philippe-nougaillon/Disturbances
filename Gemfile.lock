@@ -125,6 +125,7 @@ GEM
       websocket-driver (>= 0.6.5)
     audited (5.0.2)
       activerecord (>= 5.0, < 7.1)
+    base64 (0.3.0)
     bcrypt (3.1.17)
     bindex (0.8.1)
     bootsnap (1.11.1)
@@ -177,6 +178,13 @@ GEM
     exception_notification (4.6.0)
       actionmailer (>= 5.2, < 9)
       activesupport (>= 5.2, < 9)
+    faraday (2.8.1)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.1.1)
+      multipart-post (~> 2.0)
+    faraday-net_http (3.0.2)
     ferrum (0.13)
       addressable (~> 2.5)
       concurrent-ruby (~> 1.1)
@@ -218,6 +226,10 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    mailgun-ruby (1.4.0)
+      faraday (~> 2.1)
+      faraday-multipart (~> 1.1.0)
+      mini_mime
     marcel (1.0.2)
     matrix (0.4.2)
     mechanize (2.8.5)
@@ -240,6 +252,7 @@ GEM
     minitest (5.16.3)
     msgpack (1.5.1)
     multi_xml (0.6.0)
+    multipart-post (2.4.1)
     murmurhash3 (0.1.7)
     net-http (0.2.0)
       net-protocol
@@ -328,6 +341,7 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     ruby-ole (1.2.12.2)
+    ruby2_keywords (0.0.5)
     rubyntlm (0.6.3)
     rubyzip (2.3.2)
     scenic (1.6.0)
@@ -430,6 +444,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kaminari
+  mailgun-ruby (~> 1.4)
   net-http
   page_title_helper
   pg (~> 1.1)

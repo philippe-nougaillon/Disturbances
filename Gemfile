@@ -113,3 +113,4 @@ gem "whenever", "~> 1.0"
 gem "discard", "~> 1.4"
 
 gem 'exception_notification'
+gem "mailgun-ruby", "~> 1.4"
