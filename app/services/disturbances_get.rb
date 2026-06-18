@@ -223,8 +223,12 @@ class DisturbancesDancer < Tanakai::Base
                   if mode.include?('TER ')
                       numéro_service = mode.split('TER').last.strip
                       modalité = mode.split('TER').first.gsub('Mode', '').strip
-                      horaire = service.children[0].text.split('Départ').last.first(5)
+                      horaire = service.children[0].text.split('Départ').last&.first(5)
                       destination = service.children[1].child.text.split('Destination').last
+
+                      # Item incomplet (libellé vide) : on saute pour éviter un crash
+                      next if horaire.nil? || destination.nil?
+
                       puts "-*-" *10
                       puts "HORAIRE : " + horaire
                       puts "DESTINATION : " + destination
