@@ -9,6 +9,10 @@ ExceptionNotification.configure do |config|
   # ActiveRecord::RecordNotFound, Mongoid::Errors::DocumentNotFound, AbstractController::ActionNotFound and ActionController::RoutingError are already added.
   # config.ignored_exceptions += %w{ActionView::TemplateError CustomError}
 
+  # Avoid "Can't verify CSRF token auth.." error
+  config.ignored_exceptions += %w[ActionController::InvalidAuthenticityToken]
+
+  
   # Adds a condition to decide when an exception must be ignored or not.
   # The ignore_if method can be invoked multiple times to add extra conditions.
   # config.ignore_if do |exception, options|
