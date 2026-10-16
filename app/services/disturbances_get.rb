@@ -24,6 +24,18 @@ end
 
 class DisturbancesDancer < Tanakai::Base
   USER_AGENTS = ["Chrome", "Firefox", "Safari", "Opera"]
+
+  # Libellé de mode d'une circulation TER / Fluo dans le texte d'un item de la liste des prochains
+  # passages, par exemple « ModeTrain Fluo 835017Voie1Retard estimé de 5 min ».
+  # La Région Grand Est remplace progressivement la marque TER par Fluo sur ter.sncf.com :
+  # « Train TER 830012 » à l'origine, « Train TER Fluo 830012 » observé en avril 2026,
+  # « Train Fluo 830012 » observé en octobre 2026. La casse est ignorée (« FLUO »).
+  # Pour les perturbations : trains et tram-trains seulement (TGV, DB, MOBIGO et cars ignorés).
+  TRAIN_TER_FLUO = /Mode\s*(?<mode>Train(?:\s+spécial)?|TramTrain)\s+(?:TER|Fluo)(?:\s+(?:TER|Fluo))?\s+(?<numéro>\d+|[A-Z]{1,2}\d+)/i
+
+  # Pour les services (départs) : tous les modes TER / Fluo, cars compris. S'applique au seul texte
+  # de la colonne Mode (« ModeCar Fluo 44125 », « ModeTramTrain TER 12345 », « ModeTrain spécial TER TS100 »).
+  SERVICE_TER_FLUO = /\AMode\s*(?<mode>.+?)\s+(?:TER|Fluo)(?:\s+(?:TER|Fluo))?\s+(?<numéro>\S+)\z/i
   @name = "disturbances_dancer"
   @engine = :selenium_chrome
   @start_urls = Source.all.pluck(:url)
@@ -40,12 +52,14 @@ class DisturbancesDancer < Tanakai::Base
     response.xpath("//div[@data-testid='disturbance-name']").each do |disturbance|
 
       content = disturbance.parent.parent.parent.text
+      # supprimer le css superflu
+      content = content.split('}').last if content.include?('}')
 
-      if content.include?('Train TER ')
-        # supprimer le css superflu
-        content = content.split('}').last if content.include?('}')
-        # On retire "Fluo" si c'est écrit
-        train = content.split('Train TER ').last.sub('Fluo ', '')[0..5]
+      # Ne garder que les trains TER / Fluo (voir TRAIN_TER_FLUO)
+      train_match = TRAIN_TER_FLUO.match(content)
+
+      if train_match
+        train = train_match[:numéro]
         départ = nil
         départ_prévu = nil
         départ_réel = nil
@@ -136,13 +150,12 @@ class DisturbancesDancer < Tanakai::Base
         
         # Rechercher les compléments d'informations
         gare_id = source.url.split('-').last
-        if départ
-          horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, départ.split('h').first.to_i, départ.split('h').last.to_i, 0, "+01:00")
-        else
-          horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, arrivée.split('h').first.to_i, arrivée.split('h').last.to_i, 0, "+01:00")
-        end
+        # L'heure affichée s'écrit « 10:15 » (anciennement « 10h15 »). L'API renvoie la circulation la plus
+        # proche de circulationDate : une heure fausse peut rattacher la perturbation au train du lendemain.
+        heure, minute = (départ || arrivée).to_s.split(/[h:]/).map(&:to_i)
+        horaire = DateTime.new(Date.today.year, Date.today.month, Date.today.day, heure || 0, minute || 0, 0, "+01:00")
         
-        horaire = horaire.strftime("%Y-%m-%dT%I:%M")
+        horaire = horaire.strftime("%Y-%m-%dT%H:%M")
         url = "https://www.ter.sncf.com/api/circulation-details?number=#{ train.to_i }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
         réponse_informations = request_to :parse_repo_page, url: url
         
@@ -216,34 +229,34 @@ class DisturbancesDancer < Tanakai::Base
         result_list_today = result_lists.first
 
         if result_list_today
-          result_list_today.children.each_with_index do | item, index |
-              service = item.child.children.first.children.first
-              unless service.nil?
-                  mode = service.children[2].text
-                  if mode.include?('TER ')
-                      numéro_service = mode.split('TER').last.strip
-                      modalité = mode.split('TER').first.gsub('Mode', '').strip
-                      horaire = service.children[0].text.split('Départ').last&.first(5)
-                      destination = service.children[1].child.text.split('Destination').last
+          result_list_today.css('li').each do |item|
+              # Les colonnes sont repérées par leur libellé (<span>Mode</span>, <span>Destination</span>) et non
+              # par leur position : un train retardé affiche une colonne « Départ réel » supplémentaire.
+              mode = item.at_xpath(".//p[span[normalize-space(text())='Mode']]")&.text.to_s.strip
+              service_match = SERVICE_TER_FLUO.match(mode)
+              next unless service_match
 
-                      # Item incomplet (libellé vide) : on saute pour éviter un crash
-                      next if horaire.nil? || destination.nil?
+              numéro_service = service_match[:numéro]
+              modalité = service_match[:mode]
+              horaire = item.text[/Départ(?:\s*prévu)?\s*(\d{1,2}:\d{2})/, 1]
+              destination = item.at_xpath(".//p[span[normalize-space(text())='Destination']]")&.text&.sub(/\ADestination\s*/, '')
 
-                      puts "-*-" *10
-                      puts "HORAIRE : " + horaire
-                      puts "DESTINATION : " + destination
-                      puts "NUMÉRO DU SERVICE : " + numéro_service
-                      puts "MODALITÉ : " + modalité
-                      
-                      begin
-                          Service.create!(date: Date.today, numéro_service: numéro_service, horaire: horaire, origine: source.gare, destination: destination, mode: modalité)
-                          puts "SAUVEGARDÉ !"
-                      rescue
-                          puts "DOUBLON !"
-                      end
-                      puts "-*-" *10
-                  end
+              # Item incomplet (libellé vide) : on saute pour éviter un crash
+              next if horaire.nil? || destination.nil?
+
+              puts "-*-" *10
+              puts "HORAIRE : " + horaire
+              puts "DESTINATION : " + destination
+              puts "NUMÉRO DU SERVICE : " + numéro_service
+              puts "MODALITÉ : " + modalité
+
+              begin
+                  Service.create!(date: Date.today, numéro_service: numéro_service, horaire: horaire, origine: source.gare, destination: destination, mode: modalité)
+                  puts "SAUVEGARDÉ !"
+              rescue
+                  puts "DOUBLON !"
               end
+              puts "-*-" *10
           end
         end
     end
