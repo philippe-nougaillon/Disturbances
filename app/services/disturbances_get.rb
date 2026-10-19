@@ -159,10 +159,7 @@ class DisturbancesDancer < Tanakai::Base
         url = "https://www.ter.sncf.com/api/circulation-details?number=#{ train.to_i }&circulationDate=#{ horaire }&departureStopPlaceId=#{ gare_id }"
         réponse_informations = request_to :parse_repo_page, url: url
         
-        if réponse_informations
-          events = réponse_informations[0]['events'] if réponse_informations[0]
-          information = events[0]['description'] if events
-        end
+        information = information_depuis(réponse_informations)
 
         # if false
           # puts '- ' * 70
@@ -264,8 +261,31 @@ class DisturbancesDancer < Tanakai::Base
     source.update_columns(collected_at: DateTime.now)
   end
 
+  # Réponse de /api/circulation-details, lue par le navigateur : Chrome affiche un JSON brut dans un <pre>,
+  # le texte de la page est donc le JSON. Quand Cloudflare interpose sa page de vérification
+  # (« Just a moment... », challenge « managed » sur /api/, intermittent en production depuis juin 2026)
+  # ou que la réponse n'est pas du JSON, on renvoie nil : la perturbation est enregistrée sans information
+  # et la passe continue, au lieu de s'arrêter sur JSON::ParserError et de perdre les sources suivantes.
   def parse_repo_page(response, url:, data: {})
-    return JSON.parse(response)
+    texte = response.text.strip
+    return JSON.parse(texte) if texte.start_with?('[', '{')
+
+    titre = response.at_css('title')&.text.to_s.strip
+    puts "|--> API circulation-details : réponse non JSON (#{titre.presence || texte.first(60).inspect}), information ignorée."
+    nil
+  rescue JSON::ParserError => e
+    puts "|--> API circulation-details : JSON invalide (#{e.message.first(80)}), information ignorée."
+    nil
+  end
+
+  private
+
+  # Description du premier évènement de la charge utile de circulation-details
+  # ([{ "events" => [{ "description" => "…" }] }]), nil si elle n'a pas cette forme.
+  def information_depuis(payload)
+    payload.dig(0, 'events', 0, 'description') if payload.is_a?(Array)
+  rescue TypeError
+    nil
   end
 end
 
